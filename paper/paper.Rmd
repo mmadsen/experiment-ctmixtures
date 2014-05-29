@@ -1,0 +1,84 @@
+
+```{r libraries, echo=FALSE, cache=FALSE} 
+library(ggplot2) 
+library(randtoolbox) 
+library(xtable) 
+library(dplyr)
+options(tikzDefaultEngine = "xetex")
+```
+
+# Introduction
+
+Although humans and our hominid ancestors have been cultural animals
+throughout our evolutionary history, an important change occurred in our
+lineage during the Middle and Upper Paleolithic. After many millennia
+with varied but relatively small toolkits, and material culture which
+was very similar across continental distances, our cultural repertoire
+began to explode. The artifactual toolkit became larger and its
+constituent tools and technologies more complex, the range of materials
+used to construct it was enriched, and our solutions to the problems of
+everyday life became regionalized and differentiated. Further, the
+economic basis of our lives began to broaden and also, in many areas, to
+become specialized [@bar2002upper;@d2011evolution;@guy2005mosaic] This
+transition has long been called the "Upper Paleolithic Revolution," or
+less humbly, even the "Human Revolution" by those who see such characteristics as 
+marking out what it means to be uniquely human.  
+
+A foundational event in human evolution like behavioral modernity is
+highly unlikely to have a single cause, especially if it evolved over
+many tens of millennia in a widely distributed population. Instead, we
+should expect a combination of factors. Demography, and the
+metapopulation dynamics of individual demes or groups likely played
+roles, with the strength of such effects depending upon localized 
+circumstances. The way in which individuals learn skills and information likely plays
+a central role.  And we cannot forget the strategic dimension of social life: the evolution of cooperation and
+pro-social behaviors are probably implicated as well. Sterelny
+[-@sterelny2012evolved, p.61] sums up the multi-factor view nicely:
+
+> ...the cultural learning characteristic of the Upper Paleolithic
+> transition and later periods of human culture—social transmission with
+> both a large bandwidth and sufficient accuracy for incremental
+> improvement—requires individual cognitive adaptations for cultural
+> learning, highly structured learning environments, and population
+> structures that both buffer existing resources effectively and support
+> enough specialization to generate a supply of innovation.
+
+We believe this is a promising approach.  A useful next step is to construct
+formal models which incorporate some of these factors, and determine if their
+dynamics exhibit the kind of qualitative changes we see in the transition 
+from archaic to behaviorally modern assemblages.  Specifically, we need models which:
+
+# Theory
+
+\begin{equation}\label{eq:axelrod}p(i,j) = \frac{1}{F} \sum_{f=1}^{F} \delta_{\sigma_f(i)\sigma_f(j)}\end{equation}
+
+where $\delta_{i,j}$ is Kronecker's delta function, taking the value $1$
+when its two arguments are equal and $0$ otherwise. When individuals
+interact, the focal individual $i$ takes the trait value of its neighbor
+for one of the features where the two individuals differ.
+
+# Experiments
+
+The simulations were designed to examine whether the combination of a hierarchical, tree-like representation of cultural traits, in combination with an Axelrod-like model which provides the possibility of cultural differentiation, is a good platform for exploring questions surrounding behavioral modernity.  We are not experts concerning Paleolithic assemblages, so our efforts are exploratory, and an attempt to construct models which can be extended and applied to real data.  
+
+
+
+# Results
+
+We begin by noting that compared to the original Axelrod model, or neutral and biased copying models, the dynamics of our semantic axelrod model are highly variable.  A very wide range of outcomes is possible for each parameter combination, especially when the size of the design space is large.  Some variables, such as the average vertex degree of sampled trait trees, strongly overlap across all learning rates and are not considered further in this chapter.  Given the large amount of variability in the dynamics, larger numbers of replications would be useful, although this is computationally quite expensive at present.[^expense]  That said, several features of the data are strongly suggestive that hierarchical trait models have potential in modeling cumulative technological evolution, making the computational expense worthwhile.
+
+
+
+# Discussion
+
+The "semantic Axelrod" model described here specifically addresses social learning of knowledge with "prerequisite" structure, and a learning environment which is tunable from low to high fidelity.  We introduced this model as a multifactor explanation for the transition in the structure of social learning that may have occurred in early _Homo sapiens_ and which has often been called the "Upper Paleolithic Transition" or more neutrally, "behavioral modernity."
+
+
+
+# Acknowledgements
+
+Lorem Ipsum
+
+
+# Appendices
+
