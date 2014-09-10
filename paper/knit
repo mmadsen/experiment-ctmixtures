@@ -67,6 +67,6 @@ local({
     opts_chunk$set(dev = 'Cairo_pdf', fig.width=5, fig.height=5)
   }
   
-    knit("paper.Rmd")
+    knit("madsen2015-ctmixtures.Rmd")
 })
 
