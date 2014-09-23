@@ -7,7 +7,12 @@ Experiment:  Heterogeneous Mixtures of Cultural Transmission Rules
 
 This set of experiments is being conducted using the [CTMixtures](https://github.com/mmadsen/ctmixtures) simulation code, and specifically the following release:
 
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.11745.png)](http://dx.doi.org/10.5281/zenodo.11745) CTMixtures Version 2.3
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.11846.png)](http://dx.doi.org/10.5281/zenodo.11846) CTMixtures Version 2.4
+
+CTMixtures depends upon PyTransmission, and specifically this experiment employs the following release:
+
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.11845.png)](http://dx.doi.org/10.5281/zenodo.11845) PyTransmission Version 1.0
+
 
 ## Subdirectories ##
 
