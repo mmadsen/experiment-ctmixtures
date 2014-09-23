@@ -1,14 +1,26 @@
+
+
+
 library(dplyr)
 
-# read in the raw CSV exports from MongoDB, one for each experiment
-foo <- read.csv("~/local-research/foo.csv")
+# population statistics
+if(!exists("pop_df")) {
+  
+  if(file.exists("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-1-population-data.rda")) {
+    load("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-1-population-data.rda")  
+  } else {
+    pop_df <- read.csv("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-1-population-data.csv",row.names=NULL,header=TRUE) 
+    save(pop_df, file="~/local-research/diss/experiments/experiment-ctmixtures/equifinality-1-population-data.rda")
+  }     
+}
 
-# combine the experiments into a single data set
-s1 <- tbl_df(foo)
-data <- rbind(s1)
 
-# do other calculations etc
-
-
-# save binary versions of both
-save(data, file="~/local-research/foo.rda")
+if(!exists("sim_df")) {
+  
+  if(file.exists("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-1-simulation-data.rda")) {
+    load("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-1-simulation-data.rda")  
+  } else {
+    sim_df <- read.csv("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-1-simulation-data.csv",row.names=NULL,header=TRUE) 
+    save(sim_df, file="~/local-research/diss/experiments/experiment-ctmixtures/equifinality-1-simulation-data.rda")
+  }     
+}
