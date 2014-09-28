@@ -1,6 +1,10 @@
-# Equifinality Batch 1 #
+# Equifinality Batch 2 #
 
-The first batch of simulation run is designed to get samples across prior distributions for four models, three of them variants on a mixture of conformist and anti-conformist transmission.  The fourth model is the control, and is an identically sized population with the same prior distribution on innovation but purely neutral copying.  
+The second batch of simulation runs is designed to get samples across prior distributions for four models, three of them variants on a mixture of conformist and anti-conformist transmission.  The fourth model is the control, and is an identically sized population with the same prior distribution on innovation but purely neutral copying.  
+
+This batch is identical in configuration to `equifinality-1`, but uses `ctmixtures-2.4`, which corrects the way innovation rates are handled.  
+
+I will also begin by running a sub-batch of 1000 runs per model, analyze the results, and then proceed with a fuller sample.  
 
 ## Models ##
 
