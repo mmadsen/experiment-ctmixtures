@@ -14,7 +14,7 @@ library(randomForest)
 #' @return list List with fitted model, test classification rate, and confusion matrix for the test data
 #' @export
 
-do_random_forest <- function(df, class_field, fields_to_exclude, test_fraction = 0.2, numtrees = 1000, 
+do_random_forest <- function(df, class_field, fields_to_exclude, test_fraction = 0.2, numtrees = 500, 
                              node_size = 1, variables_to_sample = 3) {
   # remove unwanted columns for this analysis
   df_dropped <- df[,!(names(df) %in% fields_to_exclude)]
@@ -30,10 +30,22 @@ do_random_forest <- function(df, class_field, fields_to_exclude, test_fraction =
   fit <- randomForest(form, data=train, ntree=numtrees, nodesize = node_size, mtry=variables_to_sample)
   
   test_table <- table(test[[class_field]], predict(fit, test[names(shuffled_df)]))
-  error <- sum(test[[class_field]]==predict(fit, test[names(shuffled_df)])) / nrow(test)
+  prediction <- sum(test[[class_field]]==predict(fit, test[names(shuffled_df)])) / nrow(test)
+  error <- 1 - prediction
   
-  ret <- list("fit"=fit, "prediction_rate" = error, "test_confusion" = test_table)
+  ret <- list("fit"=fit, "prediction_rate" = prediction, "test_confusion" = test_table, "test_error" = error)
   ret
+}
+
+
+randomforest_replicates <- function(df, class_field, fields_to_exclude, test_fraction = 0.2, numtrees = 500, 
+                                       node_size = 1, variables_to_sample = 3, replicates = 100) {
+  test_errors <- numeric(replicates)
+  for( i in 1:replicates ) {
+    m <- do_random_forest(df, class_field, fields_to_exclude, test_fraction, numtrees, node_size, variables_to_sample)
+    test_errors[i] <- m$test_error
+  }
+  test_errors
 }
 
 

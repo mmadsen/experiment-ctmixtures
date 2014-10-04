@@ -19,23 +19,43 @@ csl-style: american-antiquity.csl
 ---
 
 ```{r, echo=FALSE, results='asis', warning=FALSE, message=FALSE}
+library(dplyr)
+# produce pandoc tables and output from R objects
+library(pander)
+library(knitr)
+library(ggplot2)
+# The following imports randomForest and defines helper methods
 source('randomforest-functions.R')
 # load data frame, results in object "eq2_pop_df" in the workspace
 load("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-2-small-population-data.rda")  
 ```
 
-# Purpose #
+# Introduction #
 
+To date, anthropological and especially archaeological investigations of cultural transmission models have employed "pure" models, where individuals in the population share the same transmission rules.  Real populations are heterogeneous, and it is generally understood that heterogeneity can introduce effects not seen in pure populations, and that heterogeneous mixtures of transmission rules may "average out" and display equifinality with random copying [@Mesoudi2009].  To date, however, the dynamics of mixture models and their potential equifinalities has not been systematically investigated.  The CTMixtures project has the goal of studying equifinality among common classes of cultural transmission models.  
 
+__Equifinality__ is the observation that in any complex, dynamic system, more than one process or historical trajectory or model can lead to the same pattern of outcomes.  Where equifinality occurs, it means that we cannot distinguish between explanatory models based upon observed patterns or summary statistics on those patterns.  Viewed from an inferential perspective, when equifinality occurs, given a set of data and statistics, the underlying data generating model is not __identifiable__, or model selection procedures (such as ratios of Bayes factors or Akaike weights) are evenly split between several possible models.    
 
-Equifinality-2-small is a classification experiment, attempting to distinguish models using summary statistics on 1000 samples from each of four models with random prior parameters:
+We can thus identify cases of equifinality by attempting to perform model selection on data sets simulated from the underlying data generating processes (DGP) and examining our ability to uniquely assign each data point to its underlying DGP. I do so here by simulating samples from multiple cultural transmission models, one a "pure" neutral copying model and several with mixtures of frequency-dependent biases, and examining the ability to classify summary statistics on those samples back to the correct transmission model.  For each DGP, samples are generated with random draws from the model's parameters over a range of values.  Using a prior sampling strategy like this removes investigator bias in selecting parameter values, and allows the simulated data samples to be used later in approximate Bayesian computation (ABC) analyses of real data sets.  Given simulated data sets, I then employ a classification approach and the "random forest" machine learning algorithm to test the extent to which models can be discriminated on the basis of observable summary statistics __without__ knowledge of the parameters which drive the transmission models [@breiman2001random; @hastie2009elements].  
+
+# Models and Methods #
+
+Equifinality-2-small is a preliminary study to develop a systematic approach and validate the choice of methods.  The sample size is thus smaller than will be used in the final analysis but I employ the same cultural transmission models.  
+
+## Transmission Models ##
+
+I examine equifinality among four models:
 
 1.  Population with pure neutral copying
 1.  Equal mix of conformists and anti-conformists, with random bias strengths
 1.  Mixture of conformists and anti-conformists, conformists dominating, with random bias strengths
 1.  Mixture of conformists and anti-conformists, anticonformists dominating, with random bias strengths
 
-This experiment has the same prior configuration as `equifinality-1`, which I threw out until I could verify and fix a small issue with mutation rates being exactly correct and verifiable.  In all cases, the copying algorithms here use single-locus copying during a copying event, over 4 loci.  Thus, the amount of variation in the neutral model case is **not** precisely what one expects from a Moran model given Ewens [-@Ewens2004].  
+In contrast to most models studied in the archaeological literature, individuals are modeled with multiple independent traits, which can be copied and undergo innovation separately.  I employ this "multitrait" (by analogy to "multilocus" models in population genetics) in order to form summary statistics which are comparable to archaeological classes which intersect multiple dimensions and modes.  "Configurations" are defined here as the co-occurrence of different traits from each locus or dimension.  Thus, if there are two trait dimensions of two traits each, I track the frequency of four configurations.  Configurations are the direct simulation analogue, therefore, of paradigmatic classes in archaeological classification.  
+
+In all cases, the copying algorithms here use single-locus copying during a copying event, over 4 loci.  When two individuals probabilistically interact, and one copies the other, a single trait is copied rather than the entire trait set (or genome).  This is in contrast to most population genetic models, where reproduction events typically result in copying of the whole genome.  This change does result in different levels of variation at each locus in the population, compared to the analytical expressions for expected allele number given by Ewens [-@Ewens2004].  
+
+## Summary Statistics ##
 
 The goal of this analysis is to work through the following data sets, examining when and how equifinality manifests in distinguishing empirical statistics from samples or the entire population:
 
@@ -43,24 +63,24 @@ The goal of this analysis is to work through the following data sets, examining 
 1.  Sample data, synchronic and one diachronic summary statistic
 1.  Time averaged and sampled data, time averaged and diachronic time averaged summary statistics
 
-The "raw" summary statistics available for analysis are as follows:
+The "raw" summary statistics available for analysis are as follows, for each type of data set.
 
 1.  Trait and configuration (product space of traits) richness
 1.  Slatkin exact tests on traits and configurations
 1.  Shannon entropy of trait and configuration frequencies
 1.  IQV evenness of trait and configuration frequencies
 1.  Kandler-Shennan trait survival over fixed interval
+ 
+## Statistical Methods ##
 
-# Methods #
-
-Lorem ipsum
+Lorem ipsum dolor boosting sic bagging yay random forests.
 
 
 # Population Census Statistics #
 
 ## Four-Model Analysis, All Variables ##
 
-```{r four-model-forest, results='asis', echo=FALSE}
+```{r four-model-forest, results='asis', echo=FALSE, cache=TRUE}
 excluded_fields = c("simulation_run_id", "innovation_rate")
 
 # run random forest with default metaparameters against the "model_class_label" field
@@ -71,10 +91,10 @@ four_fit <- four_full_model["fit"]
 
 ```
 
-All variables (except non-statistics like the innovation rate, which is a simulation parameter, and the simulation run ID) are included in this initial analysis.  With the full set of four models, The prediction rate on novel data is `r test_error`. The confusion matrix from the fit on training data is:
+All variables (except non-statistics like the innovation rate, which is a simulation parameter, and the simulation run ID) are included in this initial analysis.  With the full set of four models, The prediction rate on hold-out test data is `r test_error`. The confusion matrix from the fit on training data is:
 
-```{r four-model-test, echo=FALSE}
-print(four_fit$fit["confusion"])
+```{r four-model-test,  results='asis', echo=FALSE}
+pander(four_fit$fit["confusion"])
 ```
 
 This confusion matrix indicates a couple of important points:
@@ -84,7 +104,7 @@ This confusion matrix indicates a couple of important points:
 
 ## Two-Model Analysis, Full Data ##
 
-```{r two-model, echo=FALSE, results='asis'}
+```{r two-model, echo=FALSE, results='asis', cache=TRUE}
 # create a label combining the biased models into one
 eq2_pop_df$two_class_label <- factor(ifelse(eq2_pop_df$model_class_label == 'allneutral', 'neutral', 'biased'))
 
@@ -98,18 +118,93 @@ test_table <- two_model["test_confusion"]
 
 ```
 
-Point 1, the ability to distinguish neutral and biased populations from census data and synchronic/diachronic summary statistics, is demonstrated most clearly by collapsing biased models into a single class, and looking at classification rates simply between "neutral" and "biased" labels.  Doing so, with the same random forest setup, yields a `r test_error` prediction rate on novel test data, and the following confusion matrix from the original fit on the training data:
+The ability to distinguish neutral and biased populations from census data and synchronic/diachronic summary statistics is demonstrated clearly by collapsing biased models into a single class, and looking at classification rates in a binary classification model.  Doing so, with the same random forest setup, yields a `r test_error` prediction rate on hold-out test data, and the following confusion matrix from the original fit on the training data:
 
-```{r two-confusion, echo=FALSE}
-print(two_fit$fit["confusion"])
+```{r two-confusion, results='asis', echo=FALSE}
+pander(two_fit$fit["confusion"])
 ```
+
+Furthermore, we can see that our summary statistics vary widely in their importance in forming accurate classifiers:
+
+```{r two-importance, results='asis', echo=FALSE}
+pander(two_fit$fit["importance"], col.names = c('Variable', 'Mean Decrease Gini Index'))
+```
+
+With no prior information, the random forest classifier identifies the number of distinct trait combinations (configurations) as the single most important variable allowing separation of samples from neutral versus biased models.  And yet, although there is differentiation in the modes of the variables across neutral and biased models when we graph their density, the distributions still have considerable overlap:
+
+```{r four-num-configs, results='asis', echo=FALSE}
+ggplot(eq2_pop_df, aes(x = num_trait_configurations, y = ..density..)) + geom_density(aes(linetype=model_class_label, position="stack"))
+```
+
 
 ## Summary Statistic Selection ##
 
-Lorem ipsum
+### Per-Locus Statistics ###
+
+In most studies of cultural transmission models, a single locus is modeled, with each individual possessing a value for a trait at that locus.  In the analyses performed thus far, individual dimension/locus or trait statistics have had low importance in distinguishing models.  If we remove the trait configurations from the analysis, and focus only on the per-trait values, what happens to our classification performance?
+
+```{r two-no-configs, results='asis', echo=FALSE, cache=TRUE}
+
+# exclude the original four class labels from the random forest classifier
+excluded_fields <- c("simulation_run_id", "model_class_label", "innovation_rate", "configuration_slatkin", "num_trait_configurations")
+two_locus_model <- do_random_forest(eq2_pop_df, "two_class_label", excluded_fields)
+
+two_locus_fit <- two_locus_model["fit"]
+test_error <- two_locus_model["prediction_rate"]
+test_table <- two_locus_model["test_confusion"]
+```
+
+For two model labels (i.e., with all bias models combined), the confusion matrix for classification with only per-locus summary statistics is:
+
+```{r two-locus-confusion, results='asis', echo=FALSE}
+pander(two_locus_fit$fit["confusion"])
+```
+
+The classification performance seems greatly reduced, with a `r test_error` prediction rate on the hold-out data set. The apparently still high classification performance, however, is a combination of fairly decent prediction when the data sample is biased, and nearly random assignment when the sample is derived from a neutral model.  Even when we combine information about trait richness for a dimension/locus, two measures evenness of frequencies at that locus, a per-locus Slatkin test, and the survival of traits over a fixed interval, data derived from a neutral process are misclassified about 45% of the time.  
+
+This suggests that one of the most effective ways of distinguishing between cultural transmission processes is to:
+
+1.  Model those processes as operating on multiple dimensions of variation instead of single traits, even if the processes do not directly have interaction effects between dimensions, and
+1.  Form observable summary statistics on the intersected combinations of dimensions.  
+
+This is both encouraging, and convenient in archaeology, since our observational units (archaeological types or classes) are inherently multidimensional intersections of different traits.  
+
+## Low Innovation Rates ##
+
+```{r low-innov-two-all, results='asis', echo=FALSE}
+# subset of data with theta <= 1.0
+low_innov_df <- filter(eq2_pop_df, innovation_rate <= 1.0)
+
+# exclude the original four class labels from the random forest classifier
+excluded_fields <- c("simulation_run_id", "model_class_label", "innovation_rate")
+low_two_model <- do_random_forest(low_innov_df, "two_class_label", excluded_fields)
+
+low_two_class_fit <- low_two_model["fit"]
+test_error <- low_two_model["prediction_rate"]
+test_table <- low_two_model["test_confusion"]
+
+```
+
+In the density plot above, showing the number of trait configurations for each of the four original models, much of the differentiation in the location of variable modes and central tendencies was at very high values, which we should expect only in populations evolving at very high innovation rates.  In situations with low innovation rates, can we differentiate models, even with all of the configuration variables still present?
+
+In the `equifinality-2` dataset, there are 721 samples with scaled innovation rates of 1.0 or less.  When we run the binary classification on this subset, with all of the predictors, we get the following confusion matrix:
+
+```{r low-two-confusion, results='asis', echo=FALSE}
+pander(low_two_class_fit$fit["confusion"])
+```
+
+This pattern is similar to what happens when we drop trait configuration variables and rely upon single-locus summary statistics.  We have good discrimination of samples when the samples are from biased models, but samples from neutral models are still poorly differentiated.  Although the overall prediction rate of `r test_error` is acceptable, there is a problem classifying neutral samples, and thus significant equifinality possible in populations with low innovation rates.  
+
+```{r low-num-configs, results='asis', echo=FALSE}
+ggplot(low_innov_df, aes(x = num_trait_configurations, y = ..density..)) + geom_density(aes(linetype=model_class_label, position="stack"))
+```
 
 
+# Analytic Software #
 
+```{r sessioninfo, results="asis"}
+sessionInfo()
+```
 
 # References Cited #
 
