@@ -1,4 +1,6 @@
 library(randomForest)
+library(mmadsenr)
+library(ROCR)
 
 
 #' Calculates a random forest analysis of the specified data frame, with the specified class 
@@ -14,26 +16,49 @@ library(randomForest)
 #' @return list List with fitted model, test classification rate, and confusion matrix for the test data
 #' @export
 
-do_random_forest <- function(df, class_field, fields_to_exclude, test_fraction = 0.2, numtrees = 500, 
+do_binary_random_forest_roc <- function(df, class_field, fields_to_exclude, test_fraction = 0.1, numtrees = 1000, 
                              node_size = 1, variables_to_sample = 3) {
   # remove unwanted columns for this analysis
   df_dropped <- df[,!(names(df) %in% fields_to_exclude)]
-  
-  # shuffled the data frame row-wise so that we can sample test and train data
-  shuffled_df <- df_dropped[sample(nrow(df_dropped)),]
-  indexes = sample(1:nrow(shuffled_df), size=test_fraction*nrow(shuffled_df))
-  test = shuffled_df[indexes,]
-  train = shuffled_df[-indexes,]
-  
+
+  # split into random train and test data sets
+  data <- random_split_dataset(df_dropped, test_fraction)
+
   form <- as.formula(paste(class_field, "~", ".", sep = " "))
 
-  fit <- randomForest(form, data=train, ntree=numtrees, nodesize = node_size, mtry=variables_to_sample)
+  fit <- randomForest(form, data=data$train, ntree=numtrees, nodesize = node_size, mtry=variables_to_sample, test=data$test)
   
-  test_table <- table(test[[class_field]], predict(fit, test[names(shuffled_df)]))
-  prediction <- sum(test[[class_field]]==predict(fit, test[names(shuffled_df)])) / nrow(test)
+  rf.pr = predict(fit,type="prob",newdata=data$test)[,2]
+  rf.pred = prediction(rf.pr, data$test[,class_field])
+  rf.perf = performance(rf.pred, "tpr", "fpr")
+  
+  test_table <- table(data$test[,class_field], predict(fit, data$test[names(df_dropped)]))
+  prediction <- sum(data$test[,class_field]==predict(fit, data$test[names(df_dropped)])) / nrow(data$test)
   error <- 1 - prediction
   
-  ret <- list("fit"=fit, "prediction_rate" = prediction, "test_confusion" = test_table, "test_error" = error)
+  ret <- list("fit"=fit, "prediction_rate" = prediction, "test_confusion" = test_table, 
+              "test_error" = error, "roc" = rf.perf, "roc_pred" = rf.pred)
+  ret
+}
+
+do_multiclass_random_forest <- function(df, class_field, fields_to_exclude, test_fraction = 0.1, numtrees = 1000, 
+                                        node_size = 1, variables_to_sample = 3) {
+  # remove unwanted columns for this analysis
+  df_dropped <- df[,!(names(df) %in% fields_to_exclude)]
+  
+  # split into random train and test data sets
+  data <- random_split_dataset(df_dropped, test_fraction)
+  
+  form <- as.formula(paste(class_field, "~", ".", sep = " "))
+  
+  fit <- randomForest(form, data=data$train, ntree=numtrees, nodesize = node_size, mtry=variables_to_sample, test=data$test)
+  
+  test_table <- table(data$test[,class_field], predict(fit, data$test[names(df_dropped)]))
+  prediction <- sum(data$test[,class_field]==predict(fit, data$test[names(df_dropped)])) / nrow(data$test)
+  error <- 1 - prediction
+  
+  ret <- list("fit"=fit, "prediction_rate" = prediction, "test_confusion" = test_table, 
+              "test_error" = error)
   ret
 }
 
@@ -48,4 +73,8 @@ randomforest_replicates <- function(df, class_field, fields_to_exclude, test_fra
   test_errors
 }
 
+plot_roc <- function(roc) {
+  plot(roc,col=2,lwd=2)
+  abline(a=0,b=1,lwd=2,lty=2,col="gray")
+}
 

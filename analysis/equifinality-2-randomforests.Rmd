@@ -84,7 +84,7 @@ Lorem ipsum dolor boosting sic bagging yay random forests.
 excluded_fields = c("simulation_run_id", "innovation_rate")
 
 # run random forest with default metaparameters against the "model_class_label" field
-four_full_model <- do_random_forest(eq2_pop_df, "model_class_label", excluded_fields)
+four_full_model <- do_multiclass_random_forest(eq2_pop_df, "model_class_label", excluded_fields)
 
 test_error <- four_full_model["prediction_rate"]
 four_fit <- four_full_model["fit"]
@@ -110,11 +110,12 @@ eq2_pop_df$two_class_label <- factor(ifelse(eq2_pop_df$model_class_label == 'all
 
 # exclude the original four class labels from the random forest classifier
 excluded_fields <- c("simulation_run_id", "model_class_label", "innovation_rate")
-two_model <- do_random_forest(eq2_pop_df, "two_class_label", excluded_fields)
+two_model <- do_binary_random_forest_roc(eq2_pop_df, "two_class_label", excluded_fields)
 
 two_fit <- two_model["fit"]
 test_error <- two_model["prediction_rate"]
 test_table <- two_model["test_confusion"]
+roc <- two_model["roc"]
 
 ```
 
@@ -128,6 +129,12 @@ Furthermore, we can see that our summary statistics vary widely in their importa
 
 ```{r two-importance, results='asis', echo=FALSE}
 pander(two_fit$fit["importance"], col.names = c('Variable', 'Mean Decrease Gini Index'))
+```
+
+We can also look at accuracy in a binary classifier using the area under the "receiver operating curve," which graphs the false positive rate against the true positive rate to examine performance.  The ideal classifier achieves 100% true positives with 0% false positives, and thus the prediction curve would occupy the upper left corner.  A terrible classifier would follow the diagonal, indicating that for every true positive, we incur a false positive (and thus our classifier is equivalent to flipping a coin).  We can see that the binary classifier for neutral models is quite good:
+
+```{r two-roc, results='asis', echo=FALSE}
+plot_roc(two_model$roc)
 ```
 
 With no prior information, the random forest classifier identifies the number of distinct trait combinations (configurations) as the single most important variable allowing separation of samples from neutral versus biased models.  And yet, although there is differentiation in the modes of the variables across neutral and biased models when we graph their density, the distributions still have considerable overlap:
@@ -147,11 +154,12 @@ In most studies of cultural transmission models, a single locus is modeled, with
 
 # exclude the original four class labels from the random forest classifier
 excluded_fields <- c("simulation_run_id", "model_class_label", "innovation_rate", "configuration_slatkin", "num_trait_configurations")
-two_locus_model <- do_random_forest(eq2_pop_df, "two_class_label", excluded_fields)
+two_locus_model <- do_binary_random_forest_roc(eq2_pop_df, "two_class_label", excluded_fields)
 
 two_locus_fit <- two_locus_model["fit"]
 test_error <- two_locus_model["prediction_rate"]
 test_table <- two_locus_model["test_confusion"]
+roc <- two_locus_model["roc"]
 ```
 
 For two model labels (i.e., with all bias models combined), the confusion matrix for classification with only per-locus summary statistics is:
@@ -161,6 +169,11 @@ pander(two_locus_fit$fit["confusion"])
 ```
 
 The classification performance seems greatly reduced, with a `r test_error` prediction rate on the hold-out data set. The apparently still high classification performance, however, is a combination of fairly decent prediction when the data sample is biased, and nearly random assignment when the sample is derived from a neutral model.  Even when we combine information about trait richness for a dimension/locus, two measures evenness of frequencies at that locus, a per-locus Slatkin test, and the survival of traits over a fixed interval, data derived from a neutral process are misclassified about 45% of the time.  
+
+```{r two-roc-locus, results='asis', echo=FALSE}
+plot_roc(two_locus_model$roc)
+```
+
 
 This suggests that one of the most effective ways of distinguishing between cultural transmission processes is to:
 
@@ -177,11 +190,12 @@ low_innov_df <- filter(eq2_pop_df, innovation_rate <= 1.0)
 
 # exclude the original four class labels from the random forest classifier
 excluded_fields <- c("simulation_run_id", "model_class_label", "innovation_rate")
-low_two_model <- do_random_forest(low_innov_df, "two_class_label", excluded_fields)
+low_two_model <- do_binary_random_forest_roc(low_innov_df, "two_class_label", excluded_fields)
 
 low_two_class_fit <- low_two_model["fit"]
 test_error <- low_two_model["prediction_rate"]
 test_table <- low_two_model["test_confusion"]
+roc <- low_two_model["roc"]
 
 ```
 
@@ -195,9 +209,10 @@ pander(low_two_class_fit$fit["confusion"])
 
 This pattern is similar to what happens when we drop trait configuration variables and rely upon single-locus summary statistics.  We have good discrimination of samples when the samples are from biased models, but samples from neutral models are still poorly differentiated.  Although the overall prediction rate of `r test_error` is acceptable, there is a problem classifying neutral samples, and thus significant equifinality possible in populations with low innovation rates.  
 
-```{r low-num-configs, results='asis', echo=FALSE}
-ggplot(low_innov_df, aes(x = num_trait_configurations, y = ..density..)) + geom_density(aes(linetype=model_class_label, position="stack"))
+```{r two-roc-lowinnov, results='asis', echo=FALSE}
+plot_roc(low_two_model$roc)
 ```
+
 
 
 # Analytic Software #

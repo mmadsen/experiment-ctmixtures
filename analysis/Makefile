@@ -2,4 +2,4 @@
 
 
 clean:
-	rm -rf *.log *.pdf *.html *.md
+	rm -rf *.log *.pdf *.html *.md *.tex *_cache *_files
