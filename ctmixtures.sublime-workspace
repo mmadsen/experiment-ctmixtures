@@ -8,23 +8,15 @@
 	"buffers":
 	[
 		{
-			"file": "README.md",
+			"file": "paper/madsen2015-ctmixtures.Rmd",
 			"settings":
 			{
-				"buffer_size": 2008,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "simulations/equifinality-2/README.md",
-			"settings":
-			{
-				"buffer_size": 2460,
+				"buffer_size": 13935,
 				"line_ending": "Unix"
 			}
 		}
 	],
-	"build_system": "",
+	"build_system": "Packages/Makefile/Make.sublime-build",
 	"command_palette":
 	{
 		"height": 392.0,
@@ -68,13 +60,15 @@
 	"expanded_folders":
 	[
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/explorations",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/outline",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-2"
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper"
 	],
 	"file_history":
 	[
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.bbl",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/README.md",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-2/README.md",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-1/README.md",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality/conf/equifinality-confmixture-equal.json",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality/conf/equifinality-allneutral.json",
@@ -82,7 +76,6 @@
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality/conf/equifinality-confmixture-confdominant.json",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality/expconfig/conformist-mixture-priors.json",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-1/build-jobs.sh",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/README.md",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/Makefile",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/elsarticle-template.tex",
@@ -219,24 +212,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "README.md",
+					"file": "paper/madsen2015-ctmixtures.Rmd",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2008,
+						"buffer_size": 13935,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								412,
-								413
+								3872,
+								3872
 							]
 						],
 						"settings":
@@ -244,35 +237,7 @@
 							"syntax": "Packages/Markdown/Markdown.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "simulations/equifinality-2/README.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2460,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								639,
-								639
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 629.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -312,6 +277,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 118.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -359,7 +328,7 @@
 	{
 	},
 	"show_minimap": false,
-	"show_open_files": false,
+	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 296.0,
