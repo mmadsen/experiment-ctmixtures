@@ -32,3 +32,5 @@
 *.fls
 *.loa
 *Notes.bib
+*.md
+*.tex

@@ -4,13 +4,30 @@ library(ggplot2)
 library(pander)
 library(caret)
 
+# Train and tune random forest classifiers for each of the three data sets coming out of the experiment
+# "equifinality-3", for binary analysis. 
+#
+# Assumes that data-preparation.r has previously loaded CSV files and created binary 
+# data files, stored in a local data directory.  
+#
+# Reduces the four class data into a two class problem for basic classifier analysis, and it splits off
+# a test data set, placing it in the environment.  
+# 
+# NOTE:  This analysis takes a LONG time to run, so it is kept separate from the Rmarkdown
+# analysis script.  At the completion of the analysis, it saves an environment image, which
+# other scripts, such as RMarkdown documents, can load, and access the fitted model results.  
+#
+# Only the model training and fitting is done in this script.  The test data set is not analyzed
+# here, since it can be done quickly enough that I want to be working in RMarkdown to examine different
+# options.  
+
+
 # load data frame, results in object "eq3_pop_df" in the workspace
 load("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda")  
 load("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda")
 
-# make this repeatable
+# make this repeatable - comment this out or change it to get a fresh analysis result
 set.seed(23581321)
-
 
 # prepare data
 # create a label combining the biased models into one
@@ -29,15 +46,6 @@ nonTestIndex <- createDataPartition(eq3_pop_drop$two_class_label, p = .9,
 eq3_pop_nontest <- eq3_pop_drop[ nonTestIndex,]
 eq3_pop_test  <- eq3_pop_drop[-nonTestIndex,]
 
-# now, peel off another 10% of the training data to get a validation set for parameter tuning
-
-tuneIndex <- createDataPartition(eq3_pop_nontest$two_class_label, p = .9, list = FALSE, times = 1)
-nontest[-tuneIndex]
-
-eq3_pop_train <- eq3_pop_nontest[ tuneIndex, ]
-eq3_pop_tuning <- eq3_pop_nontest[-tuneIndex,]
-
-
 ####### 
 
 fit_control <- trainControl(method="repeatedcv", number=10, repeats=10)
@@ -46,8 +54,6 @@ training_fit <- train(two_class_label ~ ., data = eq3_pop_nontest,
                         method="rf",
                         verbose=TRUE,
                         trControl = fit_control)
-
-
 
 ########################### sampled data ##########################
 
@@ -69,26 +75,24 @@ nonTestIndex <- createDataPartition(eq3_sampled_drop$two_class_label, p = .9,
                                     list = FALSE,
                                     times = 1)
 
-eq3_sampled_nontest <- eq3_sampled_drop[ nonTestIndex,]
-eq3_sampled_test  <- eq3_sampled_drop[-nonTestIndex,]
-
-# now, peel off another 10% of the training data to get a validation set for parameter tuning
-
-tuneIndex <- createDataPartition(eq3_sampled_nontest$two_class_label, p = .9, list = FALSE, times = 1)
-
-
-eq3_sampled_train <- eq3_sampled_nontest[ tuneIndex, ]
-eq3_sampled_tuning <- eq3_sampled_nontest[-tuneIndex,]
+eq3_sampled_nontest_20 <- eq3_sampled_drop[ nonTestIndex,]
+eq3_sampled_test_20  <- eq3_sampled_drop[-nonTestIndex,]
 
 
 ####### 
 
 fit_control_sampled <- trainControl(method="repeatedcv", number=10, repeats=10)
 
-sampled_training_fit <- train(two_class_label ~ ., data = eq3_sampled_nontest,
+sampled_training_fit <- train(two_class_label ~ ., data = eq3_sampled_nontest_20,
                       method="rf",
                       verbose=TRUE,
                       Control = fit_control_sampled)
+
+
+
+
+# save objects from the environment
+save.image("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/classification-caret.RData")
 
 
 
