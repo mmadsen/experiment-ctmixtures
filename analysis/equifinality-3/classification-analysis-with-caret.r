@@ -3,6 +3,7 @@ library(dplyr)
 library(ggplot2)
 library(pander)
 library(caret)
+library(doMC)
 
 # Train and tune random forest classifiers for each of the three data sets coming out of the experiment
 # "equifinality-3", for binary analysis. 
@@ -20,6 +21,10 @@ library(caret)
 # Only the model training and fitting is done in this script.  The test data set is not analyzed
 # here, since it can be done quickly enough that I want to be working in RMarkdown to examine different
 # options.  
+
+
+# set up parallel processing
+registerDoMC(cores = 4)
 
 
 # load data frame, results in object "eq3_pop_df" in the workspace
