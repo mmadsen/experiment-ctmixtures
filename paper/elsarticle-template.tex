@@ -10,7 +10,8 @@
 %%%%%%%%%% Remove the following before submission %%%%%%%%%%%%%%%%%%
 
 % define before mathspec
-\usepackage{amsmath}
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb,amsmath}
 
 \usepackage{mathspec,xltxtra,xunicode}
 \defaultfontfeatures{Scale=MatchLowercase}
@@ -34,11 +35,14 @@
 \usepackage{madsen-packages}
 \usepackage{madsen-macros}
 
+
 %Editing and annotation Packages
 \usepackage[author=,draft]{fixme}
 %Version control with GIT
 \usepackage[]{gitinfo}
-
+\usepackage[section,ruled]{algorithm}
+\usepackage{algorithmic}
+\usepackage{boxedminipage}
 
 \usepackage[xetex,bookmarks=true,linkcolor=blue,hyperfootnotes=false,breaklinks=true,citecolor=blue,colorlinks=true]{hyperref}
 \hypersetup{pdftitle={\doctitle},pdfauthor={Mark E. Madsen}}
