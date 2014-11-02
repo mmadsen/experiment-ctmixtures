@@ -38,6 +38,19 @@ load(sampled_data_file)
 # make this repeatable - comment this out or change it to get a fresh analysis result
 set.seed(23581321)
 
+
+# tuning grid of parameters and tuning cross-validation parameters
+fit_grid <- expand.grid(mtry=seq(from=2,to=12,by=2))
+fit_control <- trainControl(method="repeatedcv", 
+                            number=10, 
+                            repeats=10, 
+                            allowParallel = TRUE,
+                            ## Estimate class probabilities
+                            classProbs = TRUE,
+                            ## Evaluate performance using 
+                            ## the following function
+                            summaryFunction = twoClassSummary)
+
 # prepare data
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
@@ -57,12 +70,17 @@ eq3_pop_test  <- eq3_pop_drop[-nonTestIndex,]
 
 ####### 
 
-fit_control <- trainControl(method="repeatedcv", number=10, repeats=10)
-
+start_time <- proc.time()[["elapsed"]]
 training_fit <- train(two_class_label ~ ., data = eq3_pop_nontest,
                         method="rf",
                         verbose=TRUE,
-                        trControl = fit_control)
+                        trControl = fit_control,
+                        tuneGrid = fit_grid)
+end_time <- proc.time()[["elapsed"]]
+pop_training_minutes <- (end_time - start_time) / 60
+
+cat("Training random forest for population data - elapsed time (min): ", pop_training_minutes)
+
 
 ########################### sampled data ##########################
 
@@ -90,15 +108,25 @@ eq3_sampled_test_20  <- eq3_sampled_drop[-nonTestIndex,]
 
 ####### 
 
-fit_control_sampled <- trainControl(method="repeatedcv", number=10, repeats=10)
+
+
+start_time <- proc.time()[["elapsed"]]
 
 sampled_training_fit <- train(two_class_label ~ ., data = eq3_sampled_nontest_20,
                       method="rf",
                       verbose=TRUE,
-                      Control = fit_control_sampled)
+                      trControl = fit_control,
+                      tuneGrid = fit_grid)
+
+end_time <- proc.time()[["elapsed"]]
+sampled_training_minutes <- (end_time - start_time) / 60
+
+cat("Training random forest for sampled data - elapsed time (min): ", sampled_training_minutes)
 
 # save objects from the environment
-save.image("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/classification-caret.RData")
+
+image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-caret-results.RData")
+save.image(image_file)
 
 
 
