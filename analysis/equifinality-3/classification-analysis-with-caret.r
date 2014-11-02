@@ -4,6 +4,7 @@ library(ggplot2)
 library(pander)
 library(caret)
 library(doMC)
+library(mmadsenr)
 
 # Train and tune random forest classifiers for each of the three data sets coming out of the experiment
 # "equifinality-3", for binary analysis. 
@@ -22,14 +23,17 @@ library(doMC)
 # here, since it can be done quickly enough that I want to be working in RMarkdown to examine different
 # options.  
 
-
-# set up parallel processing
-registerDoMC(cores = 4)
-
+# set up parallel processing - use all the cores (unless it's a dev laptop under OS X) - from mmadsenr
+registerDoMC(cores = get_parallel_cores_given_os())
 
 # load data frame, results in object "eq3_pop_df" in the workspace
-load("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda")  
-load("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda")
+# for dev, source the file "dev-Rprofile" first to set up a base data directory (yours may vary!)
+#
+pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda")
+sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda")
+
+load(pop_data_file)
+load(sampled_data_file)
 
 # make this repeatable - comment this out or change it to get a fresh analysis result
 set.seed(23581321)
@@ -92,9 +96,6 @@ sampled_training_fit <- train(two_class_label ~ ., data = eq3_sampled_nontest_20
                       method="rf",
                       verbose=TRUE,
                       Control = fit_control_sampled)
-
-
-
 
 # save objects from the environment
 save.image("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/classification-caret.RData")
