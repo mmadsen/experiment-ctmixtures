@@ -59,19 +59,14 @@ flog.info("Tuning random forest parameter mtry using vals: %s", mtry_seq, name='
 fit_grid <- expand.grid(mtry=mtry_seq)
 
 cv_num <- 10
-cv_repeats <- 10
 
 flog.info("Tuning performed by repeated CV, %s folds with %s repeats", cv_num, cv_repeats, name='cl')
 
-fit_control <- trainControl(method="repeatedcv", 
-                            number=cv_num, 
-                            repeats=cv_repeats, 
+fit_control <- trainControl(method="cv", 
+                            number=cv_num,  
                             allowParallel = TRUE,
                             ## Estimate class probabilities
-                            classProbs = TRUE,
-                            ## Evaluate performance using 
-                            ## the following function
-                            summaryFunction = twoClassSummary)
+                            classProbs = TRUE)
 
 
 # Set up sampling of train and test data sets
@@ -108,7 +103,7 @@ flog.info("Test set size: %s", nrow(eq3_pop_test), name='cl')
 ####### 
 
 start_time <- proc.time()[["elapsed"]]
-pop_training_fit <- train(two_class_label ~ ., data = eq3_pop_nontest,
+pop_model <- train(two_class_label ~ ., data = eq3_pop_nontest,
                         method="rf",
                         verbose=TRUE,
                         trControl = fit_control,
@@ -120,10 +115,9 @@ flog.info("Training random forest for population data - elapsed time (min): %s",
 
 # now predict the test data using the fit, derive a confusion matrix
 # make the class label numeric for pROC
-pop_test_predictions <- predict(pop_training_fit, newdata=eq3_pop_test)
+pop_test_predictions <- predict(pop_model, newdata=eq3_pop_test)
 pop_confusion <- confusionMatrix(pop_test_predictions, eq3_pop_test$two_class_label)
-
-
+pop_roc <- calculate_roc_binary_classifier(pop_model$tunedmodel, pop_model$test_data, "two_class_label", "Population Census")
 
 ########################### sampled data ##########################
 
@@ -170,6 +164,8 @@ flog.info("Training random forest for sampled data ssize 10 - elapsed time (min)
 # now predict the test data using the fit, derive a confusion matrix
 sampled_test_predictions_10 <- predict(sampled_model_10, newdata=eq3_sampled_test_10)
 sampled_confusion_10 <- confusionMatrix(sampled_test_predictions_10, eq3_sampled_test_10$two_class_label)
+sampled_roc_10 <- calculate_roc_binary_classifier(sampled_model_10$tunedmodel, sampled_model_10$test_data, "two_class_label", "Sample Size 10")
+
 
 
 
@@ -207,6 +203,8 @@ flog.info("Training random forest for sampled data ssize 20 - elapsed time (min)
 # now predict the test data using the fit, derive a confusion matrix
 sampled_test_predictions_20 <- predict(sampled_model_20, newdata=eq3_sampled_test_20)
 sampled_confusion_20 <- confusionMatrix(sampled_test_predictions_20, eq3_sampled_test_20$two_class_label)
+sampled_roc_20 <- calculate_roc_binary_classifier(sampled_model_20$tunedmodel, sampled_model_20$test_data, "two_class_label", "Sample Size 10")
+
 
 
 
