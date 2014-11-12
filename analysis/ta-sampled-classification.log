@@ -1,0 +1,73 @@
+INFO [2014-11-10 08:24:55] Beginning classification analysis of TA sampled equifinality-3 data sets
+INFO [2014-11-10 08:24:55] Number of cores used in analysis: 8
+INFO [2014-11-10 08:24:58] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-ta-sampled-data.rda
+INFO [2014-11-10 08:24:58] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-10 08:24:58] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-10 08:24:58] Tuning random forest parameter mtry using vals: 4
+INFO [2014-11-10 08:24:58] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-10 08:24:58] Tuning random forest parameter mtry using vals: 8
+INFO [2014-11-10 08:24:58] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-10 08:24:58] Tuning random forest parameter mtry using vals: 12
+INFO [2014-11-10 08:24:58] Tuning performed by CV, 10 folds 
+INFO [2014-11-10 14:13:05] Beginning classification analysis of TA sampled equifinality-3 data sets
+INFO [2014-11-10 14:13:05] Number of cores used in analysis: 8
+INFO [2014-11-10 14:13:07] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-ta-sampled-data.rda
+INFO [2014-11-10 14:13:07] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-10 14:13:07] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-10 14:13:07] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-10 14:13:07] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-10 14:13:07] Tuning random forest parameter mtry using vals: 14
+INFO [2014-11-10 14:13:07] Tuning random forest parameter mtry using vals: 18
+INFO [2014-11-10 14:13:07] Tuning performed by CV, 10 folds 
+INFO [2014-11-10 23:41:31] Beginning classification analysis of TA sampled equifinality-3 data sets
+INFO [2014-11-10 23:41:31] Number of cores used in analysis: 8
+INFO [2014-11-10 23:41:31] Loaded data file: /Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-3/equifinality-3-ta-sampled-data.rda
+INFO [2014-11-10 23:41:31] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-10 23:41:31] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-10 23:41:31] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-10 23:41:31] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-10 23:41:31] Tuning random forest parameter mtry using vals: 14
+INFO [2014-11-10 23:41:31] Tuning random forest parameter mtry using vals: 18
+INFO [2014-11-10 23:41:31] Tuning performed by CV, 10 folds 
+INFO [2014-11-11 11:54:36] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-ta-sampled-data.rda
+INFO [2014-11-11 11:54:45] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-11 11:54:56] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-11 11:54:56] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-11 11:54:56] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-11 11:54:56] Tuning random forest parameter mtry using vals: 14
+INFO [2014-11-11 11:54:56] Tuning random forest parameter mtry using vals: 18
+INFO [2014-11-11 11:54:56] Tuning performed by CV, 10 folds 
+INFO [2014-11-11 17:06:56] Beginning classification analysis of TA sampled equifinality-3 data sets
+INFO [2014-11-11 17:06:56] Number of cores used in analysis: 8
+INFO [2014-11-11 17:06:56] Loaded data file: /Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-3/equifinality-3-ta-sampled-data.rda
+INFO [2014-11-11 17:06:56] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-11 17:06:56] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-11 17:06:56] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-11 17:06:56] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-11 17:06:56] Tuning random forest parameter mtry using vals: 14
+INFO [2014-11-11 17:06:56] Tuning random forest parameter mtry using vals: 18
+INFO [2014-11-11 17:06:56] Tuning performed by CV, 10 folds 
+INFO [2014-11-11 17:07:59] Beginning classification analysis of TA sampled equifinality-3 data sets
+INFO [2014-11-11 17:07:59] Number of cores used in analysis: 8
+INFO [2014-11-11 17:07:59] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-ta-sampled-data.rda
+INFO [2014-11-11 17:07:59] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-11 17:07:59] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-11 17:07:59] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-11 17:07:59] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-11 17:07:59] Tuning random forest parameter mtry using vals: 14
+INFO [2014-11-11 17:07:59] Tuning random forest parameter mtry using vals: 18
+INFO [2014-11-11 17:07:59] Tuning performed by CV, 10 folds 
+INFO [2014-11-11 17:09:06] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-11 17:09:06] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-11 17:09:06] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-11 17:09:06] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-11 17:09:06] Tuning random forest parameter mtry using vals: 14
+INFO [2014-11-11 17:09:06] Tuning random forest parameter mtry using vals: 18
+INFO [2014-11-11 17:09:06] Tuning performed by CV, 10 folds 
+INFO [2014-11-11 17:10:09] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-11 17:10:09] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-11 17:10:09] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-11 17:10:09] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-11 17:10:09] Tuning random forest parameter mtry using vals: 14
+INFO [2014-11-11 17:10:09] Tuning random forest parameter mtry using vals: 18
+INFO [2014-11-11 17:10:09] Tuning performed by CV, 10 folds 

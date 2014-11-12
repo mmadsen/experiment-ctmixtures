@@ -11,7 +11,7 @@
 			"file": "paper/madsen2015-ctmixtures.Rmd",
 			"settings":
 			{
-				"buffer_size": 13935,
+				"buffer_size": 15943,
 				"line_ending": "Unix"
 			}
 		}
@@ -66,6 +66,8 @@
 	],
 	"file_history":
 	[
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/elsarticle-template.tex",
+		"/Users/mark/Library/Mail/V2/IMAP-mark@madsenlab.org@imap.gmail.com/INBOX.mbox/B54BAE98-14F7-413A-A71B-F1D6D7A15BBB/Data/9/2/4/Messages/429761.emlx",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.bbl",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/README.md",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-2/README.md",
@@ -78,7 +80,6 @@
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-1/build-jobs.sh",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/Makefile",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/elsarticle-template.tex",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/latex-template.tex",
 		"/Users/mark/Dropbox/Research/projects/structuredinformation/madsenlipo2014/paper/madsenlipo2014-semanticaxelrod.Rmd",
 		"/Users/mark/Dropbox/Research/projects/structuredinformation/madsenlipo2014/paper/madsenlipo2014-semanticaxelrod.tex",
@@ -221,15 +222,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 13935,
+						"buffer_size": 15943,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3872,
-								3872
+								5441,
+								5441
 							]
 						],
 						"settings":
@@ -237,7 +238,7 @@
 							"syntax": "Packages/Markdown/Markdown.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 629.0,
+						"translation.y": 334.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

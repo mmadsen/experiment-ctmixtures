@@ -28,14 +28,28 @@ library(caret)
 # The following imports helper methods for random forests and data set splits
 library(mmadsenr)
 # load data frame, results in object "eq3_pop_df" in the workspace
-load("~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/classification-caret.RData")
+base_dir <- "~/local-research/diss/experiments/experiment-ctmixtures"
+image_file <- get_data_path(basedir = base_dir, suffix = "equifinality-3", filename = "classification-caret-results.RData")
+load(image_file)
 ```
 
-# Overview #
+# ROC Analysis #
 
+```{r roc-comparison, results='asis', echo=FALSE, message=FALSE, warning=FALSE}
+# calculate ROC curves for each of the data sets
+roc_pop <- calculate_roc_binary_classifier(fit = training_fit, 
+                                           test = eq3_pop_test, 
+                                           label_class = "two_class_label", 
+                                           curve_title="Population Census Data")
+roc_sampled <- calculate_roc_binary_classifier(fit = sampled_training_fit, 
+                                               test = eq3_sampled_test_20, 
+                                               label_class = "two_class_label", 
+                                               curve_title="Sampled Data")
 
-```{r test, results='asis', echo=FALSE, message=FALSE, warning=FALSE}
-pander(varImp(sampled_training_fit))
+plot_multiple_roc(roc_pop, roc_sampled)
+
 ```
+
+
 
 
