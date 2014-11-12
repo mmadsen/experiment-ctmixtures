@@ -98,7 +98,8 @@ exclude_columns <- c("simulation_run_id", "innovation_rate", "model_class_label"
 
 subset_dataframes <- NULL
 subset_roc <- NULL
-
+subset_roc_ssize_20 <- NULL
+subset_roc_ssize_10 <- NULL
 
 # To create a smaller test dataset:
 test_tasampled_indices <- createDataPartition(eq3_ta_sampled_df$two_class_label, p = 0.02, list=FALSE)
@@ -130,25 +131,39 @@ for( i in 1:nrow(subsets)) {
   subsets$specificity[i] <- cm$byClass[["Specificity"]]
   
   # calculate a ROC curve
-  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "")
+  # TODO = add a real title with ssize and tadur for each curve, these get used for the legend for stacked ROC curves!!
+  label <- paste("ss: ", subsets[i, "sample_size"], " ta: ", subsets[i, "ta_duration"])
+  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", label)
   subset_roc[[i]] <- roc
   subsets$auc[i] <- unlist(roc$auc@y.values)
   
+  if(subsets[i, "sample_size"] == 20) {
+    subset_roc_ssize_20[[i]] <- roc
+  }
+  if(subsets[i, "sample_size"] == 10) {
+    subset_roc_ssize_10[[i]] <- roc
+  }
+  
 }
+
+# sigh, now we have to remove NULL objects from lists that are subset of the whole analysis
+subset_roc_ssize_20 <- subset_roc_ssize_20[-(which(sapply(subset_roc_ssize_20,is.null),arr.ind=TRUE))]
+subset_roc_ssize_10 <- subset_roc_ssize_10[-(which(sapply(subset_roc_ssize_10,is.null),arr.ind=TRUE))]
+
 
 # we can now use plot_multiple_roc() to plot all the ROC curves on the same plot, etc.  
 # as well as graph various of the metrics as they vary across sample size and TA duratio
-
+#plot_multiple_roc_from_list(subset_roc)
 
 ############## Complete Processing and Save Results ##########3
 
-# # save objects from the environment
-# image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-ta-sampled-results.RData")
-# flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
-# save.image(image_file)
-# 
-# 
-# # End
-# flog.info("Analysis complete", name='cl')
+# save objects from the environment
+image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-ta-sampled-results.RData")
+flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
+save.image(image_file)
+
+
+# End
+flog.info("Analysis complete", name='cl')
 
 
