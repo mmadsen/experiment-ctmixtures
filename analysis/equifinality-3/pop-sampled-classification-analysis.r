@@ -22,7 +22,7 @@ library(futile.logger)
 # options.  
 
 # Set up logging
-log_file <- "classification.log"
+log_file <- "pop-sampled-classification.log"
 flog.appender(appender.file(log_file), name='cl')
 
 flog.info("Beginning classification analysis of equifinality-3 data sets", name='cl')
@@ -37,16 +37,15 @@ registerDoMC(cores = num_cores)
 #
 pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda")
 sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda")
-ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
 
 
 load(pop_data_file)
 load(sampled_data_file)
-load(ta_sampled_data_file)
+
 
 flog.info("Loaded data file: %s", pop_data_file, name='cl')
 flog.info("Loaded data file: %s", sampled_data_file, name='cl')
-flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+
 
 # make this repeatable - comment this out or change it to get a fresh analysis result
 seed_value <- 23581321
@@ -109,7 +108,7 @@ flog.info("Test set size: %s", nrow(eq3_pop_test), name='cl')
 ####### 
 
 start_time <- proc.time()[["elapsed"]]
-training_fit <- train(two_class_label ~ ., data = eq3_pop_nontest,
+pop_training_fit <- train(two_class_label ~ ., data = eq3_pop_nontest,
                         method="rf",
                         verbose=TRUE,
                         trControl = fit_control,
@@ -121,15 +120,9 @@ flog.info("Training random forest for population data - elapsed time (min): %s",
 
 # now predict the test data using the fit, derive a confusion matrix
 # make the class label numeric for pROC
-eq3_pop_test$class <- ifelse(eq3_pop_test$two_class_label == 'neutral', 0, 1)
-pop_test_predictions <- predict(training_fit, newdata=eq3_pop_test)
-pop_test_predictions_numeric <- ifelse(pop_test_predictions == 'neutral', 0, 1)
+pop_test_predictions <- predict(pop_training_fit, newdata=eq3_pop_test)
 pop_confusion <- confusionMatrix(pop_test_predictions, eq3_pop_test$two_class_label)
-pop_test_roc <- roc(pop_test_predictions_numeric, eq3_pop_test$class)
 
-
-# variable importance
-pop_varimp <- varImp(training_fit)
 
 
 ########################### sampled data ##########################
@@ -140,6 +133,44 @@ flog.info("Starting analysis of sampled data set")
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
 eq3_sampled_df$two_class_label <- factor(ifelse(eq3_sampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
+
+
+
+## sample size 10 ##
+
+eq3_sampled_10 <- filter(eq3_sampled_df, sample_size == 10)
+
+# remove fields from analysis that aren't predictors, and the detailed label with 4 classes
+exclude <- c("simulation_run_id", "model_class_label", "innovation_rate", "sample_size")
+eq3_sampled_drop <- eq3_sampled_10[,!(names(eq3_sampled_10) %in% exclude)]
+
+nonTestIndex <- createDataPartition(eq3_sampled_drop$two_class_label, p = training_set_fraction,
+                                    list = FALSE,
+                                    times = 1)
+
+eq3_sampled_nontest_10 <- eq3_sampled_drop[ nonTestIndex,]
+eq3_sampled_test_10  <- eq3_sampled_drop[-nonTestIndex,]
+
+flog.info("Train set size: %s", nrow(eq3_sampled_nontest_10), name='cl')
+flog.info("Test set size: %s", nrow(eq3_sampled_test_10), name='cl')
+
+start_time <- proc.time()[["elapsed"]]
+
+sampled_model_10 <- train(two_class_label ~ ., data = eq3_sampled_nontest_10,
+                          method="rf",
+                          verbose=TRUE,
+                          trControl = fit_control,
+                          tuneGrid = fit_grid)
+
+end_time <- proc.time()[["elapsed"]]
+sampled_training_minutes_10 <- (end_time - start_time) / 60
+
+flog.info("Training random forest for sampled data ssize 10 - elapsed time (min): %s", sampled_training_minutes_10, name='cl')
+
+# now predict the test data using the fit, derive a confusion matrix
+sampled_test_predictions_10 <- predict(sampled_model_10, newdata=eq3_sampled_test_10)
+sampled_confusion_10 <- confusionMatrix(sampled_test_predictions_10, eq3_sampled_test_10$two_class_label)
+
 
 
 ## sample size 20 ##
@@ -160,91 +191,28 @@ eq3_sampled_test_20  <- eq3_sampled_drop[-nonTestIndex,]
 flog.info("Train set size: %s", nrow(eq3_sampled_nontest_20), name='cl')
 flog.info("Test set size: %s", nrow(eq3_sampled_test_20), name='cl')
 
-
-####### 
-
-
-
 start_time <- proc.time()[["elapsed"]]
 
-sampled_training_fit <- train(two_class_label ~ ., data = eq3_sampled_nontest_20,
+sampled_model_20 <- train(two_class_label ~ ., data = eq3_sampled_nontest_20,
                       method="rf",
                       verbose=TRUE,
                       trControl = fit_control,
                       tuneGrid = fit_grid)
 
 end_time <- proc.time()[["elapsed"]]
-sampled_training_minutes <- (end_time - start_time) / 60
+sampled_training_minutes_20 <- (end_time - start_time) / 60
 
-flog.info("Training random forest for sampled data - elapsed time (min): %s", sampled_training_minutes, name='cl')
-
-# now predict the test data using the fit, derive a confusion matrix
-eq3_sampled_test_20$class <- ifelse(eq3_sampled_test_20$two_class_label == 'neutral', 0, 1)
-sampled_test_predictions <- predict(sampled_training_fit, newdata=eq3_sampled_test_20)
-sampled_test_predictions_numeric <- ifelse(sampled_test_predictions == 'neutral', 0, 1)
-sampled_confusion <- confusionMatrix(sampled_test_predictions, eq3_sampled_test_20$two_class_label)
-sampled_test_roc <- roc(sampled_test_predictions_numeric, eq3_sampled_test_20$class)
-
-# variable importance
-sampled_varimp <- varImp(sampled_training_fit)
-
-
-
-########################### TA and sampled data ##########################
-
-flog.info("Starting analysis of TA and sampled data set")
-
-# prepare data
-# create a label combining the biased models into one
-# then, split into training and test sets, with balanced samples for each of the binary classes
-eq3_ta_sampled_df$two_class_label <- factor(ifelse(eq3_ta_sampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
-
-
-## sample size 20 ##
-
-eq3_ta_sampled_20 <- filter(eq3_ta_sampled_df, sample_size == 20)
-
-# remove fields from analysis that aren't predictors, and the detailed label with 4 classes
-exclude <- c("simulation_run_id", "model_class_label", "innovation_rate", "sample_size")
-eq3_ta_sampled_drop <- eq3_ta_sampled_20[,!(names(eq3_ta_sampled_20) %in% exclude)]
-
-nonTestIndex <- createDataPartition(eq3_ta_sampled_drop$two_class_label, p = training_set_fraction,
-                                    list = FALSE,
-                                    times = 1)
-
-eq3_ta_sampled_nontest_20 <- eq3_ta_sampled_drop[ nonTestIndex,]
-eq3_ta_sampled_test_20  <- eq3_ta_sampled_drop[-nonTestIndex,]
-
-flog.info("Train set size: %s", nrow(eq3_ta_sampled_nontest_20), name='cl')
-flog.info("Test set size: %s", nrow(eq3_ta_sampled_test_20), name='cl')
-
-
-####### 
-
-
-
-start_time <- proc.time()[["elapsed"]]
-
-sampled_training_fit <- train(two_class_label ~ ., data = eq3_ta_sampled_nontest_20,
-                              method="rf",
-                              verbose=TRUE,
-                              trControl = fit_control,
-                              tuneGrid = fit_grid)
-
-end_time <- proc.time()[["elapsed"]]
-sampled_training_minutes <- (end_time - start_time) / 60
-
-flog.info("Training random forest for sampled data - elapsed time (min): %s", sampled_training_minutes, name='cl')
+flog.info("Training random forest for sampled data ssize 20 - elapsed time (min): %s", sampled_training_minutes_20, name='cl')
 
 # now predict the test data using the fit, derive a confusion matrix
-eq3_ta_sampled_test_20$class <- ifelse(eq3_ta_sampled_test_20$two_class_label == 'neutral', 0, 1)
-sampled_test_predictions <- predict(sampled_training_fit, newdata=eq3_ta_sampled_test_20)
-sampled_test_predictions_numeric <- ifelse(sampled_test_predictions == 'neutral', 0, 1)
-sampled_confusion <- confusionMatrix(sampled_test_predictions, eq3_ta_sampled_test_20$two_class_label)
-sampled_test_roc <- roc(sampled_test_predictions_numeric, eq3_ta_sampled_test_20$class)
+sampled_test_predictions_20 <- predict(sampled_model_20, newdata=eq3_sampled_test_20)
+sampled_confusion_20 <- confusionMatrix(sampled_test_predictions_20, eq3_sampled_test_20$two_class_label)
 
-# variable importance
-sampled_varimp <- varImp(sampled_training_fit)
+
+
+
+
+
 
 
 
