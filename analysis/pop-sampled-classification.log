@@ -1,0 +1,62 @@
+INFO [2014-11-12 16:06:52] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-12 16:06:52] Number of cores used in analysis: 4
+INFO [2014-11-12 16:06:54] Loaded data file: ~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-12 16:06:54] Loaded data file: ~/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-12 16:06:54] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-12 16:06:54] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-12 16:06:54] Tuning random forest parameter mtry using vals: 4
+INFO [2014-11-12 16:06:54] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-12 16:06:54] Tuning random forest parameter mtry using vals: 8
+INFO [2014-11-12 16:06:54] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-12 16:06:54] Tuning random forest parameter mtry using vals: 12
+INFO [2014-11-12 16:06:54] Tuning performed by repeated CV, 10 folds 
+INFO [2014-11-12 16:06:54] Starting analysis of population census data
+INFO [2014-11-12 16:06:55] Train set size: 90000
+INFO [2014-11-12 16:06:55] Test set size: 10000
+INFO [2014-11-13 07:32:31] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-13 07:32:31] Number of cores used in analysis: 4
+INFO [2014-11-13 07:32:34] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-13 07:32:34] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-13 07:32:34] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-13 07:32:34] Tuning random forest parameter mtry using vals: 2
+INFO [2014-11-13 07:32:34] Tuning random forest parameter mtry using vals: 4
+INFO [2014-11-13 07:32:34] Tuning random forest parameter mtry using vals: 6
+INFO [2014-11-13 07:32:34] Tuning random forest parameter mtry using vals: 8
+INFO [2014-11-13 07:32:34] Tuning random forest parameter mtry using vals: 10
+INFO [2014-11-13 07:32:34] Tuning random forest parameter mtry using vals: 12
+INFO [2014-11-13 07:32:34] Tuning performed by repeated CV, 10 folds 
+INFO [2014-11-13 07:32:34] Starting analysis of population census data
+INFO [2014-11-13 07:32:36] Train set size: 90000
+INFO [2014-11-13 07:32:36] Test set size: 10000
+INFO [2014-11-13 15:24:13] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-13 15:24:13] Number of cores used in analysis: 4
+INFO [2014-11-13 15:24:13] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-13 15:24:13] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-13 15:24:13] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-13 15:24:13] Starting analysis of population census data
+INFO [2014-11-13 15:24:14] Train set size: 90000
+INFO [2014-11-13 15:24:14] Test set size: 10000
+INFO [2014-11-13 15:31:12] Training random forest for population data - elapsed time (min): 6.96928333333333
+INFO [2014-11-13 15:31:12] Train set size: 90000
+INFO [2014-11-13 15:31:12] Test set size: 10000
+INFO [2014-11-13 15:36:09] Training random forest for sampled data ssize 10 - elapsed time (min): 4.9494
+INFO [2014-11-13 15:36:09] Train set size: 90000
+INFO [2014-11-13 15:36:09] Test set size: 10000
+INFO [2014-11-13 15:36:10] Training random forest for sampled data ssize 20 - elapsed time (min): 0.00484999999998763
+INFO [2014-11-13 15:36:10] Saving results of analysis to R environment snapshot: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/classification-caret-results-gbm.RData
+INFO [2014-11-13 15:36:56] Analysis complete
+INFO [2014-11-13 15:56:38] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-13 15:56:38] Number of cores used in analysis: 4
+INFO [2014-11-13 15:56:38] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-13 15:56:38] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-13 15:56:38] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-13 15:56:38] Starting analysis of population census data
+INFO [2014-11-13 16:07:40] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-13 16:07:40] Number of cores used in analysis: 4
+INFO [2014-11-13 16:07:40] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-13 16:07:40] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-13 16:07:40] RNG seed to replicate this analysis: 23581321
+INFO [2014-11-13 16:07:40] Starting analysis of population census data
+INFO [2014-11-13 16:15:04] Starting analysis of sampled data set
+INFO [2014-11-13 16:26:32] Saving results of analysis to R environment snapshot: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/classification-pop-sampled-results-gbm.RData
+INFO [2014-11-13 16:27:48] Analysis complete

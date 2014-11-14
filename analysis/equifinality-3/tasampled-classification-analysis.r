@@ -4,6 +4,7 @@ library(doMC)
 library(mmadsenr)
 library(futile.logger)
 library(dplyr)
+library(ggthemes)
 
 # Train and tune random forest classifiers for the ta sampled data set, which is really 8 levels of TA and
 # sample size combinations.
@@ -38,7 +39,7 @@ flog.appender(appender.file(log_file), name='cl')
 flog.info("Beginning classification analysis of TA sampled equifinality-3 data sets", name='cl')
 
 # set up parallel processing - use all the cores (unless it's a dev laptop under OS X) - from mmadsenr
-num_cores <- get_parallel_cores_given_os(dev=FALSE)
+num_cores <- get_parallel_cores_given_os(dev=TRUE)
 flog.info("Number of cores used in analysis: %s", num_cores, name='cl')
 registerDoMC(cores = num_cores)
 
@@ -55,22 +56,22 @@ set.seed(seed_value)
 flog.info("RNG seed to replicate this analysis: %s", seed_value, name='cl')
 
 
-# tuning grid of parameters and tuning cross-validation parameters
-mtry_seq <- seq(from=2, to=20, by=4)
-flog.info("Tuning random forest parameter mtry using vals: %s", mtry_seq, name='cl')
-fit_grid <- expand.grid(mtry=mtry_seq)
-
-cv_num <- 10
-#cv_repeats <- 10
-
-flog.info("Tuning performed by CV, %s folds ", cv_num, name='cl')
-
-fit_control <- trainControl(method="cv", 
-                            number=cv_num, 
-                            #repeats=cv_repeats, 
-                            allowParallel = TRUE,
-                            ## Estimate class probabilities
-                            classProbs = TRUE)
+# # tuning grid of parameters and tuning cross-validation parameters
+# mtry_seq <- seq(from=2, to=20, by=4)
+# flog.info("Tuning random forest parameter mtry using vals: %s", mtry_seq, name='cl')
+# fit_grid <- expand.grid(mtry=mtry_seq)
+# 
+# cv_num <- 10
+# #cv_repeats <- 10
+# 
+# flog.info("Tuning performed by CV, %s folds ", cv_num, name='cl')
+# 
+# fit_control <- trainControl(method="cv", 
+#                             number=cv_num, 
+#                             #repeats=cv_repeats, 
+#                             allowParallel = TRUE,
+#                             ## Estimate class probabilities
+#                             classProbs = TRUE)
 
 
 # Set up sampling of train and test data sets
@@ -100,23 +101,25 @@ subset_dataframes <- NULL
 subset_roc <- NULL
 subset_roc_ssize_20 <- NULL
 subset_roc_ssize_10 <- NULL
+subset_model <- NULL
 
 # To create a smaller test dataset:
-test_tasampled_indices <- createDataPartition(eq3_ta_sampled_df$two_class_label, p = 0.02, list=FALSE)
-test_tasampled_df <- eq3_ta_sampled_df[test_tasampled_indices,]
-
-
-# switch this back to eq3_ta_sampled_df for production
+# test_tasampled_indices <- createDataPartition(eq3_ta_sampled_df$two_class_label, p = 0.05, list=FALSE)
+# test_tasampled_df <- eq3_ta_sampled_df[test_tasampled_indices,]
+# switch the DF input to get_subset_ssize_tadur() back to eq3_ta_sampled_df for production
 
 for( i in 1:nrow(subsets)) {
-  df <- get_subset_ssize_tadur(test_tasampled_df, 
+  df <- get_subset_ssize_tadur(eq3_ta_sampled_df, 
                               subsets[i, "sample_size"],
                               subsets[i, "ta_duration"])
   print(sprintf("row %d:  sample size: %d  ta duration: %d numrows: %d", i, subsets[i, "sample_size"], subsets[i, "ta_duration"], nrow(df)))
   subset_dataframes[[i]] <- df
   subsets$dataframe_index[i] <- i
   
-  model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
+  #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
+  model <- train_gbm_classifier(df, training_set_fraction, exclude_columns)
+  
+  subset_model[[i]] <- model$tunedmodel
   
   # use the test data split by the train_randomforest function and calculate tuned model predictions
   # and then get the confusion matrix and fitting metrics
@@ -129,6 +132,7 @@ for( i in 1:nrow(subsets)) {
   subsets$postive_label[i] <- cm$positive
   subsets$sensitivity[i] <- cm$byClass[["Sensitivity"]]
   subsets$specificity[i] <- cm$byClass[["Specificity"]]
+  subsets$elapsed <- model$elapsed
   
   # calculate a ROC curve
   # TODO = add a real title with ssize and tadur for each curve, these get used for the legend for stacked ROC curves!!
@@ -153,12 +157,12 @@ subset_roc_ssize_10 <- subset_roc_ssize_10[-(which(sapply(subset_roc_ssize_10,is
 
 # we can now use plot_multiple_roc() to plot all the ROC curves on the same plot, etc.  
 # as well as graph various of the metrics as they vary across sample size and TA duratio
-#plot_multiple_roc_from_list(subset_roc)
+plot_multiple_roc_from_list(subset_roc)
 
 ############## Complete Processing and Save Results ##########3
 
-# save objects from the environment
-image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-ta-sampled-results.RData")
+#save objects from the environment
+image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-ta-sampled-results-gbm.RData")
 flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
 save.image(image_file)
 
