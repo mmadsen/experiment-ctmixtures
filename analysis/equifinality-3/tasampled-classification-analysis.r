@@ -9,20 +9,6 @@ library(ggthemes)
 # Train and tune random forest classifiers for the ta sampled data set, which is really 8 levels of TA and
 # sample size combinations.
 #
-# Assumes that data-preparation.r has previously loaded CSV files and created binary 
-# data files, stored in a local data directory.  
-#
-# Reduces the four class data into a two class problem for basic classifier analysis, and it splits off
-# a test data set, placing it in the environment.  
-# 
-# NOTE:  This analysis takes a LONG time to run, so it is kept separate from the Rmarkdown
-# analysis script.  At the completion of the analysis, it saves an environment image, which
-# other scripts, such as RMarkdown documents, can load, and access the fitted model results.  
-#
-# Only the model training and fitting is done in this script.  The test data set is not analyzed
-# here, since it can be done quickly enough that I want to be working in RMarkdown to examine different
-# options.  
-
 
 get_subset_ssize_tadur <- function(df, ssize, tadur) {
   df_subset <- filter(df, sample_size == ssize, ta_duration == tadur)

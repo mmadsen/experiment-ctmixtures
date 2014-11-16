@@ -3,6 +3,8 @@ library(caret)
 library(doMC)
 library(mmadsenr)
 library(futile.logger)
+library(dplyr)
+library(ggthemes)
 
 # Train and tune random forest classifiers for each of the three data sets coming out of the experiment
 # "equifinality-3", for binary analysis. 
@@ -54,12 +56,14 @@ flog.info("RNG seed to replicate this analysis: %s", seed_value, name='cl')
 
 
 # Set up sampling of train and test data sets
-training_set_fraction <- 0.9
+training_set_fraction <- 0.8
 test_set_fraction <- 1.0 - training_set_fraction
 
 
 # set up results data frames
-results <- NULL
+experiments <- c("Population Census", "Sample Size 10%", "Sample Size 20%")
+results <- data.frame(experiments)
+
 results_roc <- NULL
 results_model <- NULL
 
@@ -146,7 +150,7 @@ results$specificity[i] <- cm$byClass[["Specificity"]]
 results$elapsed <- model$elapsed
 
 # calculate a ROC curve
-ssize_10_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Sample Size: 10")
+ssize_10_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Sample Size: 10%")
 results$auc[i] <- unlist(ssize_10_roc$auc@y.values)
 results_roc[[i]] <- ssize_10_roc
 
@@ -181,7 +185,7 @@ results$specificity[i] <- cm$byClass[["Specificity"]]
 results$elapsed <- model$elapsed
 
 # calculate a ROC curve
-ssize_20_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Sample Size: 20")
+ssize_20_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Sample Size: 20%")
 results$auc[i] <- unlist(ssize_20_roc$auc@y.values)
 results_roc[[i]]  <- ssize_20_roc
 
