@@ -1,0 +1,30 @@
+INFO [2014-11-17 18:19:23] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-17 18:19:23] Number of cores used in analysis: 4
+INFO [2014-11-17 18:19:24] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-17 18:19:24] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-17 18:19:24] RNG seed to replicate this analysis: 58132133
+INFO [2014-11-17 18:19:24] Starting analysis of population census data
+INFO [2014-11-17 18:24:53] Starting analysis of sampled data set
+INFO [2014-11-17 18:33:45] Saving popsampled_results of analysis to R environment snapshot: /Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-3/equifinality-3/classification-pop-sampled-popsampled_results-gbm.RData
+INFO [2014-11-17 18:35:13] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-17 18:35:13] Number of cores used in analysis: 4
+INFO [2014-11-17 18:35:14] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-17 18:35:14] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-17 18:35:14] RNG seed to replicate this analysis: 58132133
+INFO [2014-11-17 18:35:14] Starting analysis of population census data
+INFO [2014-11-17 18:41:45] Starting analysis of sampled data set
+INFO [2014-11-17 18:51:48] Saving popsampled_results of analysis to R environment snapshot: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/classification-pop-sampled-popsampled_results-gbm.RData
+INFO [2014-11-17 18:52:26] Saving just data frame of popsampled_results of analysis to R environment snapshot: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/classification-pop-sampled-popsampled_results-gbm-dfonly.RData
+INFO [2014-11-17 18:52:26] Analysis complete
+INFO [2014-11-17 19:24:20] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-17 19:24:20] Number of cores used in analysis: 4
+INFO [2014-11-17 19:24:31] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-17 19:24:31] Number of cores used in analysis: 4
+INFO [2014-11-17 19:25:11] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-17 19:25:11] Number of cores used in analysis: 4
+INFO [2014-11-17 19:26:22] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-17 19:26:22] Number of cores used in analysis: 4
+INFO [2014-11-17 19:26:23] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-17 19:26:23] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-17 19:26:23] RNG seed to replicate this analysis: 58132133
+INFO [2014-11-17 19:26:23] Starting analysis of population census data
