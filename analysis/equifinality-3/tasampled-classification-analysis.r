@@ -6,6 +6,8 @@ library(futile.logger)
 library(dplyr)
 library(ggthemes)
 
+
+
 # Train and tune random forest classifiers for the ta sampled data set, which is really 8 levels of TA and
 # sample size combinations.
 #
@@ -16,16 +18,22 @@ get_tassize_subset_ssize_tadur <- function(df, ssize, tadur) {
 }
 
 
-clargs <- commandArgs(trailingOnly = TRUE)
-if(length(clargs) == 0) {
-  clargs <- NULL
-}
-
-
-
 # Set up logging
 log_file <- "ta-sampled-classification.log"
 flog.appender(appender.file(log_file), name='cl')
+
+
+clargs <- commandArgs(trailingOnly = TRUE)
+if(length(clargs) == 0) {
+  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
+} else {
+  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
+}
+
+load(ta_sampled_data_file)
+flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+
+
 
 flog.info("Beginning classification analysis of TA sampled equifinality-3 data sets", name='cl')
 
@@ -34,12 +42,20 @@ num_cores <- get_parallel_cores_given_os(dev=TRUE)
 flog.info("Number of cores used in analysis: %s", num_cores, name='cl')
 registerDoMC(cores = num_cores)
 
-# load data frame, results in object "eq3_pop_df" in the workspace
-# for dev, source the file "dev-Rprofile" first to set up a base data directory (yours may vary!)
+
+########### Training and Tuning Variables ##############
+
 #
-ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
-load(ta_sampled_data_file)
-flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+# Common training and tuning parameters for ctmixtures analysis
+#
+gbm_grid <- expand.grid(.interaction.depth = (1:6)*2,
+                        .n.trees = (1:10)*25, 
+                        .shrinkage = 0.05)
+
+training_control <- trainControl(method="repeatedcv", 
+                                 number=10, repeats=5)
+
+
 
 # make this repeatable - comment this out or change it to get a fresh analysis result
 seed_value <- 58132133
@@ -115,7 +131,7 @@ for( i in 1:nrow(tassize_subsets)) {
   print(sprintf("row %d:  sample size: %d  ta duration: %d numrows: %d", i, tassize_subsets[i, "sample_size"], tassize_subsets[i, "ta_duration"], nrow(df)))
   
   #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-  model <- train_gbm_classifier(df, training_set_fraction, "two_class_label", exclude_columns)
+  model <- train_gbm_classifier(df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
   
   tassize_subset_model[[exp_name]] <- model$tunedmodel
   

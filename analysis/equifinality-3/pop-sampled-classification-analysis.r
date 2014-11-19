@@ -6,6 +6,8 @@ library(futile.logger)
 library(dplyr)
 library(ggthemes)
 
+
+
 # Train and tune random forest classifiers for each of the three data sets coming out of the experiment
 # "equifinality-3", for binary analysis. 
 #
@@ -29,9 +31,18 @@ flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
-  clargs <- NULL
+  pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda")
+  sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda")
+} else {
+  pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
+  sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
 }
 
+load(pop_data_file)
+load(sampled_data_file)
+
+flog.info("Loaded data file: %s", pop_data_file, name='cl')
+flog.info("Loaded data file: %s", sampled_data_file, name='cl')
 
 flog.info("Beginning classification analysis of equifinality-3 data sets", name='cl')
 
@@ -40,19 +51,21 @@ num_cores <- get_parallel_cores_given_os(dev=TRUE)
 flog.info("Number of cores used in analysis: %s", num_cores, name='cl')
 registerDoMC(cores = num_cores)
 
-# load data frame, popsampled_results in object "eq3_pop_df" in the workspace
-# for dev, source the file "dev-Rprofile" first to set up a base data directory (yours may vary!)
+
+########### Training and Tuning Variables ##############
+
 #
-pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
-sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
+# Common training and tuning parameters for ctmixtures analysis
+#
+
+gbm_grid <- expand.grid(.interaction.depth = (1:6)*2,
+                        .n.trees = (1:10)*25, 
+                        .shrinkage = 0.05)
+
+training_control <- trainControl(method="repeatedcv", 
+                                 number=10, repeats=5)
 
 
-load(pop_data_file)
-load(sampled_data_file)
-
-
-flog.info("Loaded data file: %s", pop_data_file, name='cl')
-flog.info("Loaded data file: %s", sampled_data_file, name='cl')
 
 
 # make this repeatable - comment this out or change it to get a fresh analysis result
@@ -95,7 +108,8 @@ exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate"
 ####### 
 
 #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_pop_df, training_set_fraction, "two_class_label", exclude_columns)
+model <- train_gbm_classifier(eq3_pop_df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
+
 
 popsampled_results_model[["population_census"]] <- model$tunedmodel
 
@@ -139,8 +153,7 @@ exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate"
 ####### 
 
 #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_sampled_10, training_set_fraction, "two_class_label", exclude_columns)
-
+model <- train_gbm_classifier(eq3_sampled_10, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
 popsampled_results_model[["sampled_10"]] <- model$tunedmodel
 
 # use the test data split by the train_randomforest function and calculate tuned model predictions
@@ -174,7 +187,7 @@ exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate"
 ####### 
 
 #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_sampled_20, training_set_fraction, "two_class_label", exclude_columns)
+model <- train_gbm_classifier(eq3_sampled_20, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
 
 popsampled_results_model[["sampled_20"]] <- model$tunedmodel
 

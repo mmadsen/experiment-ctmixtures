@@ -6,6 +6,8 @@ library(futile.logger)
 library(dplyr)
 library(ggthemes)
 
+
+
 # Train and tune random forest classifiers for each of the three data sets coming out of the experiment
 # "equifinality-3", for binary analysis. 
 #
@@ -13,17 +15,21 @@ library(ggthemes)
 # can predict with all the data.  BUT, we treat duration as an unknown parameter, while sample size is visible
 # to the analysis (and the archaeologis)
 
-clargs <- commandArgs(trailingOnly = TRUE)
-if(length(clargs) == 0) {
-  clargs <- NULL
-}
-
-
-
 
 # Set up logging
 log_file <- "combined-tasampled-classification.log"
 flog.appender(appender.file(log_file), name='cl')
+
+clargs <- commandArgs(trailingOnly = TRUE)
+if(length(clargs) == 0) {
+  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
+} else {
+  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
+}
+
+load(ta_sampled_data_file)
+flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+
 
 flog.info("Beginning classification analysis of equifinality-3 data sets for combined tasampled with hidden duration", name='cl')
 
@@ -32,13 +38,18 @@ num_cores <- get_parallel_cores_given_os(dev=TRUE)
 flog.info("Number of cores used in analysis: %s", num_cores, name='cl')
 registerDoMC(cores = num_cores)
 
-# load data frame, combined_results in object "eq3_pop_df" in the workspace
-# for dev, source the file "dev-Rprofile" first to set up a base data directory (yours may vary!)
-#
-ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
-load(ta_sampled_data_file)
-flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+########### Training and Tuning Variables ##############
 
+#
+# Common training and tuning parameters for ctmixtures analysis
+#
+
+gbm_grid <- expand.grid(.interaction.depth = (1:6)*2,
+                        .n.trees = (1:10)*25, 
+                        .shrinkage = 0.05)
+
+training_control <- trainControl(method="repeatedcv", 
+                                 number=10, repeats=5)
 
 # make this repeatable - comment this out or change it to get a fresh analysis result
 seed_value <- 58132133
@@ -84,7 +95,7 @@ eq3_downsampled_df$two_class_label <- factor(ifelse(eq3_downsampled_df$model_cla
 exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "ta_duration")
 
 #model <- train_randomforest(eq3_downsampled_df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_downsampled_df, training_set_fraction, "two_class_label", exclude_columns)
+model <- train_gbm_classifier(eq3_downsampled_df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
 
 combined_tassize_results_model[["combined_tassize"]] <- model$tunedmodel
 

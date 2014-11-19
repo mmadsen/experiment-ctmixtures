@@ -14,14 +14,29 @@ library(ggthemes)
 
 ############### Set up Execution Environment #############
 
-clargs <- commandArgs(trailingOnly = TRUE)
-if(length(clargs) == 0) {
-  clargs <- NULL
-}
-
 # Set up logging
 log_file <- "biased-model-classification.log"
 flog.appender(appender.file(log_file), name='cl')
+
+clargs <- commandArgs(trailingOnly = TRUE)
+if(length(clargs) == 0) {
+  pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda")
+  sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda")
+  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
+} else {
+  pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
+  sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
+  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
+}
+
+load(pop_data_file)
+load(sampled_data_file)
+load(ta_sampled_data_file)
+flog.info("Loaded data file: %s", pop_data_file, name='cl')
+flog.info("Loaded data file: %s", sampled_data_file, name='cl')
+flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+
+
 
 flog.info("Beginning classification analysis of biased models from equifinality-3 data sets", name='cl')
 
@@ -30,18 +45,8 @@ num_cores <- get_parallel_cores_given_os(dev=TRUE)
 flog.info("Number of cores used in analysis: %s", num_cores, name='cl')
 registerDoMC(cores = num_cores)
 
-# load data frame, results in object "eq3_pop_df" in the workspace
-# for dev, source the file "dev-Rprofile" first to set up a base data directory (yours may vary!)
-#
-pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
-sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
-ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
-load(pop_data_file)
-load(sampled_data_file)
-load(ta_sampled_data_file)
-flog.info("Loaded data file: %s", pop_data_file, name='cl')
-flog.info("Loaded data file: %s", sampled_data_file, name='cl')
-flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+
+
 
 # make this repeatable - comment this out or change it to get a fresh analysis result
 seed_value <- 58132133
@@ -51,6 +56,20 @@ flog.info("RNG seed to replicate this analysis: %s", seed_value, name='cl')
 # Set up sampling of train and test data sets
 training_set_fraction <- 0.8
 test_set_fraction <- 1.0 - training_set_fraction
+
+########### Training and Tuning Variables ##############
+
+#
+# Common training and tuning parameters for ctmixtures analysis
+#
+
+gbm_grid <- expand.grid(.interaction.depth = (1:6)*2,
+                        .n.trees = (1:10)*25, 
+                        .shrinkage = 0.05)
+
+training_control <- trainControl(method="repeatedcv", 
+                                 number=10, repeats=5)
+
 
 
 
@@ -86,7 +105,8 @@ exclude_columns <- c("simulation_run_id", "innovation_rate")
 
 ## Train Model ##
 
-bias_dominance_model <- train_gbm_classifier(eq3_pop_biasdom_df, training_set_fraction, "model_class_label", exclude_columns)
+bias_dominance_model <- train_gbm_classifier(eq3_pop_biasdom_df, training_set_fraction, "model_class_label", 
+                                             gbm_grid, training_control, exclude_columns, verbose=TRUE)
 bias_results_model[["bias_dominance_model"]] <- bias_dominance_model$tunedmodel
 
 ## Evaluate Model Performance ##
@@ -136,7 +156,8 @@ exclude_columns <- c("simulation_run_id", "innovation_rate", "sample_size")
 
 ## Train Model ##
 
-bias_dominance_20_model <- train_gbm_classifier(eq3_sampled_biasdom_20_df, training_set_fraction, "model_class_label", exclude_columns)
+bias_dominance_20_model <- train_gbm_classifier(eq3_sampled_biasdom_20_df, training_set_fraction, "model_class_label", 
+                                                gbm_grid, training_control, exclude_columns, verbose=TRUE)
 bias_results_model[["bias_dominance_20_model"]] <- bias_dominance_20_model$tunedmodel
 
 ## Evaluate Model Performance ##

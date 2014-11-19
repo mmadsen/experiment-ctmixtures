@@ -28,3 +28,15 @@ INFO [2014-11-17 19:26:23] Loaded data file: /Users/mark/local-research/diss/exp
 INFO [2014-11-17 19:26:23] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
 INFO [2014-11-17 19:26:23] RNG seed to replicate this analysis: 58132133
 INFO [2014-11-17 19:26:23] Starting analysis of population census data
+INFO [2014-11-18 21:08:40] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-18 21:08:40] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-18 21:08:40] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-18 21:08:40] Number of cores used in analysis: 4
+INFO [2014-11-18 21:08:40] RNG seed to replicate this analysis: 58132133
+INFO [2014-11-18 21:08:40] Starting analysis of population census data
+INFO [2014-11-18 21:11:39] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-population-data.rda
+INFO [2014-11-18 21:11:39] Loaded data file: /Users/mark/local-research/diss/experiments/experiment-ctmixtures/equifinality-3/equifinality-3-sampled-data.rda
+INFO [2014-11-18 21:11:39] Beginning classification analysis of equifinality-3 data sets
+INFO [2014-11-18 21:11:39] Number of cores used in analysis: 4
+INFO [2014-11-18 21:11:39] RNG seed to replicate this analysis: 58132133
+INFO [2014-11-18 21:11:39] Starting analysis of population census data
