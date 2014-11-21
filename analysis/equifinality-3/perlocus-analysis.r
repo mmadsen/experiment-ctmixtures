@@ -8,27 +8,33 @@ library(ggthemes)
 
 
 
-# Train and tune random forest classifiers for each of the three data sets coming out of the experiment
-# "equifinality-3", for binary analysis. 
-#
-# In this analysis, we keep all of the sample sizes and ta duration samples together, to see how accurate we 
-# can predict with all the data.  BUT, we treat duration as an unknown parameter, while sample size is visible
-# to the analysis (and the archaeologis)
+# ANALYSIS:  Per-locus statistics only, no classification data
+
 
 
 # Set up logging
-log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "combined-tasampled-classification.log")
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "per-locus-only-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-population-data.rda")
+  sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-sampled-data.rda")
   ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
 } else {
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
+  sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
   ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
 }
 
+load(pop_data_file)
+load(sampled_data_file)
 load(ta_sampled_data_file)
+flog.info("Loaded data file: %s", pop_data_file, name='cl')
+flog.info("Loaded data file: %s", sampled_data_file, name='cl')
 flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+
+
 
 
 flog.info("Beginning classification analysis of equifinality-3 data sets for combined tasampled with hidden duration", name='cl')
@@ -138,3 +144,4 @@ flog.info("Analysis complete", name='cl')
 
 
 
+plot

@@ -15,18 +15,18 @@ library(ggthemes)
 ############### Set up Execution Environment #############
 
 # Set up logging
-log_file <- "biased-model-classification.log"
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "biasedmodels-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
-  pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda")
-  sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda")
-  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-population-data.rda")
+  sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-sampled-data.rda")
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
 } else {
-  pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
-  sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
-  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
+  sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
 }
 
 load(pop_data_file)
@@ -94,8 +94,8 @@ exp_name <- experiment_names[i]
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
 
-eq3_pop_biased <- filter(eq3_pop_df, model_class_label != 'allneutral')
-eq3_pop_biasdom_df <- filter(eq3_pop_biased, model_class_label != 'mixconfequal')
+eq3_pop_biased <- dplyr::filter(eq3_pop_df, model_class_label != 'allneutral')
+eq3_pop_biasdom_df <- dplyr::filter(eq3_pop_biased, model_class_label != 'mixconfequal')
 eq3_pop_biasdom_df$model_class_label = factor(eq3_pop_biasdom_df$model_class_label, levels = c("mixconfdom", "mixantidom"))
 
 # Two labels are left:  mixconfdom and mixantidom
@@ -106,7 +106,7 @@ exclude_columns <- c("simulation_run_id", "innovation_rate")
 ## Train Model ##
 
 bias_dominance_model <- train_gbm_classifier(eq3_pop_biasdom_df, training_set_fraction, "model_class_label", 
-                                             gbm_grid, training_control, exclude_columns, verbose=TRUE)
+                                             gbm_grid, training_control, exclude_columns, verbose=FALSE)
 bias_results_model[["bias_dominance_model"]] <- bias_dominance_model$tunedmodel
 
 ## Evaluate Model Performance ##
@@ -144,9 +144,9 @@ exp_name <- experiment_names[i]
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
 
-eq3_sampled_20 <- filter(eq3_sampled_df, sample_size == 20)
-eq3_sampled_bias_20 <- filter(eq3_sampled_20, model_class_label != 'allneutral')
-eq3_sampled_biasdom_20_df <- filter(eq3_sampled_bias_20, model_class_label != 'mixconfequal')
+eq3_sampled_20 <- dplyr::filter(eq3_sampled_df, sample_size == 20)
+eq3_sampled_bias_20 <- dplyr::filter(eq3_sampled_20, model_class_label != 'allneutral')
+eq3_sampled_biasdom_20_df <- dplyr::filter(eq3_sampled_bias_20, model_class_label != 'mixconfequal')
 eq3_sampled_biasdom_20_df$model_class_label = factor(eq3_sampled_biasdom_20_df$model_class_label, levels = c("mixconfdom", "mixantidom"))
 
 # Two labels are left:  mixconfdom and mixantidom
@@ -157,7 +157,7 @@ exclude_columns <- c("simulation_run_id", "innovation_rate", "sample_size")
 ## Train Model ##
 
 bias_dominance_20_model <- train_gbm_classifier(eq3_sampled_biasdom_20_df, training_set_fraction, "model_class_label", 
-                                                gbm_grid, training_control, exclude_columns, verbose=TRUE)
+                                                gbm_grid, training_control, exclude_columns, verbose=FALSE)
 bias_results_model[["bias_dominance_20_model"]] <- bias_dominance_20_model$tunedmodel
 
 ## Evaluate Model Performance ##
@@ -195,11 +195,11 @@ plot_multiple_roc_from_list(bias_results_roc)
 
 
 # save objects from the environment
-image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-bias-model-comparisons-gbm.RData", args = clargs)
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-bias-model-comparisons-gbm.RData", args = clargs)
 flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
 save(bias_results, bias_results_roc, bias_results_model, bias_results_cm, file=image_file)
 
-image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-bias-model-comparisons-gbm-dfonly.RData", args = clargs)
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-bias-model-comparisons-gbm-dfonly.RData", args = clargs)
 flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
 save(bias_results, file=image_file)
 

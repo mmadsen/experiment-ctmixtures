@@ -13,21 +13,21 @@ library(ggthemes)
 #
 
 get_tassize_subset_ssize_tadur <- function(df, ssize, tadur) {
-  df_tassize_subset <- filter(df, sample_size == ssize, ta_duration == tadur)
+  df_tassize_subset <- dplyr::filter(df, sample_size == ssize, ta_duration == tadur)
   df_tassize_subset
 }
 
 
 # Set up logging
-log_file <- "ta-sampled-classification.log"
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "tasampled-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
-  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
 } else {
-  ta_sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
 }
 
 load(ta_sampled_data_file)
@@ -131,7 +131,7 @@ for( i in 1:nrow(tassize_subsets)) {
   print(sprintf("row %d:  sample size: %d  ta duration: %d numrows: %d", i, tassize_subsets[i, "sample_size"], tassize_subsets[i, "ta_duration"], nrow(df)))
   
   #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-  model <- train_gbm_classifier(df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
+  model <- train_gbm_classifier(df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
   
   tassize_subset_model[[exp_name]] <- model$tunedmodel
   
@@ -176,14 +176,14 @@ plot_multiple_roc_from_list(tassize_subset_roc)
 ############## Complete Processing and Save Results ##########3
 
 #save objects from the environment
-image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-ta-sampled-results-gbm.RData", args = clargs)
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-ta-sampled-results-gbm.RData", args = clargs)
 flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
 save(tassize_subsets_results, tassize_subset_cm, tassize_subset_model, 
   tassize_subset_roc, tassize_subset_roc_ssize_10, tassize_subset_roc_ssize_20, file=image_file)
 
 
 # save just the results data frame 
-image_file_results <- get_data_path(suffix = "equifinality-3", filename = "classification-ta-sampled-results-gbm-dfonly.RData", args = clargs)
+image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-ta-sampled-results-gbm-dfonly.RData", args = clargs)
 flog.info("Saving just data frame of results of analysis to R environment snapshot: %s", image_file_results, name='cl')
 save(tassize_subsets_results, file=image_file_results)
 

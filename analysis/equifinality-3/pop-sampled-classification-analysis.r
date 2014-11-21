@@ -26,16 +26,16 @@ library(ggthemes)
 # options.  
 
 # Set up logging
-log_file <- "pop-sampled-classification.log"
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "popsampled-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
-  pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda")
-  sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda")
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-population-data.rda")
+  sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-sampled-data.rda")
 } else {
-  pop_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
-  sampled_data_file <- get_data_path(suffix = "equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
+  sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
 }
 
 load(pop_data_file)
@@ -108,7 +108,7 @@ exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate"
 ####### 
 
 #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_pop_df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
+model <- train_gbm_classifier(eq3_pop_df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
 
 
 popsampled_results_model[["population_census"]] <- model$tunedmodel
@@ -144,7 +144,7 @@ eq3_sampled_df$two_class_label <- factor(ifelse(eq3_sampled_df$model_class_label
 i <- 2
 exp_name <- experiment_names[i]
 
-eq3_sampled_10 <- filter(eq3_sampled_df, sample_size == 10)
+eq3_sampled_10 <- dplyr::filter(eq3_sampled_df, sample_size == 10)
 
 # remove fields from analysis that aren't predictors, and the detailed label with 4 classes
 exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "sample_size")
@@ -153,7 +153,7 @@ exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate"
 ####### 
 
 #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_sampled_10, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
+model <- train_gbm_classifier(eq3_sampled_10, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
 popsampled_results_model[["sampled_10"]] <- model$tunedmodel
 
 # use the test data split by the train_randomforest function and calculate tuned model predictions
@@ -178,7 +178,7 @@ popsampled_results <- rbind(popsampled_results, results)
 i <- 3
 exp_name <- experiment_names[i]
 
-eq3_sampled_20 <- filter(eq3_sampled_df, sample_size == 20)
+eq3_sampled_20 <- dplyr::filter(eq3_sampled_df, sample_size == 20)
 
 # remove fields from analysis that aren't predictors, and the detailed label with 4 classes
 exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "sample_size")
@@ -187,7 +187,7 @@ exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate"
 ####### 
 
 #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_sampled_20, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=TRUE)
+model <- train_gbm_classifier(eq3_sampled_20, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
 
 popsampled_results_model[["sampled_20"]] <- model$tunedmodel
 
@@ -216,13 +216,13 @@ popsampled_results <- rbind(popsampled_results, results)
 #plot_multiple_roc_from_list(popsampled_results_roc)
 
 # save objects from the environment
-image_file <- get_data_path(suffix = "equifinality-3", 
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
                             filename = "classification-pop-sampled-popsampled_results-gbm.RData", args = clargs)
 flog.info("Saving popsampled_results of analysis to R environment snapshot: %s", image_file, name='cl')
 save(popsampled_results, popsampled_results_model, popsampled_results_roc, popsampled_results_cm, file=image_file)
 
 # save just the popsampled_results data frame 
-image_file_popsampled_results <- get_data_path(suffix = "equifinality-3", 
+image_file_popsampled_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
                                                filename = "classification-pop-sampled-popsampled_results-gbm-dfonly.RData", args = clargs)
 flog.info("Saving just data frame of popsampled_results of analysis to R environment snapshot: %s", image_file_popsampled_results, name='cl')
 save(popsampled_results, file=image_file_popsampled_results)
