@@ -193,19 +193,39 @@ bias_results <- rbind(bias_results, results)
 plot_multiple_roc_from_list(bias_results_roc)
 
 
+bias_results <- data.frame()
+bias_results_roc <- NULL
+bias_results_model <- NULL
+bias_results_cm <- NULL
 
 # save objects from the environment
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-bias-model-comparisons-gbm.RData", args = clargs)
-flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
-save(bias_results, bias_results_roc, bias_results_model, bias_results_cm, file=image_file)
 
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-bias-model-comparisons-gbm-dfonly.RData", args = clargs)
-flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
-save(bias_results, file=image_file)
+# save objects from the environment
+if(length(clargs) == 0) {
+  
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                              filename = "bias-model-comparisons-gbm.RData")
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                                      filename = "bias-model-comparisons-gbm-dfonly.RData")
+  
+  
+} else {
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                              filename = "bias-model-comparisons-gbm.RData", args = clargs)
+  
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                                      filename = "bias-model-comparisons-gbm-dfonly.RData", args = clargs)
+}
+
+flog.info("Saving combined_results of analysis to R environment snapshot: %s", image_file, name='cl')
+save(bias_results, bias_results_model, bias_results_roc, bias_results_cm, file=image_file)
+
+flog.info("Saving just data frame of results of analysis to R environment snapshot: %s", image_file_results, name='cl')
+save(bias_results, file=image_file_results)  
 
 
 # End
-flog.info("Analysis complete", name='cl')
+flog.info("Analysis bias comparison complete", name='cl')
 
 
 

@@ -122,14 +122,27 @@ combined_tassize_results <- rbind(combined_tassize_results, results)
 ############## Complete Processing and Save combined_results ##########3
 
 # save objects from the environment
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-combined-tassize-combined_results-gbm.RData",
-                            args = clargs)
+
+if(length(clargs) == 0) {
+  
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                              filename = "classification-combined-tassize-combined_results-gbm.RData")
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                                      filename = "classification-combined-tassize-result-gbm-dfonly.RData")
+  
+  
+} else {
+  
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                              filename = "classification-combined-tassize-combined_results-gbm.RData", args = clargs)
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                                      filename = "classification-combined-tassize-result-gbm-dfonly.RData", args = clargs)
+}
+
+
 flog.info("Saving combined_results of analysis to R environment snapshot: %s", image_file, name='cl')
 save(combined_tassize_results, combined_tassize_results_model, combined_tassize_results_cm, combined_tassize_results_roc, file=image_file)
 
-# save just the results data frame 
-image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
-                                    filename = "classification-combined-tassize-result-gbm-dfonly.RData", args = clargs)
 flog.info("Saving just data frame of results of analysis to R environment snapshot: %s", image_file_results, name='cl')
 save(combined_tassize_results, file=image_file_results)
 
@@ -138,3 +151,4 @@ flog.info("Analysis complete", name='cl')
 
 
 
+plot

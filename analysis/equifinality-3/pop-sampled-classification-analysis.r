@@ -215,15 +215,25 @@ popsampled_results <- rbind(popsampled_results, results)
 # as well as graph various of the metrics as they vary across sample size and TA duratio
 #plot_multiple_roc_from_list(popsampled_results_roc)
 
-# save objects from the environment
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
-                            filename = "classification-pop-sampled-popsampled_results-gbm.RData", args = clargs)
+if(length(clargs) == 0) {
+  
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                              filename = "classification-pop-sampled_results-gbm.RData")
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                                      filename = "classification-pop-sampled_results-gbm-dfOnly.RData")
+  
+  
+} else {
+  
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                              filename = "classification-pop-sampled_results-gbm.RData", args = clargs)
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                                      filename = "classification-pop-sampled_results-gbm-dfOnly.RData", args = clargs)
+}
+
 flog.info("Saving popsampled_results of analysis to R environment snapshot: %s", image_file, name='cl')
 save(popsampled_results, popsampled_results_model, popsampled_results_roc, popsampled_results_cm, file=image_file)
 
-# save just the popsampled_results data frame 
-image_file_popsampled_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
-                                               filename = "classification-pop-sampled-popsampled_results-gbm-dfonly.RData", args = clargs)
 flog.info("Saving just data frame of popsampled_results of analysis to R environment snapshot: %s", image_file_popsampled_results, name='cl')
 save(popsampled_results, file=image_file_popsampled_results)
 

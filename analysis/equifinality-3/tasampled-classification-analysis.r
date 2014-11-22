@@ -176,14 +176,26 @@ plot_multiple_roc_from_list(tassize_subset_roc)
 ############## Complete Processing and Save Results ##########3
 
 #save objects from the environment
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-ta-sampled-results-gbm.RData", args = clargs)
+
+if(length(clargs) == 0) {
+  
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                              filename = "classification-ta-sampled-results-gbm.RData")
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                                      filename = "classification-ta-sampled-results-gbm-dfonly.RData")
+  
+  
+} else {
+  
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                              filename = "classification-ta-sampled-results-gbm.RData", args = clargs)
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+                                      filename = "classification-ta-sampled-results-gbm-dfonly.RData", args = clargs)
+}
+
 flog.info("Saving results of analysis to R environment snapshot: %s", image_file, name='cl')
 save(tassize_subsets_results, tassize_subset_cm, tassize_subset_model, 
-  tassize_subset_roc, tassize_subset_roc_ssize_10, tassize_subset_roc_ssize_20, file=image_file)
-
-
-# save just the results data frame 
-image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "classification-ta-sampled-results-gbm-dfonly.RData", args = clargs)
+     tassize_subset_roc, tassize_subset_roc_ssize_10, tassize_subset_roc_ssize_20, file=image_file)
 flog.info("Saving just data frame of results of analysis to R environment snapshot: %s", image_file_results, name='cl')
 save(tassize_subsets_results, file=image_file_results)
 
