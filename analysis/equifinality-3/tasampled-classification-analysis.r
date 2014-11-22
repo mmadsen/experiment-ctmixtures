@@ -171,7 +171,7 @@ tassize_subset_roc_ssize_10 <- tassize_subset_roc_ssize_10[-(which(sapply(tassiz
 
 # we can now use plot_multiple_roc() to plot all the ROC curves on the same plot, etc.  
 # as well as graph various of the metrics as they vary across sample size and TA duratio
-plot_multiple_roc_from_list(tassize_subset_roc)
+#plot_multiple_roc_from_list(tassize_subset_roc)
 
 ############## Complete Processing and Save Results ##########3
 

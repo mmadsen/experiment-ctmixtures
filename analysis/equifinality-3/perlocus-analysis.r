@@ -37,9 +37,10 @@ flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
 
 
 
-flog.info("Beginning classification analysis of equifinality-3 data sets for combined tasampled with hidden duration", name='cl')
+flog.info("Beginning classification analysis of equifinality-3 data sets for per-locus only predictors", name='cl')
 
 # set up parallel processing - use all the cores (unless it's a dev laptop under OS X) - from mmadsenr
+# dev = TRUE gets ignored on a Linux server and uses the full set of cores
 num_cores <- get_parallel_cores_given_os(dev=TRUE)
 flog.info("Number of cores used in analysis: %s", num_cores, name='cl')
 registerDoMC(cores = num_cores)
@@ -69,11 +70,11 @@ test_set_fraction <- 1.0 - training_set_fraction
 
 
 # set up combined_results data frames
-experiment_names <- c("All Sample Sizes and TA Durations")
-combined_tassize_results <- data.frame()
-combined_tassize_results_roc <- NULL
-combined_tassize_results_model <- NULL
-combined_tassize_results_cm <- NULL
+experiment_names <- c("Per-Locus Population Census", "Per-Locus Sampled 10%", "Per-Locus Sampled 20%")
+perlocus_results <- data.frame()
+perlocus_results_roc <- NULL
+perlocus_results_model <- NULL
+perlocus_results_cm <- NULL
 
 ###### Population Data ######
 
@@ -84,26 +85,20 @@ i <- 1
 exp_name <- experiment_names[i]
 
 
-# We want to downsample the full 800K points down to 100K, so that we have the same balance of under/overfitting
-# with this analysis as all the other analyses which use 100K points.  We do that using a stratified random 
-# sample by model class, to ensure good proportional representation for the classifier
-sample_rows <- createDataPartition(eq3_ta_sampled_df$model_class_label, p = 1/8, list = FALSE)
-eq3_downsampled_df <- eq3_ta_sampled_df[sample_rows,]
-
 
 # prepare data
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
-eq3_downsampled_df$two_class_label <- factor(ifelse(eq3_downsampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
+eq3_pop_df$two_class_label <- factor(ifelse(eq3_pop_df$model_class_label == 'allneutral', 'neutral', 'biased'))
 
 
 # remove fields from analysis that aren't predictors, and the detailed label with 4 classes
-exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "ta_duration")
+exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "configuration_slatkin", "num_trait_configurations")
 
-#model <- train_randomforest(eq3_downsampled_df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_downsampled_df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
+#model <- train_randomforest(eq3_pop_df, training_set_fraction, fit_grid, fit_control, exclude_columns)
+model <- train_gbm_classifier(eq3_pop_df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
 
-combined_tassize_results_model[["combined_tassize"]] <- model$tunedmodel
+perlocus_results_model[["perlocus_pop"]] <- model$tunedmodel
 
 # use the test data split by the train_randomforest function and calculate tuned model predictions
 # and then get the confusion matrix and fitting metrics
@@ -112,18 +107,115 @@ cm <- confusionMatrix(predictions, model$test_data$two_class_label)
 results <- get_parsed_binary_confusion_matrix_stats(cm)
 results$experiments <- exp_name
 results$elapsed <- model$elapsed
-combined_tassize_results_cm[["combined_tassize"]] <- cm
+perlocus_results_cm[["perlocus_pop"]] <- cm
 
 # All other analyses record these
 results$sample_size <- 0
 results$ta_duration <- 0
 
 # calculate a ROC curve
-combined_tassize_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Combined Sample Sizes and Durations")
-results$auc <- unlist(combined_tassize_roc$auc@y.values)
-combined_tassize_results_roc[["combined_tassize"]] <- combined_tassize_roc
+perlocus_pop_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Combined Sample Sizes and Durations")
+results$auc <- unlist(perlocus_pop_roc$auc@y.values)
+perlocus_results_roc[["perlocus_pop"]] <- perlocus_pop_roc
 
-combined_tassize_results <- rbind(combined_tassize_results, results)
+perlocus_results <- rbind(perlocus_results, results)
+
+
+
+###### Sampled Data 10% ######
+
+flog.info("Starting analysis of sampled data without per-locus values only", name='cl')
+
+# first row of combined_results
+i <- 2
+exp_name <- experiment_names[i]
+
+
+eq3_sampled_10 <- dplyr::filter(eq3_sampled_df, sample_size == 10)
+
+
+# prepare data
+# create a label combining the biased models into one
+# then, split into training and test sets, with balanced samples for each of the binary classes
+eq3_sampled_10$two_class_label <- factor(ifelse(eq3_sampled_10$model_class_label == 'allneutral', 'neutral', 'biased'))
+
+
+# remove fields from analysis that aren't predictors, and the detailed label with 4 classes
+exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "configuration_slatkin", "num_trait_configurations", "sample_size")
+
+#model <- train_randomforest(eq3_sampled_10, training_set_fraction, fit_grid, fit_control, exclude_columns)
+model <- train_gbm_classifier(eq3_sampled_10, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
+
+perlocus_results_model[["perlocus_sampled_10"]] <- model$tunedmodel
+
+# use the test data split by the train_randomforest function and calculate tuned model predictions
+# and then get the confusion matrix and fitting metrics
+predictions <- predict(model$tunedmodel, newdata=model$test_data)
+cm <- confusionMatrix(predictions, model$test_data$two_class_label)
+results <- get_parsed_binary_confusion_matrix_stats(cm)
+results$experiments <- exp_name
+results$elapsed <- model$elapsed
+perlocus_results_cm[["perlocus_sampled_10"]] <- cm
+
+# All other analyses record these
+results$sample_size <- 10
+results$ta_duration <- 0
+
+# calculate a ROC curve
+perlocus_sampled_10_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Combined Sample Sizes and Durations")
+results$auc <- unlist(perlocus_sampled_10_roc$auc@y.values)
+perlocus_results_roc[["perlocus_sampled_10"]] <- perlocus_sampled_10_roc
+
+perlocus_results <- rbind(perlocus_results, results)
+
+
+###### Sampled Data 20% ######
+
+flog.info("Starting analysis of sampled data without per-locus values only", name='cl')
+
+# first row of combined_results
+i <- 2
+exp_name <- experiment_names[i]
+
+
+eq3_sampled_20 <- dplyr::filter(eq3_sampled_df, sample_size == 10)
+
+
+# prepare data
+# create a label combining the biased models into one
+# then, split into training and test sets, with balanced samples for each of the binary classes
+eq3_sampled_20$two_class_label <- factor(ifelse(eq3_sampled_20$model_class_label == 'allneutral', 'neutral', 'biased'))
+
+
+# remove fields from analysis that aren't predictors, and the detailed label with 4 classes
+exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "configuration_slatkin", "num_trait_configurations", "sample_size")
+
+#model <- train_randomforest(eq3_sampled_20, training_set_fraction, fit_grid, fit_control, exclude_columns)
+model <- train_gbm_classifier(eq3_sampled_20, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
+
+perlocus_results_model[["perlocus_sampled_20"]] <- model$tunedmodel
+
+# use the test data split by the train_randomforest function and calculate tuned model predictions
+# and then get the confusion matrix and fitting metrics
+predictions <- predict(model$tunedmodel, newdata=model$test_data)
+cm <- confusionMatrix(predictions, model$test_data$two_class_label)
+results <- get_parsed_binary_confusion_matrix_stats(cm)
+results$experiments <- exp_name
+results$elapsed <- model$elapsed
+perlocus_results_cm[["perlocus_sampled_20"]] <- cm
+
+# All other analyses record these
+results$sample_size <- 20
+results$ta_duration <- 0
+
+# calculate a ROC curve
+perlocus_sampled_20_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Combined Sample Sizes and Durations")
+results$auc <- unlist(perlocus_sampled_20_roc$auc@y.values)
+perlocus_results_roc[["perlocus_sampled_20"]] <- perlocus_sampled_10_roc
+
+perlocus_results <- rbind(perlocus_results, results)
+
+
 
 ############## Complete Processing and Save combined_results ##########3
 
@@ -145,10 +237,10 @@ if(length(clargs) == 0) {
 }
 
 flog.info("Saving combined_results of analysis to R environment snapshot: %s", image_file, name='cl')
-save(combined_tassize_results, combined_tassize_results_model, combined_tassize_results_cm, combined_tassize_results_roc, file=image_file)
+save(perlocus_results, perlocus_results_model, perlocus_results_cm, perlocus_results_roc, file=image_file)
 
 flog.info("Saving just data frame of results of analysis to R environment snapshot: %s", image_file_results, name='cl')
-save(combined_tassize_results, file=image_file_results)  
+save(perlocus_results, file=image_file_results)  
 
 # End
 flog.info("Analysis complete", name='cl')

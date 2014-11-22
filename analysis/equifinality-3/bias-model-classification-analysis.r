@@ -190,13 +190,8 @@ bias_results <- rbind(bias_results, results)
 
 # we can now use plot_multiple_roc() to plot all the ROC curves on the same plot, etc.  
 # as well as graph various of the metrics as they vary across sample size and TA duration
-plot_multiple_roc_from_list(bias_results_roc)
+#plot_multiple_roc_from_list(bias_results_roc)
 
-
-bias_results <- data.frame()
-bias_results_roc <- NULL
-bias_results_model <- NULL
-bias_results_cm <- NULL
 
 # save objects from the environment
 
