@@ -114,7 +114,7 @@ results$sample_size <- 0
 results$ta_duration <- 0
 
 # calculate a ROC curve
-perlocus_pop_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Combined Sample Sizes and Durations")
+perlocus_pop_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", exp_name)
 results$auc <- unlist(perlocus_pop_roc$auc@y.values)
 perlocus_results_roc[["perlocus_pop"]] <- perlocus_pop_roc
 
@@ -162,7 +162,7 @@ results$sample_size <- 10
 results$ta_duration <- 0
 
 # calculate a ROC curve
-perlocus_sampled_10_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Combined Sample Sizes and Durations")
+perlocus_sampled_10_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", exp_name)
 results$auc <- unlist(perlocus_sampled_10_roc$auc@y.values)
 perlocus_results_roc[["perlocus_sampled_10"]] <- perlocus_sampled_10_roc
 
@@ -174,7 +174,7 @@ perlocus_results <- rbind(perlocus_results, results)
 flog.info("Starting analysis of sampled data without per-locus values only", name='cl')
 
 # first row of combined_results
-i <- 2
+i <- 3
 exp_name <- experiment_names[i]
 
 
@@ -209,7 +209,7 @@ results$sample_size <- 20
 results$ta_duration <- 0
 
 # calculate a ROC curve
-perlocus_sampled_20_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", "Combined Sample Sizes and Durations")
+perlocus_sampled_20_roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", exp_name)
 results$auc <- unlist(perlocus_sampled_20_roc$auc@y.values)
 perlocus_results_roc[["perlocus_sampled_20"]] <- perlocus_sampled_10_roc
 
