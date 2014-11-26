@@ -7,39 +7,52 @@
 #
 library(mmadsenr)
 
-# load intermediate results from classifications
-load(get_data_path(suffix = "equifinality-3", filename = "classification-combined-tassize-result-gbm-dfonly.RData"))
-load(get_data_path(suffix = "equifinality-3", filename = "classification-pop-sampled-results-gbm-dfonly.RData"))
-load(get_data_path(suffix = "equifinality-3", filename = "classification-ta-sampled-results-gbm-dfonly.RData"))
+results_files <- c(
+  "classification-combined-tassize-result-gbm-dfonly.RData",
+  "classification-pop-sampled_results-gbm-dfonly.RData",
+  "classification-ta-sampled-results-gbm-dfonly.RData",
+  "per-locus-analysis-gbm-dfonly.RData",
+  "perlocus-tassize-results-gbm-dfonly.RData"
+  )
+
+for(file in results_files) {
+  load(get_data_path(suffix = "experiment-ctmixtures/equifinality-3/results", filename = file))
+}
 
 
 # Step #1:  Add sample size and ta duration columns to the results data frame
-results$sample_size[1] <- 0
-results$sample_size[2] <- 10
-results$sample_size[3] <- 20
-results$ta_duration[1] <- 0  # this broadcasts 0 to the entire column
+popsampled_results$sample_size[1] <- 0
+popsampled_results$sample_size[2] <- 10
+popsampled_results$sample_size[3] <- 20
+popsampled_results$ta_duration[1] <- 0  # this broadcasts 0 to the entire column
 
 
-# make a copy of subsets, we're going to nuke a column before the merge
-assign("subsets_copy", subsets)
-subsets_copy$dataframe_index <- NULL
+# Add an "experiment group" to each df before merging, to be used in visually distinguishing the classes
+
+popsampled_results$exp_group <- '' 
+perlocus_results$exp_group <- ''
+combined_tassize_results$exp_group <- '' 
+tassize_perlocus_results$exp_group <- ''
+tassize_subsets_results$exp_group <- ''
+
+
+
+
+
+
 
 # now merge the two into a single dataframe
-classifier_results <- rbind(subsets_copy, results)
-classifier_results <- rbind(classifier_results, combined_results)
-# need to add misclassification_rate since the original two analyses grabbed info from confusionMatrix objects manually
-classifier_results$misclassification_rate <- 1.0 - classifier_results$accuracy
+classifier_results <- rbind(popsampled_results, 
+                            perlocus_results, 
+                            combined_tassize_results, 
+                            tassize_perlocus_results, 
+                            tassize_subsets_results)
 
-
-# # Now combine the ROC objects into a single list
-# classifier_roc <- c(results_roc, subset_roc)
-# # Combine the fitted models for later use -- in the order of analysis in each script
-# classifier_models <- c(results_model, subset_model)
 
 ############## Complete Processing and Save Results ##########3
 
 # save objects from the environment
-image_file <- get_data_path(suffix = "equifinality-3", filename = "classification-gbm-merged-results.RData")
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3/results", filename = "classification-gbm-merged-dfonly.RData")
 save(classifier_results, file=image_file)
 
 
