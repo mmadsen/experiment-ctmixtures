@@ -1,0 +1,15 @@
+\usepackage[%
+		shash={c9059fd},
+		lhash={c9059fdf5e7557ab0ef9940ec7e9c969bb38f874},
+		authname={Mark Madsen},
+		authemail={mark@madsenlab.org},
+		authsdate={2014-12-01},
+		authidate={2014-12-01 08:30:12 -0800},
+		authudate={1417451412},
+		commname={Mark Madsen},
+		commemail={mark@madsenlab.org},
+		commsdate={2014-12-01},
+		commidate={2014-12-01 08:30:12 -0800},
+		commudate={1417451412},
+		refnames={ (HEAD, master)}
+	]{gitsetinfo}
