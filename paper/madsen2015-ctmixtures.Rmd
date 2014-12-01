@@ -31,26 +31,7 @@ In this paper, I demonstrate a systematic approach to identifying equifinality a
 In formulating a set of cultural transmission models to apply in explaining patterns visible in archaeological assemblages, we need to understand the degree to which the models are distinguishable given a set of variables we can measure on those assemblages.  Equifinality is thus not an absolute quantity, but a judgment of statistical distinguishability between two or more models $\mathcal{M}_1 \ldots \mathcal{M}_n$, given an inference method, and a set of measurable predictor variables $x_1, \ldots, x_n$.  Given a set of models and a set of empirically measurable variable, we can assess potential equifinality by employing Algorithm \ref{alg:classifier-equifinality}.  
 
 
-\begin{algorithm}[H]
-        \caption{}
-        \label{alg:classifier-equifinality}
-        \begin{algorithmic}[1]
-                %\REQUIRE lossrate is the population rate at which traits are randomly lost to drift
-                \REQUIRE innovrate is the population rate at which individuals randomly learn a trait
-                \REQUIRE learningrate is the probability of learning a missing prerequisite during a learning interaction
 
-                \STATE { $focal \leftarrow$ GetRandomAgent()}
-                \STATE { $neighbor \leftarrow$ GetRandomNeighbor(focal)}
-
-                \IF { $focal = neighbor \lor focal \cap neighbor = \varnothing\;\lor
-                neighbor \subsetneq focal $}
-                \label{alg:ext-first-if}
-                        \STATE { exit }
-                        \COMMENT{ No interaction is possible, move on to next agent }
-                \ENDIF
-
-        \end{algorithmic}
-\end{algorithm}
 
 
 ## Simulating Heterogeneous Cultural Transmission ##

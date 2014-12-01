@@ -29,11 +29,11 @@ popsampled_results$ta_duration[1] <- 0  # this broadcasts 0 to the entire column
 
 # Add an "experiment group" to each df before merging, to be used in visually distinguishing the classes
 
-popsampled_results$exp_group <- '' 
-perlocus_results$exp_group <- ''
-combined_tassize_results$exp_group <- '' 
-tassize_perlocus_results$exp_group <- ''
-tassize_subsets_results$exp_group <- ''
+popsampled_results$exp_group <- 'Population/Sampled' 
+perlocus_results$exp_group <- 'Population/Sampled Per-Locus Only'
+combined_tassize_results$exp_group <- 'Time Averaged and Sampled Combined Intervals' 
+tassize_perlocus_results$exp_group <- 'Time Averaged and Sampled Per-Locus Only'
+tassize_subsets_results$exp_group <- 'Time Averaged and Sampled'
 
 
 
@@ -47,6 +47,14 @@ classifier_results <- rbind(popsampled_results,
                             combined_tassize_results, 
                             tassize_perlocus_results, 
                             tassize_subsets_results)
+
+
+###### Add two useful statistics #######
+
+
+classifier_results$fdr <- 1.0 - classifier_results$ppv
+classifier_results$youdensj <- classifier_results$sensitivity + classifier_results$specificity - 1.0
+
 
 
 ############## Complete Processing and Save Results ##########3
