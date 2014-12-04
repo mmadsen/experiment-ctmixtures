@@ -1,4 +1,4 @@
-\documentclass[reprint,titlepage,authoryear,12pt]{elsarticle}
+\documentclass[reprint,titlepage,authoryear,times,12pt]{elsarticle}
 
 \usepackage[margin=1.25in]{geometry}
 
@@ -32,17 +32,14 @@
 \usepackage{lineno}
 \setcitestyle{aysep={}}
 
-\usepackage{madsen-packages}
-\usepackage{madsen-macros}
+% \usepackage{madsen-packages}
+% \usepackage{madsen-macros}
 
-
-%Editing and annotation Packages
-\usepackage[author=,draft]{fixme}
 %Version control with GIT
 \usepackage[]{gitinfo}
-\usepackage[section,ruled]{algorithm}
-\usepackage{algorithmic}
+\usepackage[ruled,lined,vlined]{algorithm2e}
 \usepackage{boxedminipage}
+\usepackage[colorinlistoftodos]{todonotes}
 
 \usepackage[xetex,bookmarks=true,linkcolor=blue,hyperfootnotes=false,breaklinks=true,citecolor=blue,colorlinks=true]{hyperref}
 \hypersetup{pdftitle={\doctitle},pdfauthor={Mark E. Madsen}}

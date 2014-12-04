@@ -28,7 +28,7 @@ The results indicate that while neutral and biased transmission models can be di
 
 # Materials and Methods
 
-In formulating a set of cultural transmission models to apply to a set of archaeological data, we need to understand the degree to which the models are statistically distinguishable.  Two models are perfectly distinguishable when each process generates dynamical outcomes, measured by one or many variables, do not overlap in the space formed by the measured variables.\footnote{This abstract space is sometimes called the "state space" when discussing the model itself; in the context of statistical and machine learning algorithms for measuring overlap, we'll call this the "feature space."}  It is rare that models will be perfectly distiguishable, however.  Evolutionary models, in particular, are usually constructed as stochastic diffusion processes within a population (sometimes purely temporal, sometimes spatiotemporal), and the behavior of such models is highly variable and tends on the same functional forms albeit with different parameters or different higher-order terms.  In such cases, we would expect significant overlap in the behavior of models in the feature space, which reduces our abiilty to distinguish the model responsible for a given data point, should the data point occur in an area of overlap.
+In formulating a set of cultural transmission models to apply to a set of archaeological data, we need to understand the degree to which the models are statistically distinguishable.  Two models are perfectly distinguishable when each process generates dynamical outcomes which do not overlap in the space formed by the measured variables.\footnote{This abstract space is sometimes called the "state space" when discussing the model itself; in the context of statistical and machine learning algorithms it is usually called the "feature space."}  It is rare that models will be perfectly distiguishable, however.  Evolutionary models, in particular, are usually constructed as stochastic diffusion processes within a population (sometimes purely temporal, sometimes spatiotemporal), and the behavior of such models is highly variable and tends on the same functional forms albeit with different parameters or different higher-order terms.  In such cases, we would expect significant overlap in the behavior of models in the feature space, which reduces our abiilty to distinguish the model responsible for a given data point, should the data point occur in an area of overlap.
 
 
 \begin{figure}[ht]
@@ -38,16 +38,106 @@ In formulating a set of cultural transmission models to apply to a set of archae
 \label{img:separability-example}
 \end{figure}
 
-Thus, the assessment of equifinality involves the assessment of the overlap between two or more models $\mathcal{M}_1 \ldots \mathcal{M}_n$, in the feature space of their outcomes.  In supervised learning, the Bayes risk (or error rate) of a decision rule gives the minimum expected probability of correctly predicting the $Y$ value for a data point, given a set of predictor variables $x_1, \ldots, x_n$.   Models whose outcomes do not overlap at all in the feature space give rise to regression equations or classifier rules which can perfectly predict the model responsible for a given data point, as in the left panel of Figure \ref{img:separability-example}.  In such cases, the smallest average error is zero.  Most of the time, however, there is overlap between model outcomes.  The volume of that overlap in the feature space is a measure of our uncertainty in assigning data points to the correct model.  The Bayes risk for such situations is positive and greater than zero, as in the right panel of Figure \ref{img:separability-example}.  If the overlap is sufficient, the Bayes error rate could approach 0.5, which represents a classifier rule which is no better than flipping a coin.  We can therefore treat the assessment of equifinality as a problem in determining the minimum possible error rate achievable by a classifier rule which takes in a set of predictor variables, and produces a prediction for the model responsible.   
+Thus, the assessment of equifinality involves the assessment of the overlap between two or more models $\mathcal{M}_1 \ldots \mathcal{M}_n$, in the feature space of their outcomes.  In supervised learning, the Bayes risk (or error rate) of a decision rule gives the minimum expected probability of correctly predicting the $Y$ value for a data point, given a set of predictor variables $x_1, \ldots, x_n$.  \todo{Connection awkward, fix} Models whose outcomes do not overlap at all in the feature space give rise to regression equations or classifier rules which can perfectly predict the model responsible for a given data point, as in the left panel of Figure \ref{img:separability-example}.  In such cases, the smallest average error is zero.  Most of the time, however, there is overlap between model outcomes.  The volume of that overlap in the feature space is a measure of our uncertainty in assigning data points to the correct model.  The Bayes risk for such situations is positive and greater than zero, as in the right panel of Figure \ref{img:separability-example}.  If the overlap is sufficient, the Bayes error rate could approach 0.5, which represents a classifier rule which is no better than flipping a coin.  We can therefore treat the assessment of equifinality as a problem in determining the minimum possible error rate achievable by a classifier rule which takes in a set of predictor variables, and produces a prediction for the model responsible.   
 
-However, in almost all cases we can't calculate the Bayes error rate of a classifier rule, because we lack expressions for the probability distribution of model outcomes over the space of measured variables, and in real data sets we usually also lack good prior information about how frequently we expect each model to be represented in the real world.  In fact, the Bayes error rate is directly calculable only for a very few simple models, such as Gaussian class distributions with identical covariance matrices.  Instead, we need to approximate the Bayes rate, by constructing classifier rules which minimize the empirical error over a variety of training data sets, and have minimal error on hold-out test data.  
+However, in almost all cases we cannot calculate the Bayes error rate of a classifier rule, because we lack expressions for the probability distribution of model outcomes over the space of measured variables, and in real data sets we usually also lack good prior information about how frequently we expect each model to be represented in the real world.  In fact, Bayes error is directly calculable only for a very few simple models, such as Gaussian class distributions with identical covariance matrices.  There is a large literature, especially in pattern recognition and language classification, on approximating upper bounds for the Bayes error of a classifier, because it is highly useful to know when you cannot improve a recognition system or classifier any further [@Antos:1999dn; @Dobbin:2009du; @McLachlan:1975eo].  Most such upper bounds are based upon parametric models, and use estimates of a distance metric between the classes being distinguished (typically, the Mahalanobis or Bhattacharyya distance) [@devijver1982pattern].  Such bounds are difficult to justify in situations where we have complex social learning models, whose probability density functions in the space of measured variables are typically unknown and are unlikely to be Gaussian.  Nonparametric bounds are possible, using nearest-neighbor methods [@Loizou:1987bi], but in most cases the values obtained are not very tight and may not be useful.  
+
+Instead, Bayes error rates are mostly approximated empirically, by employing classification methods which are known to be good minimizers of test error.    I take that approach here.  The general idea will be to simulate a large number of samples from each cultural transmission model whose equifinality we want to assess, train a classification model on a portion of those simulated samples until we find the smallest error (using cross-validation), and then use the performance of the classifier on the held-out portion of the simulated samples as an unbiased estimate of the true discrimination error between models.  Very low test error would indicate a clean ability to distinguish between models, and thus no equifinality.  As test error increases, the equifinality between model outcomes increases. 
+
+\begin{algorithm}[ht]
+        \SetKwFunction{FitGBM}{FitGBM}
+        \SetKwFunction{Uniform}{Uniform}
+        \SetKwInOut{Input}{input}
+        \SetKwInOut{Output}{output}
+
+        \Input{Two transmission models, $\mathcal{M}_1$ and $\mathcal{M}_2$}
+        \Input{A set of summary statistics, $s_1 \ldots s_n$}
+        \Input{A set of parameters for each transmission model, $\Theta_1$ and $\Theta_2$}
+        \BlankLine
 
 
 
 
 
 
-## Simulating Heterogeneous Cultural Transmission ##
+\caption{Algorithm for equifinality assessment of two transmission models by classifer rule error rate}
+\label{alg:equifinality-classifier}
+\end{algorithm}
+
+
+
+## Simulated Samples of Cultural Transmission Models ##
+
+In this study, I examine potential equifinalities between four cultural transmission models, across a range of parameters.  All four models employ the Moran dynamics, where one individual engages in a copying event at each elemental step [@moran1962statistical; @moran1958random; @aoki2011rates]. Innovations are modeled using the "infinite alleles" approximation, where every innovation has not been seen in the population previously.  Simulations were performed using the CTMixtures software package, available as open source software.\footnote{\url{https://github.com/mmadsen/ctmixtures}}
+
+
+
+\begin{table}[h]
+\begin{tabular}{lc}
+\hline
+Parameter & Value or Interval \\ 
+\hline
+Innovation rate (in $\theta$ scaled units)  & $[0.1, 5.0]$   \\
+Prob. of conformism & $[0.05, 0.25]$ \\
+Prob. of anti-conformism & $[0.05, 0.25]$ \\
+Sample fractions & 0.1 and 0.2 \\
+Time averaging intervals (units of 100 individuals) & 10, 20, 50, 100 \\
+Population size & 100 \\
+Number of trait dimensions (loci) & 4 \\
+Initial traits per dimension & 10 \\
+\hline
+\end{tabular}
+\label{tab:parameters}
+\caption{Parameters for simulation runs across the four models studied.  Intervals are treated as prior distributions, and each simulation run is assigned values derived from a uniform random sample on the interval indicated.  Lists of values are all applied to every simulation run (e.g., there is both a 10\% and a 20\% sample from each simulation run.  Single values are applied to every simulation run, and represent a single point prior.)}
+\end{table}
+
+
+
+In the first model, individuals copy a random individual, resulting in a standard neutral or unbiased transmission model.  The second model is an equal mixture of conformist and anti-conformist individuals, with a randomly chosen intensity of either conformism or anti-conformism from the interval $[0.05, 0.25]$.  The third model is a mixture with 70% conformists and 30% anti-conformists, again with intensity for each chosen at random from the interval $[0.05, 0.25]$.  The final model is the opposite mixture, with 30% conformists and 70% anti-conformists, with intensity randomly chosen from the same interval.  Random selection of innovation and bias parameters from intervals ensures that a large sample of simulation results will cover the full range of outcomes from each model, and it also allows the block of simulated data to be used as a "reference table" in an approximate Bayesian inference (ABC) algorithm for empirical analyses.  
+
+Simulated populations are 100 individuals in size, although varied and variable population sizes will be examined in a future study.  Each individual carries 4 different traits at any time, which are treated as separate loci or dimensions.  Copying involves no interaction effects between loci in this study.  The population is seeded with 10 randomly chosen traits at each Loci as the initial condition.  The evolution of each simulated population proceeds for 4 million elemental steps, which is equivalent to about 40,000 copying events on average per individual.  This value was chosen by performing simulations at 1 million time step intervals and verifying that the distribution of a key statistic (the number of traits per Loci) had stabilized.  This occurred in most cases between 2 and 3 million steps, and in all cases between 3 and 4 million, so the latter figure was chosen for creating the table of simulated samples for classification analysis.  
+
+Since equifinality is both a function of the transmission model itself, and the variables we employ to measure model outcomes, I measure a number of variables along with different sample strategies (full population census, 10 and 20% samples of the population) and different durations of temporal aggregation (1000, 2000, 5000, and 10000 time steps).  By doing so, we can understand overlaps which are potentially reducible (by increasing sample size, for example) and irreducible equifinalities, which arise between models regardless our measurement methods.  The variables chosen focus upon richness, diversity, trait survival over time, and the Slatkin neutrality test.  The full list is given in Table \ref{tab:variables}.  In addition to monitoring the frequencies of traits for each dimension or locus, all four dimensions were cross-tabulated in the same way that a paradigmatic classification is formed [@Dunnell1971], and the frequencies of these "trait configurations" were tracked as well.  
+
+\begin{table}[ht]
+\begin{tabular}{lll}
+\hline
+Variable                                   & Measurement Class & Loci or Class \\ \hline
+Trait Configuration Richness     & Census, Sampled, TA/Sampled & Class          \\
+Slatkin Exact (Trait Configurations)       & Census, Sampled, TA/Sampled & Class          \\
+Shannon Entropy (Trait Configurations) & TA/Sampled & Class \\
+IQV Diversity (Trait Configurations) & TA/Sampled & Class \\
+Slatkin Exact (Max of Loci)                & Census, Sampled, TA/Sampled & Loci          \\
+Slatkin Exact (Min of Loci)                & Census, Sampled, TA/Sampled & Loci          \\
+Slatkin Exact (Mean of Loci)                & Sampled, TA/Sampled & Loci          \\
+Shannon Entropy of Trait Frequencies (Min) & Census, Sampled, TA/Sampled & Loci          \\
+Shannon Entropy of Trait Frequencies (Max) & Census, Sampled, TA/Sampled & Loci          \\
+Shannon Entropy of Trait Frequencies (Mean)& Census, Sampled, TA/Sampled & Loci          \\
+IQV Diversity Index (Min)  & Census, Sampled, TA/Sampled & Loci \\
+IQV Diversity Index (Max)  & Census, Sampled, TA/Sampled & Loci \\
+IQV Diversity Index (Mean) & Census, Sampled, TA/Sampled & Loci \\
+Trait Richness (Min) & Census, Sampled, TA/Sampled & Loci \\ 
+Trait Richness (Max) & Census, Sampled, TA/Sampled & Loci \\
+Trait Richness (Mean) & Census, Sampled, TA/Sampled & Loci \\
+Kandler-Shennan Trait Survival (Min) & Census, TA/Sampled & Loci \\
+Kandler-Shennan Trait Survival (Max) & Census, TA/Sampled & Loci \\
+Kandler-Shennan Trait Survival (Mean) & Census, TA/Sampled & Loci \\
+\hline
+
+\end{tabular}
+\label{tab:variables}
+\caption{Variables measured from each transmission model simulation sample.  Some variables were not measured in all measurement settings due to software issues.  The rightmost column records whether the variable is a measurement across traits in a single locus, and then summarized over loci, or whether it applies to configurations of all loci (classes).}
+\end{table}
+
+In a first iteration of the analysis, I included the power-law exponent from a log-log transformation of trait frequency, given work by Bentley [REFS], and Mesoudi and Lycett [-@Mesoudi2009].  However, power law exponents vary widely depending upon the exact algorithm used to calculate it.  As an experiment, I employed the **poweRlaw** package in R, and the **plfit** algorithm both in R and Python, to calculate power law exponents for a sample of trait frequencies from these simulations [@Clauset:2007p28665; @Gillespie:2014uq].  For the same data points, the algorithms gave significantly different results (likely because of different methods of determining cutoff values), but more worrying, the R and Python versions of **plfit** also gave different results.  As a result, I dropped the variable from the current analysis, pending a future evaluation of the best way of calculating this statistic for this type of frequency data.  
+
+
+
+
+
+
+
+
 
 * Agent-based model, with individual copying rules
 * Moran dynamic, continuous time Markov process with overlapping generations
@@ -56,58 +146,28 @@ However, in almost all cases we can't calculate the Bayes error rate of a classi
 
 
 
-
-
-## Analysis of Equifinality ##
-
-
-* Equifinality analysis using classifier methods
 * Simulated 25,000 samples from each of 4 models.  3 biased and 1 neutral, with uniform priors on parameters
-* Each sample is labeled, allowing us to determine the error rate for classification
-* Random forest method employed, with 80% of the data used as training set, and 20% as a hold out test set.  
-
-### Random Forest Classifiers ###
-
-Paragraph on what RF are.  Citations on the few archaeological uses.  
-
-* one of the best "off the shelf" classifiers, comparable in performance to modern variants on CART trees like C5.0, gradient boosted models.  
-* highly robust to the presence of non-informative predictors, which allows us to use it in an exploratory manner, while also getting strong answers to classification questions like equifinality.  
-* The approach used here employs a large training set, and repeated (10x) 10-fold cross-validation to train and tune the model in a single (albeit computationally significant pass).  The results of training provide measures of the variance around model parameters (such as $m_{try}$).  The resulting fit model is then available for prediction of the test set, which is the set of results used to judge equifinality.  
 
 
 
-\begin{algorithm}[H]
-        \caption{}
-        \label{alg:tree-prereq-axelrod}
-        \begin{boxedminipage}{\textwidth}
-        \begin{algorithmic}[1]
-                %\REQUIRE lossrate is the population rate at which traits are randomly lost to drift
-                \REQUIRE innovrate is the population rate at which individuals randomly learn a trait
-                \REQUIRE learningrate is the probability of learning a missing prerequisite during a learning interaction
 
-                \STATE { $focal \leftarrow$ GetRandomAgent()}
-                \STATE { $neighbor \leftarrow$ GetRandomNeighbor(focal)}
 
-                \IF { $focal = neighbor \lor focal \cap neighbor = \varnothing\;\lor
-                neighbor \subsetneq focal $}
-                \label{alg:ext-first-if}
-                        \STATE { exit }
-                        \COMMENT{ No interaction is possible, move on to next agent }
-                \ENDIF
+## Classifier Selection and Training ##
 
-        \end{algorithmic}
-        \end{boxedminipage}
-\end{algorithm}
+
+
+
+## Classification Error and Equifinality Assessment ##
 
 
 
 
 
 
-## Reanalysis of Archaeological Examples ##
 
-* Equifinality data set also serves as simulated data points for approximate bayesian computation
-* Use Csillery's ABC package in R to examine model fit for empirical data sets.  
+
+
+ 
 
 # Results
 
@@ -120,6 +180,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim di
 # Discussion
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim dignissim nunc, et finibus urna aliquam eget. Donec enim dolor, aliquam sed iaculis vitae, vestibulum sed justo. Curabitur fringilla, mauris quis ultrices mattis, neque libero volutpat nisi, vel mollis mi magna a felis. Phasellus a orci ut elit sodales tristique ac placerat nisi. Maecenas orci purus, ullamcorper non neque vel, imperdiet sollicitudin ante. Duis dapibus ante sed gravida imperdiet. Aenean dapibus augue nec vehicula rhoncus. Mauris ac fermentum ante, eget volutpat lectus. Nunc a est auctor, suscipit augue vel, vulputate lectus. Sed eu elit ullamcorper, interdum neque ut, varius nisi. Phasellus leo justo, mattis rutrum leo vitae, consequat auctor diam. Vivamus cursus, ligula et euismod iaculis, odio nulla ullamcorper ex, vitae cursus mi lacus at sem. Aenean dictum odio dolor, sit amet gravida sem scelerisque vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi.
+
+
+
 
 
 # Acknowledgements
