@@ -119,13 +119,13 @@ tassize_subset_model <- NULL
 tassize_subset_cm <- NULL
 
 # To create a smaller test dataset:
-# test_tasampled_indices <- createDataPartition(eq4_ta_sampled_df$two_class_label, p = 0.05, list=FALSE)
-# test_tasampled_df <- eq4_ta_sampled_df[test_tasampled_indices,]
+test_tasampled_indices <- createDataPartition(eq4_ta_sampled_df$two_class_label, p = 0.02, list=FALSE)
+test_tasampled_df <- eq4_ta_sampled_df[test_tasampled_indices,]
 # switch the DF input to get_tassize_subset_ssize_tadur() back to eq4_ta_sampled_df for production
 
 for( i in 1:nrow(tassize_subsets)) {
   exp_name <- experiment_names[i]
-  df <- get_tassize_subset_ssize_tadur(eq4_ta_sampled_df, 
+  df <- get_tassize_subset_ssize_tadur(test_tasampled_df, 
                               tassize_subsets[i, "sample_size"],
                               tassize_subsets[i, "ta_duration"])
   print(sprintf("row %d:  sample size: %d  ta duration: %d numrows: %d", i, tassize_subsets[i, "sample_size"], tassize_subsets[i, "ta_duration"], nrow(df)))
@@ -165,8 +165,8 @@ for( i in 1:nrow(tassize_subsets)) {
 }
 
 # sigh, now we have to remove NULL objects from lists that are tassize_subset of the whole analysis
-#tassize_subset_roc_ssize_20 <- tassize_subset_roc[-(which(sapply(tassize_subset_roc_ssize_20,is.null),arr.ind=TRUE))]
-#tassize_subset_roc_ssize_10 <- tassize_subset_roc[-(which(sapply(tassize_subset_roc_ssize_10,is.null),arr.ind=TRUE))]
+tassize_subset_roc_ssize_20 <- tassize_subset_roc[-(which(sapply(tassize_subset_roc_ssize_20,is.null),arr.ind=TRUE))]
+tassize_subset_roc_ssize_10 <- tassize_subset_roc[-(which(sapply(tassize_subset_roc_ssize_10,is.null),arr.ind=TRUE))]
 
 
 # we can now use plot_multiple_roc() to plot all the ROC curves on the same plot, etc.  
