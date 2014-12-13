@@ -19,8 +19,8 @@ get_tassize_subset_ssize_tadur <- function(df, ssize, tadur) {
 
 ############### Set up Execution Environment #############
 
-data_directory <- "/mnt"
-log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "biasneutral-classification.log")
+
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "biasedmodels-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
@@ -36,6 +36,8 @@ load(pop_data_file)
 load(ta_sampled_data_file)
 flog.info("Loaded data file: %s", pop_data_file, name='cl')
 flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+
+
 
 
 
@@ -76,7 +78,7 @@ training_control <- trainControl(method="repeatedcv",
 
 ############ Setup Results Variables ###############
 
-experiment_names <- c("Neutral vs Balanced Biased: Population Census")
+experiment_names <- c("Neutral vs Balanced Biased - Population Census")
 
 bias_results <- data.frame()
 bias_results_roc <- NULL
@@ -94,7 +96,6 @@ exp_name <- experiment_names[i]
 # prepare data
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
-classes <- c("mixconfequal", "allneutral")
 
 eq4_pop_subset <- subset(eq4_pop_df, eq4_pop_df$model_class_label %in% c("mixconfequal", "allneutral"))
 eq4_pop_subset$model_class_label = factor(eq4_pop_subset$model_class_label, levels = c("mixconfequal", "allneutral"))
@@ -113,7 +114,7 @@ bias_results_model[["balanced_bias_neutral_model"]] <- balanced_bias_neutral_mod
 # use the test data split by the train_randomforest function and calculate tuned model predictions
 # and then get the confusion matrix and fitting metrics
 predictions <- predict(balanced_bias_neutral_model$tunedmodel, newdata=balanced_bias_neutral_model$test_data)
-cm <- confusionMatrix(predictions, balanced_bias_neutral_model$test_data$model_class_label)
+cm <- confusionMatrix(predictions, balanced_bias_neutral_model$test_data$model_class_label, positive = "allneutral")
 results <- get_parsed_binary_confusion_matrix_stats(cm)
 results$experiments[i] <- exp_name
 results$elapsed <- balanced_bias_neutral_model$elapsed
@@ -123,41 +124,35 @@ bias_results_cm[["balanced_bias_neutral_model"]] <- cm
 bias_dominance_roc <- calculate_roc_binary_classifier(balanced_bias_neutral_model$tunedmodel, 
                                                       balanced_bias_neutral_model$test_data, 
                                                       "model_class_label", 
-                                                      exp_name,
-                                                      classes)
+                                                      exp_name)
 results$auc[i] <- unlist(bias_dominance_roc$auc@y.values)
 bias_results_roc[["balanced_bias_neutral_model"]] <- bias_dominance_roc
 
 # add to the final data frame
 bias_results <- rbind(bias_results, results)
 
-
-########### TA and Sampled Results ##############
-
-# create a label combining the biased models into one
-# then, split into training and test sets, with balanced samples for each of the binary classes
-eq4_ta_sampled_df$two_class_label <- factor(ifelse(eq4_ta_sampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
-
-
+bias_results$sample_size <- 0
+bias_results$ta_duration <- 0
 
 ############# Process each combination of TA and sample size ###########
 
-eq4_ta_sampled_subset <- subset(eq4_ta_sampled_df, eq4_ta_sampled_df$model_class_label %in% c("mixconfequal", "allneutral"))
-eq4_ta_sampled_subset$model_class_label = factor(eq4_ta_sampled_subset$model_class_label, levels = c("mixconfequal", "allneutral"))
+eq4_ta_sampled_biased_df <- subset(eq4_ta_sampled_df, eq4_ta_sampled_df$model_class_label %in% c("mixconfequal", "allneutral"))
+eq4_ta_sampled_biased_df$model_class_label = factor(eq4_ta_sampled_biased_df$model_class_label, levels = c("mixconfequal", "allneutral"))
+
 
 # get grid of the sample size and TA duration combinations, to tassize_subset the data set
-sample_sizes <- unique(eq4_ta_sampled_subset$sample_size)
-ta_durations <- unique(eq4_ta_sampled_subset$ta_dur)
+sample_sizes <- unique(eq4_ta_sampled_biased_df$sample_size)
+ta_durations <- unique(eq4_ta_sampled_biased_df$ta_dur)
 
 tassize_subsets <- expand.grid(sample_size = sample_sizes, ta_duration = ta_durations)
 
-exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "configuration_slatkin", "num_trait_configurations", "sample_size", "ta_duration")
+exclude_columns <- c("simulation_run_id","innovation_rate", "sample_size", "ta_duration")
 
 experiment_names <- character(nrow(tassize_subsets))
 
 # Add experiment names to the tassize_subsets since I didn't do this in the original analysis
 for( i in 1:nrow(tassize_subsets)) {
-  experiment_names[i] <- paste("Per-Locus Sample Size: ", tassize_subsets[i, "sample_size"], " Duration: ", tassize_subsets[i, "ta_duration"])
+  experiment_names[i] <- paste("Neutral vs Balanced Biased - Sample Size: ", tassize_subsets[i, "sample_size"], " Duration: ", tassize_subsets[i, "ta_duration"])
 }
 
 tassize_biased_results <- data.frame()
@@ -168,26 +163,26 @@ tassize_biased_model <- NULL
 tassize_biased_cm <- NULL
 
 # To create a smaller test dataset:
-# test_tasampled_indices <- createDataPartition(eq4_ta_sampled_subset$two_class_label, p = 0.05, list=FALSE)
-# test_tasampled_df <- eq4_ta_sampled_subset[test_tasampled_indices,]
-# switch the DF input to get_tassize_subset_ssize_tadur() back to eq4_ta_sampled_df for production
+# test_tasampled_indices <- createDataPartition(eq4_ta_sampled_biased_df$two_class_label, p = 0.05, list=FALSE)
+# test_tasampled_df <- eq4_ta_sampled_biased_df[test_tasampled_indices,]
+# switch the DF input to get_tassize_subset_ssize_tadur() back to eq4_ta_sampled_biased_df for production
 
 for( i in 1:nrow(tassize_subsets)) {
   exp_name <- experiment_names[i]
-  df <- get_tassize_subset_ssize_tadur(eq4_ta_sampled_subset, 
+  df <- get_tassize_subset_ssize_tadur(eq4_ta_sampled_biased_df, 
                               tassize_subsets[i, "sample_size"],
                               tassize_subsets[i, "ta_duration"])
   print(sprintf("row %d:  sample size: %d  ta duration: %d numrows: %d", i, tassize_subsets[i, "sample_size"], tassize_subsets[i, "ta_duration"], nrow(df)))
   
   #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-  model <- train_gbm_classifier(df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
+  model <- train_gbm_classifier(df, training_set_fraction, "model_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
   
   tassize_biased_model[[exp_name]] <- model$tunedmodel
   
   # use the test data split by the train_randomforest function and calculate tuned model predictions
   # and then get the confusion matrix and fitting metrics
   predictions <- predict(model$tunedmodel, newdata=model$test_data)
-  cm <- confusionMatrix(predictions, model$test_data$two_class_label)
+  cm <- confusionMatrix(predictions, model$test_data$model_class_label, positive = "allneutral")
   results <- get_parsed_binary_confusion_matrix_stats(cm)
   results$experiments <- experiment_names[i]
   results$elapsed <- model$elapsed
@@ -196,7 +191,7 @@ for( i in 1:nrow(tassize_subsets)) {
   results$experiments <- exp_name
   tassize_biased_cm[[exp_name]] <- cm
   
-  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", experiment_names[i], classes)
+  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "model_class_label", experiment_names[i])
   tassize_biased_roc[[exp_name]] <- roc
   results$auc <- unlist(roc$auc@y.values)
   
@@ -214,14 +209,9 @@ for( i in 1:nrow(tassize_subsets)) {
 }
 
 
-
-
-
 ############## Complete Processing and Save Results ##########
 
 bias_results <- rbind(bias_results, tassize_biased_results)
-
-
 
 
 # we can now use plot_multiple_roc() to plot all the ROC curves on the same plot, etc.  
