@@ -14,7 +14,7 @@ library(ggthemes)
 
 ############### Set up Execution Environment #############
 
-# Set up logging
+data_directory <- "/mnt"
 log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "confanticonf-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
@@ -60,7 +60,7 @@ test_set_fraction <- 1.0 - training_set_fraction
 #
 
 gbm_grid <- expand.grid(.interaction.depth = (1:6)*2,
-                        .n.trees = (1:10)*25, 
+                        .n.trees = (2:10)*50, 
                         .shrinkage = 0.05)
 
 training_control <- trainControl(method="repeatedcv", 
