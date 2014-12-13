@@ -19,7 +19,6 @@ get_tassize_subset_ssize_tadur <- function(df, ssize, tadur) {
 
 ############### Set up Execution Environment #############
 
-data_directory <- "/mnt"
 log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "biasedmodels-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 

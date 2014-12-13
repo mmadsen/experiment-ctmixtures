@@ -94,6 +94,7 @@ exp_name <- experiment_names[i]
 # prepare data
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
+classes <- c("mixconfequal", "allneutral")
 
 eq4_pop_subset <- subset(eq4_pop_df, eq4_pop_df$model_class_label %in% c("mixconfequal", "allneutral"))
 eq4_pop_subset$model_class_label = factor(eq4_pop_subset$model_class_label, levels = c("mixconfequal", "allneutral"))
@@ -122,7 +123,8 @@ bias_results_cm[["balanced_bias_neutral_model"]] <- cm
 bias_dominance_roc <- calculate_roc_binary_classifier(balanced_bias_neutral_model$tunedmodel, 
                                                       balanced_bias_neutral_model$test_data, 
                                                       "model_class_label", 
-                                                      exp_name)
+                                                      exp_name,
+                                                      classes)
 results$auc[i] <- unlist(bias_dominance_roc$auc@y.values)
 bias_results_roc[["balanced_bias_neutral_model"]] <- bias_dominance_roc
 
@@ -194,7 +196,7 @@ for( i in 1:nrow(tassize_subsets)) {
   results$experiments <- exp_name
   tassize_biased_cm[[exp_name]] <- cm
   
-  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", experiment_names[i])
+  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", experiment_names[i], classes)
   tassize_biased_roc[[exp_name]] <- roc
   results$auc <- unlist(roc$auc@y.values)
   
