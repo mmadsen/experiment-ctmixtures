@@ -19,10 +19,10 @@ flog.appender(appender.file(log_file), name='cl')
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
   pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-population-data.rda")
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-ta-sampled-data.rda")
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-tasampled-data.rda")
 } else {
   pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-population-data.rda", args = clargs)
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-ta-sampled-data.rda", args = clargs)
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-tasampled-data.rda", args = clargs)
 }
 
 load(pop_data_file)
