@@ -7,38 +7,39 @@ library(dplyr)
 library(ggthemes)
 
 # Train and tune random forest classifiers for each of  data sets coming out of the experiment
-# "equifinality-3", for binary analysis. 
+# "equifinality-4", for binary analysis. 
 #
 # THIS EXPERIMENT LOOKS AT THE COMPARISON BETWEEN A NEUTRAL MODEL AND A BALANCED MIXTURE OF CONFORMIST AND ANTICONFORMISTS
+
+get_tassize_subset_ssize_tadur <- function(df, ssize, tadur) {
+  df_tassize_subset <- dplyr::filter(df, sample_size == ssize, ta_duration == tadur)
+  df_tassize_subset
+}
 
 
 ############### Set up Execution Environment #############
 
 # Set up logging
-log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "biasedmodels-classification.log")
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "biasneutral-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
-  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-population-data.rda")
-  sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-sampled-data.rda")
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-population-data.rda")
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-tasampled-data.rda")
 } else {
-  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-population-data.rda", args = clargs)
-  sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-sampled-data.rda", args = clargs)
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-population-data.rda", args = clargs)
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-tasampled-data.rda", args = clargs)
 }
 
 load(pop_data_file)
-load(sampled_data_file)
 load(ta_sampled_data_file)
 flog.info("Loaded data file: %s", pop_data_file, name='cl')
-flog.info("Loaded data file: %s", sampled_data_file, name='cl')
 flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
 
 
 
-flog.info("Beginning classification analysis of neutral versus balanced bias models from equifinality-3 data sets", name='cl')
+flog.info("Beginning classification analysis of neutral versus balanced bias models from equifinality-4 data sets", name='cl')
 
 # set up parallel processing - use all the cores (unless it's a dev laptop under OS X) - from mmadsenr
 num_cores <- get_parallel_cores_given_os(dev=TRUE)
@@ -75,7 +76,7 @@ training_control <- trainControl(method="repeatedcv",
 
 ############ Setup Results Variables ###############
 
-experiment_names <- c("Neutral vs Balanced Biased: Population Census", "Neutral vs Balanced Biased: 20% Sampled")
+experiment_names <- c("Neutral vs Balanced Biased: Population Census")
 
 bias_results <- data.frame()
 bias_results_roc <- NULL
@@ -94,15 +95,15 @@ exp_name <- experiment_names[i]
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
 
-eq3_pop_biasdom_df <- subset(eq3_pop_df, eq3_pop_df$model_class_label %in% c("mixconfequal", "allneutral"))
-eq3_pop_biasdom_df$model_class_label = factor(eq3_pop_biasdom_df$model_class_label, levels = c("mixconfequal", "allneutral"))
+eq4_pop_subset <- subset(eq4_pop_df, eq4_pop_df$model_class_label %in% c("mixconfequal", "allneutral"))
+eq4_pop_subset$model_class_label = factor(eq4_pop_subset$model_class_label, levels = c("mixconfequal", "allneutral"))
 
 # remove fields from analysis that aren't predictors, and the detailed label with 4 classes
 exclude_columns <- c("simulation_run_id", "innovation_rate")
 
 ## Train Model ##
 
-balanced_bias_neutral_model <- train_gbm_classifier(eq3_pop_biasdom_df, training_set_fraction, "model_class_label", 
+balanced_bias_neutral_model <- train_gbm_classifier(eq4_pop_subset, training_set_fraction, "model_class_label", 
                                              gbm_grid, training_control, exclude_columns, verbose=FALSE)
 bias_results_model[["balanced_bias_neutral_model"]] <- balanced_bias_neutral_model$tunedmodel
 
@@ -129,58 +130,96 @@ bias_results_roc[["balanced_bias_neutral_model"]] <- bias_dominance_roc
 bias_results <- rbind(bias_results, results)
 
 
-###### Sample Size 20 Data:  conformist dominant versus anticonformist dominant ######
+########### TA and Sampled Results ##############
 
-flog.info("Starting analysis of balanced bias vs. neutral with sampled size 20 data", name='cl')
-
-# Row index for results data frame -- bump this by one for each analysis block
-i <- 2
-exp_name <- experiment_names[i]
-
-# prepare data
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
+eq4_ta_sampled_df$two_class_label <- factor(ifelse(eq4_ta_sampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
 
-eq3_sampled_20 <- dplyr::filter(eq3_sampled_df, sample_size == 20)
-eq3_sampled_biasneutral_20 <- subset(eq3_sampled_20, eq3_sampled_20$model_class_label %in% c("mixconfequal", "allneutral"))
-eq3_sampled_biasneutral_20$model_class_label = factor(eq3_sampled_biasneutral_20$model_class_label, levels = c("mixconfequal", "allneutral"))
 
-# Two labels are left:  mixconfdom and mixantidom
 
-exclude_columns <- c("simulation_run_id", "innovation_rate", "sample_size")
+############# Process each combination of TA and sample size ###########
 
-## Train Model ##
+eq4_ta_sampled_subset <- subset(eq4_ta_sampled_df, eq4_ta_sampled_df$model_class_label %in% c("mixconfequal", "allneutral"))
+eq4_ta_sampled_subset$model_class_label = factor(eq4_ta_sampled_subset$model_class_label, levels = c("mixconfequal", "allneutral"))
 
-balanced_bias_neutral_model_20 <- train_gbm_classifier(eq3_sampled_biasneutral_20, training_set_fraction, "model_class_label", 
-                                                gbm_grid, training_control, exclude_columns, verbose=FALSE)
-bias_results_model[["balanced_bias_neutral_model_20"]] <- balanced_bias_neutral_model_20$tunedmodel
+# get grid of the sample size and TA duration combinations, to tassize_subset the data set
+sample_sizes <- unique(eq4_ta_sampled_subset$sample_size)
+ta_durations <- unique(eq4_ta_sampled_subset$ta_dur)
 
-## Evaluate Model Performance ##
+tassize_subsets <- expand.grid(sample_size = sample_sizes, ta_duration = ta_durations)
 
-# use the test data split by the train_randomforest function and calculate tuned model predictions
-# and then get the confusion matrix and fitting metrics
-predictions <- predict(balanced_bias_neutral_model_20$tunedmodel, newdata=balanced_bias_neutral_model_20$test_data)
-cm <- confusionMatrix(predictions, balanced_bias_neutral_model_20$test_data$model_class_label)
-results <- get_parsed_binary_confusion_matrix_stats(cm)
-results$experiments <- exp_name
-results$elapsed <- balanced_bias_neutral_model_20$elapsed
-bias_results_cm[["balanced_bias_neutral_model_20"]] <- cm
+exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "configuration_slatkin", "num_trait_configurations", "sample_size", "ta_duration")
 
-# calculate a ROC curve
-bias_dominance_roc_20 <- calculate_roc_binary_classifier(balanced_bias_neutral_model_20$tunedmodel, 
-                                                      balanced_bias_neutral_model_20$test_data, 
-                                                      "model_class_label", 
-                                                      exp_name)
-results$auc <- unlist(bias_dominance_roc_20$auc@y.values)
-bias_results_roc[["balanced_bias_neutral_model_20"]] <- bias_dominance_roc_20
+experiment_names <- character(nrow(tassize_subsets))
 
-# add to the final data frame
-bias_results <- rbind(bias_results, results)
+# Add experiment names to the tassize_subsets since I didn't do this in the original analysis
+for( i in 1:nrow(tassize_subsets)) {
+  experiment_names[i] <- paste("Per-Locus Sample Size: ", tassize_subsets[i, "sample_size"], " Duration: ", tassize_subsets[i, "ta_duration"])
+}
+
+tassize_biased_results <- data.frame()
+tassize_biased_roc <- NULL
+tassize_biased_roc_ssize_20 <- NULL
+tassize_biased_roc_ssize_10 <- NULL
+tassize_biased_model <- NULL
+tassize_biased_cm <- NULL
+
+# To create a smaller test dataset:
+# test_tasampled_indices <- createDataPartition(eq4_ta_sampled_subset$two_class_label, p = 0.05, list=FALSE)
+# test_tasampled_df <- eq4_ta_sampled_subset[test_tasampled_indices,]
+# switch the DF input to get_tassize_subset_ssize_tadur() back to eq4_ta_sampled_df for production
+
+for( i in 1:nrow(tassize_subsets)) {
+  exp_name <- experiment_names[i]
+  df <- get_tassize_subset_ssize_tadur(eq4_ta_sampled_subset, 
+                              tassize_subsets[i, "sample_size"],
+                              tassize_subsets[i, "ta_duration"])
+  print(sprintf("row %d:  sample size: %d  ta duration: %d numrows: %d", i, tassize_subsets[i, "sample_size"], tassize_subsets[i, "ta_duration"], nrow(df)))
+  
+  #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
+  model <- train_gbm_classifier(df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
+  
+  tassize_biased_model[[exp_name]] <- model$tunedmodel
+  
+  # use the test data split by the train_randomforest function and calculate tuned model predictions
+  # and then get the confusion matrix and fitting metrics
+  predictions <- predict(model$tunedmodel, newdata=model$test_data)
+  cm <- confusionMatrix(predictions, model$test_data$two_class_label)
+  results <- get_parsed_binary_confusion_matrix_stats(cm)
+  results$experiments <- experiment_names[i]
+  results$elapsed <- model$elapsed
+  results$sample_size <- tassize_subsets[i, "sample_size"]
+  results$ta_duration <- tassize_subsets[i, "ta_duration"]
+  results$experiments <- exp_name
+  tassize_biased_cm[[exp_name]] <- cm
+  
+  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", experiment_names[i])
+  tassize_biased_roc[[exp_name]] <- roc
+  results$auc <- unlist(roc$auc@y.values)
+  
+  if(tassize_subsets[i, "sample_size"] == 20) {
+    tassize_biased_roc_ssize_20[[exp_name]] <- roc
+  }
+  if(tassize_subsets[i, "sample_size"] == 10) {
+    tassize_biased_roc_ssize_10[[exp_name]] <- roc
+  }
+
+
+  tassize_biased_results <- rbind(tassize_biased_results, results)
+
+  
+}
+
 
 
 
 
 ############## Complete Processing and Save Results ##########
+
+bias_results <- rbind(bias_results, tassize_biased_results)
+
+
 
 
 # we can now use plot_multiple_roc() to plot all the ROC curves on the same plot, etc.  
@@ -193,22 +232,23 @@ bias_results <- rbind(bias_results, results)
 # save objects from the environment
 if(length(clargs) == 0) {
   
-  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                               filename = "balancedbias-neutral-comparison-gbm.RData")
-  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                                       filename = "balancedbias-neutral-comparison-gbm-dfonly.RData")
   
   
 } else {
-  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                               filename = "balancedbias-neutral-comparison-gbm.RData", args = clargs)
   
-  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                                       filename = "balancedbias-neutral-comparison-gbm-dfonly.RData", args = clargs)
 }
 
 flog.info("Saving combined_results of analysis to R environment snapshot: %s", image_file, name='cl')
-save(bias_results, bias_results_model, bias_results_roc, bias_results_cm, file=image_file)
+save(bias_results, bias_results_model, bias_results_roc, bias_results_cm, tassize_biased_roc, tassize_biased_model, tassize_biased_cm,  file=image_file)
+
 
 flog.info("Saving just data frame of results of analysis to R environment snapshot: %s", image_file_results, name='cl')
 save(bias_results, file=image_file_results)  

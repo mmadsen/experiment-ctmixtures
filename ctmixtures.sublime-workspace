@@ -3,32 +3,43 @@
 	{
 		"selected_items":
 		[
+			[
+				"test",
+				"test_tasampled_indices"
+			],
+			[
+				"eq4_p",
+				"eq4_pop_df"
+			],
+			[
+				"model",
+				"model_class_label"
+			],
+			[
+				"tassize",
+				"tassize_perlocus_results"
+			],
+			[
+				"eq4_",
+				"eq4_ta_sampled_df"
+			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "paper/madsen2015-ctmixtures.Rmd",
+			"file": "analysis/equifinality-4/test/test-bias-neutral-comparison.r",
 			"settings":
 			{
-				"buffer_size": 24555,
+				"buffer_size": 10974,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "paper/overall-algorithm.tex",
+			"file": "analysis/equifinality-4/test/test-bias-model-classification.r",
 			"settings":
 			{
-				"buffer_size": 686,
-				"line_ending": "Unix",
-				"name": "\\begin{algorithm}"
-			}
-		},
-		{
-			"file": "paper/elsarticle-template.tex",
-			"settings":
-			{
-				"buffer_size": 6308,
+				"buffer_size": 11153,
 				"line_ending": "Unix"
 			}
 		}
@@ -77,12 +88,29 @@
 	"expanded_folders":
 	[
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-3",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper"
 	],
 	"file_history":
 	[
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test/test-bias-neutral-comparison.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test/test-bias-model-classification.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/bias-model-classification-analysis.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/bias-neutral-comparison.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/perlocus-tasampled-classification-analysis.R",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/population-classification.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/combined-tasampled-duration-hidden-analysis.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/perlocus-analysis.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test/test-tasampled.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/tasampled-classification-analysis.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test-population.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/eda-sampled-data.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/data_preparation.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/elsarticle-template.tex",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/overall-algorithm.tex",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/Makefile",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/latexmkrc",
 		"/Users/mark/tmp/plosone/plos_template.tex",
@@ -92,7 +120,6 @@
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-3/perlocus-analysis.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-3/perlocus-tasampled-classification-analysis.R",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-3/four-class-analysis.r",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
 		"/Users/mark/Library/Mail/V2/IMAP-mark@madsenlab.org@imap.gmail.com/INBOX.mbox/B54BAE98-14F7-413A-A71B-F1D6D7A15BBB/Data/9/2/4/Messages/429761.emlx",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.bbl",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/README.md",
@@ -201,6 +228,39 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"tassize_perlocus",
+			"eq4_ta_sampled_df",
+			"eq3_pop_biasdom_df",
+			"perlocus",
+			"tassize_biased_results",
+			"tassize_perlocus_results",
+			"results",
+			"eq4_pop_df",
+			"eq4_pop_subset",
+			"eq3_pop_biased",
+			"eq3_pop_df",
+			"equifinality-3",
+			"eq3_pop_biasdom_df",
+			"eq3_pop_df",
+			"equifinality-3",
+			"eq3_ta_sampled_df",
+			"equifinality-3",
+			"eq3_pop_df",
+			"equifinality-3",
+			"eq3_downsampled_df",
+			"eq3_ta_sampled_df",
+			"equifinality-3",
+			"eq3_ta_sampled_df",
+			"equifinality-4-ta-sampled-data.rda",
+			"equifinality-3",
+			"eq4_pop_df",
+			"popsampled_results",
+			"pop-sampled",
+			"popsampled_results",
+			"eq3_pop_df",
+			"equifinality-3",
+			"equifinality-4",
+			"equifinality-3",
 			"Locus",
 			"TA and Sampled",
 			"Population Census",
@@ -245,94 +305,67 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "paper/madsen2015-ctmixtures.Rmd",
+					"file": "analysis/equifinality-4/test/test-bias-neutral-comparison.r",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 24555,
+						"buffer_size": 10974,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13768,
-								13369
+								10337,
+								10337
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 8,
+							"syntax": "Packages/R/R.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2493.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "paper/overall-algorithm.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 686,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								227,
-								227
-							]
-						],
-						"settings":
-						{
-							"auto_name": "\\begin{algorithm}",
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3561.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "paper/elsarticle-template.tex",
+					"buffer": 1,
+					"file": "analysis/equifinality-4/test/test-bias-model-classification.r",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6308,
+						"buffer_size": 11153,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1663,
-								1663
+								5738,
+								5679
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
+							"syntax": "Packages/R/R.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2369.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

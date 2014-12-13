@@ -9,7 +9,7 @@ library(ggthemes)
 
 
 # Train and tune random forest classifiers for each of the three data sets coming out of the experiment
-# "equifinality-3", for binary analysis. 
+# "equifinality-4", for binary analysis. 
 #
 # In this analysis, we keep all of the sample sizes and ta duration samples together, to see how accurate we 
 # can predict with all the data.  BUT, we treat duration as an unknown parameter, while sample size is visible
@@ -17,21 +17,21 @@ library(ggthemes)
 
 
 # Set up logging
-log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "combined-tasampled-classification.log")
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "combined-tasampled-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-ta-sampled-data.rda")
 } else {
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-ta-sampled-data.rda", args = clargs)
 }
 
 load(ta_sampled_data_file)
 flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
 
 
-flog.info("Beginning classification analysis of equifinality-3 data sets for combined tasampled with hidden duration", name='cl')
+flog.info("Beginning classification analysis of equifinality-4 data sets for combined tasampled with hidden duration", name='cl')
 
 # set up parallel processing - use all the cores (unless it's a dev laptop under OS X) - from mmadsenr
 num_cores <- get_parallel_cores_given_os(dev=TRUE)
@@ -81,21 +81,21 @@ exp_name <- experiment_names[i]
 # We want to downsample the full 800K points down to 100K, so that we have the same balance of under/overfitting
 # with this analysis as all the other analyses which use 100K points.  We do that using a stratified random 
 # sample by model class, to ensure good proportional representation for the classifier
-sample_rows <- createDataPartition(eq3_ta_sampled_df$model_class_label, p = 1/8, list = FALSE)
-eq3_downsampled_df <- eq3_ta_sampled_df[sample_rows,]
+sample_rows <- createDataPartition(eq4_ta_sampled_df$model_class_label, p = 1/8, list = FALSE)
+eq4_downsampled_df <- eq4_ta_sampled_df[sample_rows,]
 
 
 # prepare data
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
-eq3_downsampled_df$two_class_label <- factor(ifelse(eq3_downsampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
+eq4_downsampled_df$two_class_label <- factor(ifelse(eq4_downsampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
 
 
 # remove fields from analysis that aren't predictors, and the detailed label with 4 classes
 exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "ta_duration")
 
-#model <- train_randomforest(eq3_downsampled_df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-model <- train_gbm_classifier(eq3_downsampled_df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
+#model <- train_randomforest(eq4_downsampled_df, training_set_fraction, fit_grid, fit_control, exclude_columns)
+model <- train_gbm_classifier(eq4_downsampled_df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
 
 combined_tassize_results_model[["combined_tassize"]] <- model$tunedmodel
 
@@ -125,17 +125,17 @@ combined_tassize_results <- rbind(combined_tassize_results, results)
 
 if(length(clargs) == 0) {
   
-  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                               filename = "classification-combined-tassize-combined_results-gbm.RData")
-  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                                       filename = "classification-combined-tassize-result-gbm-dfonly.RData")
   
   
 } else {
   
-  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                               filename = "classification-combined-tassize-combined_results-gbm.RData", args = clargs)
-  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                                       filename = "classification-combined-tassize-result-gbm-dfonly.RData", args = clargs)
 }
 
@@ -148,7 +148,3 @@ save(combined_tassize_results, file=image_file_results)
 
 # End
 flog.info("Analysis complete", name='cl')
-
-
-
-plot

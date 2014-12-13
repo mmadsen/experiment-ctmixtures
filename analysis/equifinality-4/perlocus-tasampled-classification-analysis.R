@@ -1,4 +1,4 @@
-library(randomForest)
+
 library(caret)
 library(doMC)
 library(mmadsenr)
@@ -19,15 +19,15 @@ get_tassize_subset_ssize_tadur <- function(df, ssize, tadur) {
 
 
 # Set up logging
-log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "tasampled-classification.log")
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "tasampled-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda")
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-ta-sampled-data.rda")
 } else {
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", filename = "equifinality-3-ta-sampled-data.rda", args = clargs)
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-ta-sampled-data.rda", args = clargs)
 }
 
 load(ta_sampled_data_file)
@@ -35,7 +35,7 @@ flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
 
 
 
-flog.info("Beginning classification analysis of TA sampled equifinality-3 data sets using per-locus predictors only", name='cl')
+flog.info("Beginning classification analysis of TA sampled equifinality-4 data sets using per-locus predictors only", name='cl')
 
 # set up parallel processing - use all the cores (unless it's a dev laptop under OS X) - from mmadsenr
 num_cores <- get_parallel_cores_given_os(dev=TRUE)
@@ -90,15 +90,15 @@ test_set_fraction <- 1.0 - training_set_fraction
 # prepare data
 # create a label combining the biased models into one
 # then, split into training and test sets, with balanced samples for each of the binary classes
-eq3_ta_sampled_df$two_class_label <- factor(ifelse(eq3_ta_sampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
+eq4_ta_sampled_df$two_class_label <- factor(ifelse(eq4_ta_sampled_df$model_class_label == 'allneutral', 'neutral', 'biased'))
 
 
 
 ############# Process each combination of TA and sample size ###########
 
 # get grid of the sample size and TA duration combinations, to tassize_subset the data set
-sample_sizes <- unique(eq3_ta_sampled_df$sample_size)
-ta_durations <- unique(eq3_ta_sampled_df$ta_dur)
+sample_sizes <- unique(eq4_ta_sampled_df$sample_size)
+ta_durations <- unique(eq4_ta_sampled_df$ta_dur)
 
 tassize_subsets <- expand.grid(sample_size = sample_sizes, ta_duration = ta_durations)
 
@@ -119,13 +119,13 @@ tassize_perlocus_model <- NULL
 tassize_perlocus_cm <- NULL
 
 # To create a smaller test dataset:
-# test_tasampled_indices <- createDataPartition(eq3_ta_sampled_df$two_class_label, p = 0.05, list=FALSE)
-# test_tasampled_df <- eq3_ta_sampled_df[test_tasampled_indices,]
-# switch the DF input to get_tassize_subset_ssize_tadur() back to eq3_ta_sampled_df for production
+# test_tasampled_indices <- createDataPartition(eq4_ta_sampled_df$two_class_label, p = 0.05, list=FALSE)
+# test_tasampled_df <- eq4_ta_sampled_df[test_tasampled_indices,]
+# switch the DF input to get_tassize_subset_ssize_tadur() back to eq4_ta_sampled_df for production
 
 for( i in 1:nrow(tassize_subsets)) {
   exp_name <- experiment_names[i]
-  df <- get_tassize_subset_ssize_tadur(eq3_ta_sampled_df, 
+  df <- get_tassize_subset_ssize_tadur(eq4_ta_sampled_df, 
                               tassize_subsets[i, "sample_size"],
                               tassize_subsets[i, "ta_duration"])
   print(sprintf("row %d:  sample size: %d  ta duration: %d numrows: %d", i, tassize_subsets[i, "sample_size"], tassize_subsets[i, "ta_duration"], nrow(df)))
@@ -165,8 +165,8 @@ for( i in 1:nrow(tassize_subsets)) {
 }
 
 # sigh, now we have to remove NULL objects from lists that are tassize_subset of the whole analysis
-tassize_perlocus_roc_ssize_20 <- tassize_perlocus_roc_ssize_20[-(which(sapply(tassize_perlocus_roc_ssize_20,is.null),arr.ind=TRUE))]
-tassize_perlocus_roc_ssize_10 <- tassize_perlocus_roc_ssize_10[-(which(sapply(tassize_perlocus_roc_ssize_10,is.null),arr.ind=TRUE))]
+#tassize_perlocus_roc_ssize_20 <- tassize_perlocus_roc_ssize_20[-(which(sapply(tassize_perlocus_roc_ssize_20,is.null),arr.ind=TRUE))]
+#tassize_perlocus_roc_ssize_10 <- tassize_perlocus_roc_ssize_10[-(which(sapply(tassize_perlocus_roc_ssize_10,is.null),arr.ind=TRUE))]
 
 
 # we can now use plot_multiple_roc() to plot all the ROC curves on the same plot, etc.  
@@ -179,17 +179,17 @@ tassize_perlocus_roc_ssize_10 <- tassize_perlocus_roc_ssize_10[-(which(sapply(ta
 
 if(length(clargs) == 0) {
   
-  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                               filename = "perlocus-tassize-results-gbm.RData")
-  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                                       filename = "perlocus-tassize-results-gbm-dfonly.RData")
   
   
 } else {
   
-  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                               filename = "perlocus-tassize-results-gbm.RData", args = clargs)
-  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3", 
+  image_file_results <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", 
                                       filename = "perlocus-tassize-results-gbm-dfonly.RData", args = clargs)
 }
 

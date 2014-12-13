@@ -11,26 +11,43 @@ library(ggthemes)
 #
 # THIS EXPERIMENT AIMS AT DIFFERENTIATING VARIOUS BIASED MODELS FROM ONE ANOTHER
 
+get_tassize_subset_ssize_tadur <- function(df, ssize, tadur) {
+  df_tassize_subset <- dplyr::filter(df, sample_size == ssize, ta_duration == tadur)
+  df_tassize_subset
+}
+
 
 ############### Set up Execution Environment #############
 
 # Set up logging
-log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "confanticonf-classification.log")
+log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "biasedmodels-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
 if(length(clargs) == 0) {
-  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-4-population-data.rda")
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-4-tasampled-data.rda")
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-population-data.rda")
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-tasampled-data.rda")
 } else {
-  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-4-population-data.rda", args = clargs)
-  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-4-tasampled-data.rda", args = clargs)
+  pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-population-data.rda", args = clargs)
+  ta_sampled_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "equifinality-3-4-tasampled-data.rda", args = clargs)
 }
 
 load(pop_data_file)
 load(ta_sampled_data_file)
 flog.info("Loaded data file: %s", pop_data_file, name='cl')
 flog.info("Loaded data file: %s", ta_sampled_data_file, name='cl')
+
+
+##### Test Data Setup #####
+
+# take a small sample of the original data, but leave the rest of the script unchanged
+test_pop_indices <- createDataPartition(eq4_pop_df$model_class_label, p = 0.1, list = FALSE)
+test_tasampled_indices <- createDataPartition(eq4_ta_sampled_df$model_class_label, p = 0.03, list=FALSE)
+
+eq4_pop_df <- eq4_pop_df[test_pop_indices,]
+eq4_ta_sampled_df <- eq4_ta_sampled_df[test_tasampled_indices,]
+
+
 
 
 
@@ -71,7 +88,7 @@ training_control <- trainControl(method="repeatedcv",
 
 ############ Setup Results Variables ###############
 
-experiment_names <- c("Conf/Anticonf Dominance: Census", "Conf/Anticonf Dominance: Sample 20%")
+experiment_names <- c("Pro/Anti Conformism - Census")
 
 bias_results <- data.frame()
 bias_results_roc <- NULL
@@ -127,14 +144,13 @@ bias_results_roc[["bias_dominance_model"]] <- bias_dominance_roc
 # add to the final data frame
 bias_results <- rbind(bias_results, results)
 
+bias_results$sample_size <- 0
+bias_results$ta_duration <- 0
 
 ########### TA Sampled Analysis #############
 
 flog.info("Starting analysis of mixconfdom vs. mixanticonfdom with tasampled data", name='cl')
 
-# Row index for results data frame -- bump this by one for each analysis block
-i <- 1
-exp_name <- experiment_names[i]
 
 # prepare data
 # create a label combining the biased models into one
@@ -150,13 +166,13 @@ ta_durations <- unique(eq4_ta_sampled_biased_df$ta_dur)
 
 tassize_subsets <- expand.grid(sample_size = sample_sizes, ta_duration = ta_durations)
 
-exclude_columns <- c("simulation_run_id", "model_class_label", "innovation_rate", "configuration_slatkin", "num_trait_configurations", "sample_size", "ta_duration")
+exclude_columns <- c("simulation_run_id","innovation_rate", "sample_size", "ta_duration")
 
 experiment_names <- character(nrow(tassize_subsets))
 
 # Add experiment names to the tassize_subsets since I didn't do this in the original analysis
 for( i in 1:nrow(tassize_subsets)) {
-  experiment_names[i] <- paste("Per-Locus Sample Size: ", tassize_subsets[i, "sample_size"], " Duration: ", tassize_subsets[i, "ta_duration"])
+  experiment_names[i] <- paste("Pro/Anti Conformism - Sample Size: ", tassize_subsets[i, "sample_size"], " Duration: ", tassize_subsets[i, "ta_duration"])
 }
 
 tassize_biased_results <- data.frame()
@@ -179,14 +195,14 @@ for( i in 1:nrow(tassize_subsets)) {
   print(sprintf("row %d:  sample size: %d  ta duration: %d numrows: %d", i, tassize_subsets[i, "sample_size"], tassize_subsets[i, "ta_duration"], nrow(df)))
   
   #model <- train_randomforest(df, training_set_fraction, fit_grid, fit_control, exclude_columns)
-  model <- train_gbm_classifier(df, training_set_fraction, "two_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
+  model <- train_gbm_classifier(df, training_set_fraction, "model_class_label", gbm_grid, training_control, exclude_columns, verbose=FALSE)
   
   tassize_biased_model[[exp_name]] <- model$tunedmodel
   
   # use the test data split by the train_randomforest function and calculate tuned model predictions
   # and then get the confusion matrix and fitting metrics
   predictions <- predict(model$tunedmodel, newdata=model$test_data)
-  cm <- confusionMatrix(predictions, model$test_data$two_class_label)
+  cm <- confusionMatrix(predictions, model$test_data$model_class_label)
   results <- get_parsed_binary_confusion_matrix_stats(cm)
   results$experiments <- experiment_names[i]
   results$elapsed <- model$elapsed
@@ -195,7 +211,7 @@ for( i in 1:nrow(tassize_subsets)) {
   results$experiments <- exp_name
   tassize_biased_cm[[exp_name]] <- cm
   
-  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "two_class_label", experiment_names[i])
+  roc <- calculate_roc_binary_classifier(model$tunedmodel, model$test_data, "model_class_label", experiment_names[i])
   tassize_biased_roc[[exp_name]] <- roc
   results$auc <- unlist(roc$auc@y.values)
   
@@ -207,7 +223,7 @@ for( i in 1:nrow(tassize_subsets)) {
   }
 
 
-  tassize_biased_results <- rbind(tassize_perlocus_results, results)
+  tassize_biased_results <- rbind(tassize_biased_results, results)
 
   
 }
