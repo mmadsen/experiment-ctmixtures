@@ -11,6 +11,13 @@ library(ggthemes)
 #
 # THIS EXPERIMENT AIMS AT DIFFERENTIATING VARIOUS BIASED MODELS FROM ONE ANOTHER
 
+get_tassize_subset_ssize_tadur <- function(df, ssize, tadur) {
+  df_tassize_subset <- dplyr::filter(df, sample_size == ssize, ta_duration == tadur)
+  df_tassize_subset
+}
+
+
+
 
 ############### Set up Execution Environment #############
 
