@@ -16,7 +16,7 @@ library(ggthemes)
 # to the analysis (and the archaeologis)
 
 
-data_directory <- "/mnt"
+
 log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "combined-tasampled-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 

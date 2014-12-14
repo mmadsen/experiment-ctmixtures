@@ -12,7 +12,7 @@ library(ggthemes)
 
 
 
-data_directory <- "/mnt"
+
 log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "per-locus-only-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 

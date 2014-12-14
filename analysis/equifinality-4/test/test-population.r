@@ -25,7 +25,7 @@ library(ggthemes)
 # here, since it can be done quickly enough that I want to be working in RMarkdown to examine different
 # options.  
 
-data_directory <- "/mnt"
+
 log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4", filename = "population-classification.log")
 flog.appender(appender.file(log_file), name='cl')
 
