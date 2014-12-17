@@ -7,30 +7,32 @@
 #
 library(mmadsenr)
 
+
 results_files <- c(
-  "classification-combined-tassize-result-gbm-dfonly.RData",
-  "classification-pop-sampled_results-gbm-dfonly.RData",
-  "classification-ta-sampled-results-gbm-dfonly.RData",
-  "per-locus-analysis-gbm-dfonly.RData",
-  "perlocus-tassize-results-gbm-dfonly.RData"
-  )
+"classification-combined-tassize-result-gbm-dfonly.RData",
+"classification-population-results-gbm-dfOnly.RData",
+"classification-ta-sampled-results-gbm-dfonly.RData",
+"per-locus-analysis-gbm-dfonly.RData",
+"perlocus-tassize-results-gbm-dfonly.RData"
+)
+
+
+
 
 for(file in results_files) {
-  load(get_data_path(suffix = "experiment-ctmixtures/equifinality-3/results", filename = file))
+  load(get_data_path(suffix = "experiment-ctmixtures/equifinality-4/results", filename = file))
 }
 
 
 # Step #1:  Add sample size and ta duration columns to the results data frame
-popsampled_results$sample_size[1] <- 0
-popsampled_results$sample_size[2] <- 10
-popsampled_results$sample_size[3] <- 20
-popsampled_results$ta_duration[1] <- 0  # this broadcasts 0 to the entire column
+results$sample_size <- 0
+results$ta_duration <- 0  # this broadcasts 0 to the entire column
 
 
 # Add an "experiment group" to each df before merging, to be used in visually distinguishing the classes
 
-popsampled_results$exp_group <- 'Population/Sampled' 
-perlocus_results$exp_group <- 'Population/Sampled Per-Locus Only'
+results$exp_group <- 'Population Census' 
+perlocus_results$exp_group <- 'Population Per-Locus Only'
 combined_tassize_results$exp_group <- 'Time Averaged and Sampled Combined Intervals' 
 tassize_perlocus_results$exp_group <- 'Time Averaged and Sampled Per-Locus Only'
 tassize_subsets_results$exp_group <- 'Time Averaged and Sampled'
@@ -42,7 +44,7 @@ tassize_subsets_results$exp_group <- 'Time Averaged and Sampled'
 
 
 # now merge the two into a single dataframe
-classifier_results <- rbind(popsampled_results, 
+classifier_results <- rbind(results, 
                             perlocus_results, 
                             combined_tassize_results, 
                             tassize_perlocus_results, 
@@ -60,7 +62,7 @@ classifier_results$youdensj <- classifier_results$sensitivity + classifier_resul
 ############## Complete Processing and Save Results ##########3
 
 # save objects from the environment
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-3/results", filename = "classification-gbm-merged-dfonly.RData")
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4/results", filename = "classification-gbm-merged-dfonly.RData")
 save(classifier_results, file=image_file)
 
 

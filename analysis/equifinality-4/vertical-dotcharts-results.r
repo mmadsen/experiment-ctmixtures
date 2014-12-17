@@ -2,6 +2,10 @@ library(ggplot2)
 library(ggthemes)
 
 
+
+
+
+
 mcplot <- ggplot(classifier_results, aes(x = misclassification_rate, y = reorder(experiments, misclassification_rate)))
 mcplot <- mcplot + geom_segment(aes(yend = experiments), xend = 0, color = "grey50")
 mcplot <- mcplot + ylab("Classification Experiment")
