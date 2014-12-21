@@ -72,14 +72,18 @@
 	"expanded_folders":
 	[
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/data",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper"
 	],
 	"file_history":
 	[
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/elsarticle-template.tex",
+		"/Users/mark/src/mmadsenr/R/plotting.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/vertical-dotcharts-results.r",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/merge-classification-results.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/combined-tasampled-duration-hidden-analysis.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/perlocus-analysis.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/perlocus-tasampled-classification-analysis.r",
@@ -91,7 +95,6 @@
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/bias-neutral-comparison.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/perlocus-tasampled-classification-analysis.R",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/Makefile",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/merge-classification-results.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test/test-bias-model-classification.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test/test-bias-neutral-comparison.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/test-population.r",
@@ -216,6 +219,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"_",
+			"print",
+			"y_group_variable",
+			"y_variable_name",
+			"x_variable_name",
+			"x_label",
+			"field",
+			"field_label",
+			"field ",
+			"field",
+			"mcplot",
 			"data_directory <- \"/mnt\"",
 			"# Set up logging",
 			".n.trees = (1:10)*25",
@@ -279,6 +293,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"x_variable",
 			"",
 			"data_directory <- \"/mnt\"",
 			".n.trees = (2:10)*50",
