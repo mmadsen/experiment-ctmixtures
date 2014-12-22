@@ -175,11 +175,43 @@ In this study, I employ the standard R package (gbm) for gradient boosted classi
 
 ## Classification Error and Equifinality Assessment ##
 
+While regression models are evaluated by calculating the mean squared error of their predicts, classification models are usually assessed using the "0-1" loss function, which counts the number of misclassified data points when the true generating class is known.  The basic data for calculating accuracy is the _confusion matrix_, which compares classification successes and errors for a data set (an example is given in Table \ref{tab:confusion-matrix}).  
+
+\begin{table}[ht]
+\begin{tabular}{c|cc}
+ & Actual Model: & \\
+ Predicted &  Model 1 & Model  2 \\
+  \hline
+ Model  1 & \textbf{9000} & 2500 \\
+   Model  2 & 1000 & \textbf{7500} \\
+\end{tabular}
+	\caption{Example confusion matrix.  Columns correspond to the actual model for data points, rows correspond to predictions from a classification model.  Bold numbers on the diagonal correspond to correct predictions, the off diagonal elements correspond to classification errors. }
+	\label{tab:confusion-matrix}
+\end{table}
+
+The most basic quantity is the _accuracy_, or the ratio of correct predicts to the total number of data points.  When the classes being predicted are not balanced, and especially if there are a small number of one class compared to another, a better statistic is Cohen's "kappa" [@kuhn2013applied], which compares observed accuracy to what one would expect purely from chance, given the marginal totals:
+
+\begin{equation}
+\Kappa = \frac{O - E}{1 - E}
+\label{eq:kappa}
+\end{equation}
+
+where $O$ is the observed accuracy, and $E$ is the expected accuracy due to chance given the ratio of classes in the marginal totals of the confusion matrix.  Kappa ranges from $-1$ to $+1$, with $0$ indicating no agreement between predictions and the real class memberships.  High values indicate good agreement, while values below $0.5$ and especially between $0.2$ and $0$ indicate very poor predictive ability [@altman1991practical].  In the present context, a classifier comparison (for example, biased versus neutral models with no sampling or time averaging) that yield a high kappa value are strong evidence that no equifinality exists between the two situations, since the classifier is highly accurate.  Low kappa values are evidence that despite strong statistical methods and many variables to choose from, we cannot distinguish between models, and thus the models may be equifinal.  
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{figure/roc-example.pdf}
+\caption{Example of a ROC (Receiver Operating Characteristic) curve, which displays the tradeoff between error rates in a classifier.  Good classifiers display ROC curves which closely follow the upper left corner, while poor classifiers yield curves which are closer to the diagonal.}
+\label{img:separability-example}
+\end{figure}  
 
 
 
 
- 
+
+
+
 
 # Results #
 

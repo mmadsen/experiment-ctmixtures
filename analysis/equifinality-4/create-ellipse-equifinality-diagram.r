@@ -48,3 +48,6 @@ lines(ellipse_1, col="lightgreen", lwd=3)
 lines(ellipse_3, col="lightblue", lwd=3)
 legend("topleft", "95%", lty = 1, lwd = 3)
 
+
+
+
