@@ -27,6 +27,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "paper/madsen2015-ctmixtures.Rmd",
+			"settings":
+			{
+				"buffer_size": 37126,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "Packages/Makefile/Make.sublime-build",
 	"command_palette":
@@ -219,6 +227,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Class",
 			"_",
 			"print",
 			"y_group_variable",
@@ -314,8 +323,37 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "paper/madsen2015-ctmixtures.Rmd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 37126,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								30699,
+								30699
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 7208.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],

@@ -57,7 +57,7 @@ nonoverlapping <- nonoverlapping + geom_point(aes(color = class)) + xlab("Predic
 nonoverlapping <- nonoverlapping + guides(color = FALSE)
 nonoverlapping
 
-pdf(file = "../paper/figure/distributional-overlap.pdf")
+pdf(file = "../paper/figure/distributional-overlap.pdf", width = 15, height = 10 )
 arrange_ggplot2(nonoverlapping, overlapping2, overlapping3)
 dev.off()
 
