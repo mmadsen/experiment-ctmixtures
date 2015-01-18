@@ -18,7 +18,7 @@ p4_df$class <- "Model 2"
 
 combined_df <- rbind(p1_df, p4_df)
 overlapping3 <- ggplot(combined_df, aes(x = V1, y = V2)) + ggtitle("(C)")
-overlapping3 <- overlapping3 + geom_point(aes(color = class)) + xlab("Predictor 1") + ylab("Predictor 2") + theme_pander() + labs(color = "Model")
+overlapping3 <- overlapping3 + geom_point(aes(color = class)) + xlab("Predictor 1") + ylab("Predictor 2") + theme_pander() + theme(axis.title.y = element_blank()) + labs(color = "Model")
 overlapping3
 
 # Less overlapping example
@@ -34,8 +34,8 @@ p4_df$class <- "Model 2"
 
 combined_2_df <- rbind(p3_df, p4_df)
 overlapping2 <- ggplot(combined_2_df, aes(x = V1, y = V2)) + ggtitle("(B)")
-overlapping2 <- overlapping2 + geom_point(aes(color = class)) + xlab("Predictor 1") + ylab("Predictor 2") + theme_pander()+ labs(color = "Model")
-overlapping2 <- overlapping2 + guides(color = FALSE)
+overlapping2 <- overlapping2 + geom_point(aes(color = class)) + xlab("Predictor 1") + theme_pander() + labs(color = "Model")
+overlapping2 <- overlapping2 + theme(axis.title.y = element_blank()) + guides(color = FALSE)
 overlapping2
 
 

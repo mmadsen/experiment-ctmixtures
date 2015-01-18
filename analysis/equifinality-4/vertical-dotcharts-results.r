@@ -23,7 +23,7 @@ mcplot
 
 
 
-kappaplot <- ggplot(classifier_results, aes(x = kappa, y = reorder(experiments, kappa)))
+kappaplot <- ggplot(full_bias_results, aes(x = kappa, y = reorder(experiments, kappa)))
 kappaplot <- kappaplot + geom_segment(aes(yend = experiments), xend = 0, color = "grey50")
 kappaplot <- kappaplot + ylab("Classification Experiment")
 kappaplot <- kappaplot + xlab("Cohen's Kappa")
@@ -32,12 +32,9 @@ kappaplot <- kappaplot + theme_pander()
 kappaplot <- kappaplot + theme(panel.grid.major.x = element_blank(),
                      panel.grid.minor.x = element_blank(),
                      strip.background = element_blank(), strip.text = element_blank())
-#panel.grid.major.y = element_line(colour = "grey40", linetype = "dashed")
-#)
 kappaplot <- kappaplot + facet_grid(exp_group ~ ., scales = "free_y", space = "free_y")
-
 kappaplot
-
+ggsave(kappaplot, file="../paper/figure/unbiased-biased-kappa-dotchart.pdf", width=11, height=8.5, units="in")
 
 
 aucplot <- ggplot(classifier_results, aes(x = auc, y = reorder(experiments, auc))) 
