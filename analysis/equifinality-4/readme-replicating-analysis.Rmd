@@ -1,0 +1,22 @@
+---
+title: 'Equifinality-4:  Notes on Replicating Analysis'
+author: "Mark E. Madsen"
+date: "January 20, 2015"
+output: html_document
+---
+
+The CTMixtures analysis is designed to be replicable given the output from simulation models.  The analysis 
+is not in the form of a single RMarkdown document, however, because classification model fitting is a lengthy
+process on a computing cluster.  Thus, the analysis is broken into three stages:
+
+1.  Data preparation --  located in "postsimulation" directory
+1.  Model fitting --  located in "modelfitting" directory
+1.  Fit post-processing --  located in "postmodelfitting" directory
+1.  Results --  located in "paperanalysis" directory
+
+The output of the scripts in the "paperanalysis" directory are intended for inclusion directly in publications and finished results.  
+
+
+
+
+

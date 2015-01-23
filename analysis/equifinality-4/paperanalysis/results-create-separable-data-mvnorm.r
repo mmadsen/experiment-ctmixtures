@@ -60,8 +60,3 @@ nonoverlapping
 pdf(file = "../paper/figure/distributional-overlap.pdf", width = 15, height = 10 )
 arrange_ggplot2(nonoverlapping, overlapping2, overlapping3)
 dev.off()
-
-
-
-
-#ellipse(mu=colMeans(p), sigma=cov(p), alpha = .05, npoints = 250, col="red") 
