@@ -39,9 +39,20 @@ We can answer the first question by measuring the overlap between the outcomes e
 \begin{figure}[ht]
 \centering
 \includegraphics{figure/distributional-overlap-scaled.pdf}
-\caption{Simple example of model outcomes with separable distributions (A), two models with a limited overlap region (B), and two models whose outcomes are highly overlapping (C).}
+\caption{Simple example of model outcomes with different degrees of distinguishability: (A) simulated data point from two fully separate models, (B) two models with a limited overlap region, (C) and two models whose outcomes are highly overlapping.}
 \label{img:separability-example}
 \end{figure}  
+
+
+((Discussion of the effect of variables on equifinality))
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figure/equifinality-variable-effect.pdf}
+\caption{Simple example of the effect of variable choice in distinguishing models: (A) simulated data points from two models, (B) the density of a variable which displays overlap between models, (C) the density of a variable which separates the two models.}
+\label{img:variables-equifinality-example}
+\end{figure}  
+
 
 We can formalize the analysis of overlap between models as a problem of "classification" or "pattern recognition" in the sense of statistical or machine learning [@hastie2009elements].  Given a set of models $\mathcal{M}_1 \ldots \mathcal{M}_n$, we can measure equifinality as the minimum possible error achievable in correctly assigning simulated data points to the models which generated them, given measurement of a set of predictor variables.  In general, the classification problem asks which model has the highest probability for a given data point, given the conditional density of the data and models.  This sounds exactly like Bayes' theorem, and in fact we can write the classification problem as follows, where $Y \in 1, \ldots, K$ refers to each of $k$ models, and $X_1, \ldots, X_p$ refer to $p$ different predictor variables.    
 
