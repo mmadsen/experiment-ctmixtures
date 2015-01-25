@@ -31,15 +31,7 @@
 			"file": "paper/madsen2015-ctmixtures.Rmd",
 			"settings":
 			{
-				"buffer_size": 41303,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "paper/elsarticle-template.tex",
-			"settings":
-			{
-				"buffer_size": 6624,
+				"buffer_size": 43782,
 				"line_ending": "Unix"
 			}
 		}
@@ -90,15 +82,13 @@
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/data",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-3",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper"
 	],
 	"file_history":
 	[
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/elsarticle-template.tex",
 		"/Users/mark/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/elsarticle-template.tex",
 		"/Users/mark/src/mmadsenr/R/plotting.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/vertical-dotcharts-results.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/merge-classification-results.r",
@@ -341,15 +331,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 41303,
+						"buffer_size": 43782,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8357,
-								8357
+								2166,
+								2166
 							]
 						],
 						"settings":
@@ -357,38 +347,10 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1539.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "paper/elsarticle-template.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6624,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								828,
-								828
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 123.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -458,7 +420,7 @@
 		[
 			[
 				"",
-				"~/Dropbox/Research/websites/lnraw/lnraw.sublime-project"
+				"~/Dropbox/Seriation/PlosOneLatex/seriation-plosonelatex.sublime-project"
 			]
 		],
 		"width": 902.0

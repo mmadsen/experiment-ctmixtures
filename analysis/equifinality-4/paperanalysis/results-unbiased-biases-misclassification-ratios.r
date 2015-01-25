@@ -41,13 +41,14 @@ for(name in c_names) {
   num <- cm_objects[[name]][["table"]][[3]]
   den <- cm_objects[[name]][["table"]][[4]]
   r <- (num / (num + den)) * 100.0
-
+  print(sprintf("r: %f", r))
   
   ratios <- c(ratios, r)
 }
 
-error_ratio_neutral <- as.data.frame(cbind(names, groups, ratios))
-names(error_ratio_neutral) <- c("Experiment", "Data Collection Treatment", "% Misclassified")
+#error_ratio_neutral <- as.data.frame(cbind(names,as.numeric(ratios)))
+error_ratio_neutral <- data.frame(names,as.numeric(ratios))
+names(error_ratio_neutral) <- c("Data Collection Treatment", "% Misclassified")
 
 
 # reorder in ascending order of ratio
@@ -60,9 +61,10 @@ save(error_ratio_neutral, file = filename)
 
 # now make a nice looking table
 
-error_rate_table <- toLatex(xtable(error_ratio_neutral,
-                                   align="|l|l|l|c|"), include.rownames = FALSE, comment=FALSE,floating=FALSE)
+print(xtable(error_ratio_neutral,
+      align="|l|l|c|",digits = c(0,0,1)), include.rownames = FALSE, comment=FALSE,floating=FALSE,
+      file = "../paper/misclassification-percentage-neutral-data.tex")
 
-save(error_rate_table, file = "../paper/misclassification-percentage-neutral-data.tex", ascii = TRUE)
+
 
 
