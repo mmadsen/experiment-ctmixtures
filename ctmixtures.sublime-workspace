@@ -31,7 +31,7 @@
 			"file": "paper/madsen2015-ctmixtures.Rmd",
 			"settings":
 			{
-				"buffer_size": 43782,
+				"buffer_size": 43830,
 				"line_ending": "Unix"
 			}
 		}
@@ -47,6 +47,10 @@
 				"Package Control: Install Package"
 			],
 			[
+				"Ins",
+				"Package Control: Install Package"
+			],
+			[
 				"Pac",
 				"Package Control: Install Package"
 			],
@@ -55,7 +59,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 530.0
+		"width": 593.0
 	},
 	"console":
 	{
@@ -331,23 +335,23 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 43782,
+						"buffer_size": 43830,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2166,
-								2166
+								9537,
+								9537
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/knitr/knitr-Markdown.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1797.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -420,7 +424,7 @@
 		[
 			[
 				"",
-				"~/Dropbox/Seriation/PlosOneLatex/seriation-plosonelatex.sublime-project"
+				"~/src/inkshares-recommender-mmadsen/inkshares-recommender.sublime-workspace"
 			]
 		],
 		"width": 902.0

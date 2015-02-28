@@ -4,6 +4,8 @@ pdf:
 	./knit pdf
 	pandoc -s --biblio madsen2015-ctmixtures.bib madsen2015-ctmixtures.md --template=elsarticle-template.tex --no-tex-ligatures --latex-engine=xelatex -o madsen2015-ctmixtures.tex --natbib --number-sections --listings 
 	#pandoc -s --smart --biblio madsen2015-ctmixtures.bib madsen2015-ctmixtures.md --template=elsarticle-template.tex -o madsen2015-ctmixtures.tex --natbib --number-sections --listings
+	sed -f ~/research/bin/dblquote2latex.sed madsen2015-ctmixtures.tex > madsen2015-ctmixtures.tmp
+	mv madsen2015-ctmixtures.tmp madsen2015-ctmixtures.tex
 	latexmk -pdf madsen2015-ctmixtures
 	open -a /Applications/Skim.app madsen2015-ctmixtures.pdf
 

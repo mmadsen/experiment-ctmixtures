@@ -38,7 +38,7 @@ We can answer the first question by measuring the overlap between the outcomes e
 
 \begin{figure}[ht]
 \centering
-\includegraphics{figure/distributional-overlap-scaled.pdf}
+\includegraphics[scale=0.8]{figure/distributional-overlap-scaled.pdf}
 \caption{Simple example of model outcomes with different degrees of distinguishability: (A) simulated data point from two fully separate models, (B) two models with a limited overlap region, (C) and two models whose outcomes are highly overlapping.}
 \label{img:separability-example}
 \end{figure}  
@@ -48,8 +48,8 @@ We can answer the first question by measuring the overlap between the outcomes e
 
 \begin{figure}[ht]
 \centering
-\includegraphics{figure/equifinality-variable-effect.pdf}
-\caption{Simple example of the effect of variable choice in distinguishing models: (A) simulated data points from two models, (B) the density of a variable which displays overlap between models, (C) the density of a variable which separates the two models.}
+\includegraphics[scale=0.8]{figure/equifinality-variable-effect.pdf}
+\caption{Simple example of the effect of variable choice in distinguishing models.  The variable on the X axis displays quite a bit of overlap between models, while the variable on the Y axis distinguishes the models with fairly high accuracy.}
 \label{img:variables-equifinality-example}
 \end{figure}  
 
