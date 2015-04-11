@@ -23,7 +23,6 @@
 *.out
 *.synctex.gz
 *.spl
-*.pdf
 *.fdb_latexmk
 *.lox
 *.thm
