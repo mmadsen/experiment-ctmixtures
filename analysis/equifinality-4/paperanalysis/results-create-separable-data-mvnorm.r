@@ -17,9 +17,10 @@ p4_df <- as.data.frame(p4)
 p4_df$class <- "Model 2"
 
 combined_df <- rbind(p1_df, p4_df)
-overlapping3 <- ggplot(combined_df, aes(x = V1, y = V2)) + ggtitle("(C)")
-overlapping3 <- overlapping3 + geom_point(aes(color = class)) + xlab("Predictor 1") + ylab("Predictor 2") + theme_pander() + theme(axis.title.y = element_blank()) + labs(color = "Model")
-overlapping3
+overlapping3 <- ggplot(combined_df, aes(x = V1, y = V2)) + ggtitle("(C)") + ylim(-100,450)
+overlapping3 <- overlapping3 + geom_point(aes(color = class)) + xlab("Predictor 1") + ylab("Predictor 2") + theme_hc() + scale_colour_hc() 
+overlapping3 <- overlapping3 + theme(axis.title.y = element_blank()) + labs(color = "Model") + guides(color = FALSE)
+
 
 # Less overlapping example
 p3 <- rmvnorm(500, c(2500, 275), matrix(c(1000^2, 220^2, 220^2, 60^2),2,2))
@@ -33,10 +34,10 @@ p4_df$class <- "Model 2"
 
 
 combined_2_df <- rbind(p3_df, p4_df)
-overlapping2 <- ggplot(combined_2_df, aes(x = V1, y = V2)) + ggtitle("(B)")
-overlapping2 <- overlapping2 + geom_point(aes(color = class)) + xlab("Predictor 1") + theme_pander() + labs(color = "Model")
+overlapping2 <- ggplot(combined_2_df, aes(x = V1, y = V2)) + ggtitle("(B)") + ylim(-100,450)
+overlapping2 <- overlapping2 + geom_point(aes(color = class)) + xlab("Predictor 1") + theme_hc() + scale_colour_hc() + labs(color = "Model")
 overlapping2 <- overlapping2 + theme(axis.title.y = element_blank()) + guides(color = FALSE)
-overlapping2
+
 
 
 
@@ -52,11 +53,12 @@ p6_df$class <- "Model 2"
 
 
 combined_3_df <- rbind(p5_df, p6_df)
-nonoverlapping <- ggplot(combined_3_df, aes(x = V1, y = V2)) + ggtitle("(A)")
-nonoverlapping <- nonoverlapping + geom_point(aes(color = class)) + xlab("Predictor 1") + ylab("Predictor 2") + theme_pander()+ labs(color = "Model")
+nonoverlapping <- ggplot(combined_3_df, aes(x = V1, y = V2)) + ggtitle("(A)") + ylim(-100,450)
+nonoverlapping <- nonoverlapping + geom_point(aes(color = class)) + xlab("Predictor 1") + ylab("Predictor 2") + theme_hc() + scale_colour_hc()+ labs(color = "Model")
 nonoverlapping <- nonoverlapping + guides(color = FALSE)
-nonoverlapping
 
-pdf(file = "../paper/figure/distributional-overlap.pdf", width = 15, height = 10 )
+
+arrange_ggplot2(nonoverlapping, overlapping2, overlapping3)
+pdf(file = "../paper/figure/generated/distributional-overlap.pdf", width = 8, height = 8 )
 arrange_ggplot2(nonoverlapping, overlapping2, overlapping3)
 dev.off()

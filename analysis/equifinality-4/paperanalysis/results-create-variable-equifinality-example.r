@@ -24,20 +24,20 @@ p6_df$class <- "Model 2"
 
 combined_3_df <- rbind(p5_df, p6_df)
 nonoverlapping <- ggplot(combined_3_df, aes(x = V1, y = V2)) 
-nonoverlapping <- nonoverlapping + geom_point(aes(color = class)) + xlab("Variable 1") + ylab("Variable 2") + theme_pander() 
+nonoverlapping <- nonoverlapping + geom_point(aes(color = class)) + xlab("Variable 1") + ylab("Variable 2") + theme_hc() + scale_colour_hc()
 nonoverlapping <- nonoverlapping + guides(color = FALSE)
 nonoverlapping <- nonoverlapping + ylim(95,110) + xlim(97, 105)
 
 
 variable1 <- ggplot(combined_3_df, aes(x = V1)) 
-variable1 <- variable1 + geom_density(aes(color = class), size = 1) + theme_pander() + guides(color = FALSE) 
+variable1 <- variable1 + geom_density(aes(color = class), size = 1) + theme_hc() + scale_colour_hc()+ guides(color = FALSE) 
 variable1 <- variable1 + theme(axis.text.x= element_blank(), axis.text.y = element_blank(), 
                                axis.title.x = element_blank(), axis.title.y = element_blank(),
                                panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
 variable2 <- ggplot(combined_3_df, aes(x = V2)) 
-variable2 <- variable2 + geom_density(aes(color = class), size = 1) + theme_pander() + guides(color = FALSE) 
+variable2 <- variable2 + geom_density(aes(color = class), size = 1) + theme_hc() + scale_colour_hc()+ guides(color = FALSE) 
 variable2 <- variable2 + theme(axis.text.x= element_blank(), axis.text.y = element_blank(), 
                                axis.title.x = element_blank(), axis.title.y = element_blank(),
                                panel.grid.major = element_blank(), panel.grid.minor = element_blank())
