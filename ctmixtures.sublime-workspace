@@ -28,18 +28,31 @@
 	"buffers":
 	[
 		{
-			"file": "paper/madsen2015-ctmixtures.Rmd",
+			"file": "paper/Makefile",
 			"settings":
 			{
-				"buffer_size": 43830,
+				"buffer_size": 176,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paper/madsen2015-ctmixtures.tex",
+			"settings":
+			{
+				"buffer_size": 53105,
 				"line_ending": "Unix"
 			}
 		}
 	],
 	"build_system": "Packages/Makefile/Make.sublime-build",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
 	"command_palette":
 	{
 		"height": 392.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -85,14 +98,15 @@
 	[
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/data",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper"
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/data"
 	],
 	"file_history":
 	[
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/plos_template.tex",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/plaincitation.sed",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/elsarticle-template.tex",
 		"/Users/mark/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
 		"/Users/mark/src/mmadsenr/R/plotting.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/vertical-dotcharts-results.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/merge-classification-results.r",
@@ -230,6 +244,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"marin",
 			"Class",
 			"_",
 			"print",
@@ -326,32 +341,60 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "paper/madsen2015-ctmixtures.Rmd",
+					"file": "paper/Makefile",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 43830,
+						"buffer_size": 176,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9537,
-								9537
+								169,
+								169
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/knitr/knitr-Markdown.tmLanguage"
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1797.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "paper/madsen2015-ctmixtures.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 53105,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								52972,
+								52972
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 17372.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -399,6 +442,7 @@
 	{
 		"height": 0.0
 	},
+	"pinned_build_system": "",
 	"project": "ctmixtures.sublime-project",
 	"replace":
 	{
@@ -408,6 +452,7 @@
 	"select_file":
 	{
 		"height": 0.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -420,11 +465,12 @@
 	"select_project":
 	{
 		"height": 525.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
 				"",
-				"~/src/inkshares-recommender-mmadsen/inkshares-recommender.sublime-workspace"
+				"~/Dropbox/Research/websites/lnraw/lnraw.sublime-project"
 			]
 		],
 		"width": 902.0
@@ -432,6 +478,7 @@
 	"select_symbol":
 	{
 		"height": 0.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
