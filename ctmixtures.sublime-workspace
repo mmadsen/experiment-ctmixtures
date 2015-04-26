@@ -34,14 +34,6 @@
 				"buffer_size": 176,
 				"line_ending": "Unix"
 			}
-		},
-		{
-			"file": "paper/madsen2015-ctmixtures.tex",
-			"settings":
-			{
-				"buffer_size": 53105,
-				"line_ending": "Unix"
-			}
 		}
 	],
 	"build_system": "Packages/Makefile/Make.sublime-build",
@@ -98,10 +90,12 @@
 	[
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/data"
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/data",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper"
 	],
 	"file_history":
 	[
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.tex",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/plos_template.tex",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/plaincitation.sed",
@@ -244,6 +238,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"min",
+			"Min",
+			"min",
+			"Min",
 			"marin",
 			"Class",
 			"_",
@@ -341,7 +339,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -367,34 +365,6 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "paper/madsen2015-ctmixtures.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 53105,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								52972,
-								52972
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 17372.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
