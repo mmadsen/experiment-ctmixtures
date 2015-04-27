@@ -31,4 +31,7 @@ print(xtable(pop_varimp_labeled,
 file = "../paper/varimp_population_census_table.tex")
 
 
-
+balbiased_varimp_labeled <- get_labeled_df(var_importance_list$balanced_bias_neutral_model)
+print(xtable(balbiased_varimp_labeled,
+             align="|l|r|c|",digits = c(0,2,1)), include.rownames = FALSE, comment=FALSE,floating=FALSE,
+      file = "../paper/varimp_balbiased_census_table.tex")
