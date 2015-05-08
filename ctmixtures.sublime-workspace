@@ -34,6 +34,66 @@
 				"buffer_size": 176,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "simulations/equifinality-5/README.md",
+			"settings":
+			{
+				"buffer_size": 1798,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{\n    \"TIME_AVERAGING_DURATIONS\" : [10,25,50,100],\n    \"SAMPLE_SIZES_STUDIED\" : [10,20],\n    \"INTERACTION_RULE_CLASS\" : {\"ctmixtures.rules.AntiConformistCopyingRule\": 1.0},\n    \"POPULATION_STRUCTURE_CLASS\" : \"ctmixtures.population.FixedTraitStructurePopulation\",\n    \"INNOVATION_RULE_CLASS\" : \"ctmixtures.rules.InfiniteAllelesMutationRule\",\n    \"NETWORK_FACTORY_CLASS\" : \"ctmixtures.population.SquareLatticeFactory\",\n    \"TRAIT_FACTORY_CLASS\" : \"ctmixtures.traits.LocusAlleleTraitFactory\",\n    \"TIME_AVERAGING_CLASS\" : \"pytransmission.aggregation.MoranCumulativeTimeAverager\",\n    \"DYNAMICS_CLASS\" : \"ctmixtures.dynamics.MoranDynamics\",\n    \"MODEL_CLASS_LABEL\" : \"mixantidom\"\n}\n\n",
+			"file": "simulations/equifinality-5/conf/equifinality-anticonformism-fixed.json",
+			"file_size": 679,
+			"file_write_time": 130748824550000000,
+			"settings":
+			{
+				"buffer_size": 679,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{\n    \"TIME_AVERAGING_DURATIONS\" : [10,25,50,100],\n    \"SAMPLE_SIZES_STUDIED\" : [10,20],\n    \"INTERACTION_RULE_CLASS\" : {\"ctmixtures.rules.AntiConformistCopyingRule\": 1.0},\n    \"POPULATION_STRUCTURE_CLASS\" : \"ctmixtures.population.FixedTraitStructurePopulation\",\n    \"INNOVATION_RULE_CLASS\" : \"ctmixtures.rules.InfiniteAllelesMutationRule\",\n    \"NETWORK_FACTORY_CLASS\" : \"ctmixtures.population.SquareLatticeFactory\",\n    \"TRAIT_FACTORY_CLASS\" : \"ctmixtures.traits.LocusAlleleTraitFactory\",\n    \"TIME_AVERAGING_CLASS\" : \"pytransmission.aggregation.MoranCumulativeTimeAverager\",\n    \"DYNAMICS_CLASS\" : \"ctmixtures.dynamics.MoranDynamics\",\n    \"MODEL_CLASS_LABEL\" : \"mixantidom\"\n}\n\n",
+			"file": "simulations/equifinality-5/conf/equifinality-anticonformism-variable.json",
+			"file_size": 679,
+			"file_write_time": 130748824670000000,
+			"settings":
+			{
+				"buffer_size": 679,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{\n    \"TIME_AVERAGING_DURATIONS\" : [10,25,50,100],\n    \"SAMPLE_SIZES_STUDIED\" : [10,20],\n    \"INTERACTION_RULE_CLASS\" : {\"ctmixtures.rules.AntiConformistCopyingRule\": 1.0},\n    \"POPULATION_STRUCTURE_CLASS\" : \"ctmixtures.population.FixedTraitStructurePopulation\",\n    \"INNOVATION_RULE_CLASS\" : \"ctmixtures.rules.InfiniteAllelesMutationRule\",\n    \"NETWORK_FACTORY_CLASS\" : \"ctmixtures.population.SquareLatticeFactory\",\n    \"TRAIT_FACTORY_CLASS\" : \"ctmixtures.traits.LocusAlleleTraitFactory\",\n    \"TIME_AVERAGING_CLASS\" : \"pytransmission.aggregation.MoranCumulativeTimeAverager\",\n    \"DYNAMICS_CLASS\" : \"ctmixtures.dynamics.MoranDynamics\",\n    \"MODEL_CLASS_LABEL\" : \"mixconfdom\"\n}\n\n",
+			"file": "simulations/equifinality-5/conf/equifinality-conformism-fixed.json",
+			"file_size": 679,
+			"file_write_time": 130748824810000000,
+			"settings":
+			{
+				"buffer_size": 679,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{\n    \"TIME_AVERAGING_DURATIONS\" : [10,25,50,100],\n    \"SAMPLE_SIZES_STUDIED\" : [10,20],\n    \"INTERACTION_RULE_CLASS\" : {\"ctmixtures.rules.ConformistCopyingRule\": 1.0},\n    \"POPULATION_STRUCTURE_CLASS\" : \"ctmixtures.population.FixedTraitStructurePopulation\",\n    \"INNOVATION_RULE_CLASS\" : \"ctmixtures.rules.InfiniteAllelesMutationRule\",\n    \"NETWORK_FACTORY_CLASS\" : \"ctmixtures.population.SquareLatticeFactory\",\n    \"TRAIT_FACTORY_CLASS\" : \"ctmixtures.traits.LocusAlleleTraitFactory\",\n    \"TIME_AVERAGING_CLASS\" : \"pytransmission.aggregation.MoranCumulativeTimeAverager\",\n    \"DYNAMICS_CLASS\" : \"ctmixtures.dynamics.MoranDynamics\",\n    \"MODEL_CLASS_LABEL\" : \"mixconfdom\"\n}\n\n",
+			"file": "simulations/equifinality-5/conf/equifinality-conformism-variable.json",
+			"file_size": 675,
+			"file_write_time": 130748824940000000,
+			"settings":
+			{
+				"buffer_size": 675,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "simulations/equifinality-5/expconfig/conformist-mixture-priors.json",
+			"settings":
+			{
+				"buffer_size": 321,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "Packages/Makefile/Make.sublime-build",
@@ -91,7 +151,10 @@
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/data",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper"
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5/conf",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5/expconfig"
 	],
 	"file_history":
 	[
@@ -339,7 +402,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -362,6 +425,184 @@
 						"settings":
 						{
 							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "simulations/equifinality-5/README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1798,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1795,
+								1795
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "simulations/equifinality-5/conf/equifinality-anticonformism-fixed.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 679,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								170,
+								170
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "simulations/equifinality-5/conf/equifinality-anticonformism-variable.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 679,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								170,
+								170
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "simulations/equifinality-5/conf/equifinality-conformism-fixed.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 679,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								170,
+								170
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "simulations/equifinality-5/conf/equifinality-conformism-variable.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 675,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								166,
+								166
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "simulations/equifinality-5/expconfig/conformist-mixture-priors.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 321,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
