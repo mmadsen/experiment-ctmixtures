@@ -45,7 +45,8 @@ training_control <- trainControl(method="repeatedcv",
 seed_value <- 58132133
 set.seed(seed_value)
 
-log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5", filename = "perlocus-population-classification.log")
+#log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5", filename = "perlocus-population-classification.log")
+log_file <- "/mnt/experiment-ctmixtures/equifinality-5/perlocus-population-classification.log"
 flog.appender(appender.file(log_file), name='cl')
 
 clargs <- commandArgs(trailingOnly = TRUE)
@@ -54,7 +55,7 @@ if(length(clargs) == 0) {
 } else {
   pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5", filename = "equifinality-5-population-data.rda", args = clargs)
 }
-
+pop_data_file <- "/mnt/experiment-ctmixtures/equifinality-5/equifinality-5-population-data.rda"
 load(pop_data_file)
 
 flog.info("Loaded data file: %s", pop_data_file, name='cl')

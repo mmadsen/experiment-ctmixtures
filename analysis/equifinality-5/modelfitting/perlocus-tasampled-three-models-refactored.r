@@ -94,7 +94,8 @@ do_model_fit_and_test <- function(comparison,exp_name, ssize, ta_dur, target_lab
 
 
 ####################### Main Program #######################
-log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5", filename = "perlocus-tasampled-classification.log")
+#log_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5", filename = "perlocus-tasampled-classification.log")
+log_file <- "/mnt/experiment-ctmixtures/equifinality-5/perlocus-tasampled-classification.log"
 flog.appender(appender.file(log_file), name='cl')
 flog.info("================ TA and Sampled Classification Analysis: Per-Locus Variables Only =================", name='cl')
 flog.info("RNG seed to replicate this analysis: %s", seed_value, name='cl')
@@ -111,6 +112,7 @@ if(length(clargs) == 0) {
 } else {
   pop_data_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5", filename = "equifinality-5-tasampled-data.rda", args = clargs)
 }
+pop_data_file <- "/mnt/experiment-ctmixtures/equifinality-5/equifinality-5-tasampled-data.rda"
 load(pop_data_file)
 flog.info("Loaded data file %s with %.0f rows",pop_data_file, nrow(eq5_ta_sampled_df),name='cl')
 
