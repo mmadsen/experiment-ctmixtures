@@ -118,9 +118,9 @@ flog.info("Loaded data file %s with %.0f rows",pop_data_file, nrow(eq5_ta_sample
 
 
 ## To Test, uncomment this
-test_tasampled_indices <- createDataPartition(eq5_ta_sampled_df$model_class_label, p = 0.005, list=FALSE)
-eq5_ta_sampled_df <- eq5_ta_sampled_df[test_tasampled_indices,]
-flog.info("Test downsample to %.0f rows", nrow(eq5_ta_sampled_df), name='cl')
+# test_tasampled_indices <- createDataPartition(eq5_ta_sampled_df$model_class_label, p = 0.005, list=FALSE)
+# eq5_ta_sampled_df <- eq5_ta_sampled_df[test_tasampled_indices,]
+# flog.info("Test downsample to %.0f rows", nrow(eq5_ta_sampled_df), name='cl')
 
 
 # Prepare data subsets for the three comparisons to be performed for each
