@@ -44,7 +44,6 @@ cm_objects <- c(
   perlocus_results_cm
 )
 
-
 ## Capture Variable Importance ##
 
 var_importance_list <- NULL
@@ -55,7 +54,7 @@ for(name in m_names) {
 }
 
 # save objects from the environment
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4/results", filename = "varimp-merged-gbm.RData")
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5/results", filename = "varimp-merged-gbm.RData")
 save(var_importance_list, file=image_file)
 
 
@@ -70,8 +69,8 @@ for(name in m_names) {
 }
 
 # save objects from the environment
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4/results", filename = "cm-formatted-gbm.RData")
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5/results", filename = "cm-formatted-gbm.RData")
 save(formatted_cm_list, file=image_file)
 
-image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-4/results", filename = "cm-merged-gbm.RData")
+image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5/results", filename = "cm-merged-gbm.RData")
 save(cm_objects, file=image_file)
