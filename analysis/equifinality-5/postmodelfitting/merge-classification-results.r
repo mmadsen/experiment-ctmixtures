@@ -6,6 +6,8 @@
 # The combined (non-subsetted) tasampled classification is in a data frame called "combined_results"
 #
 library(mmadsenr)
+library(plyr)
+
 
 
 results_files <- c(
@@ -67,12 +69,19 @@ eq5_classifier_results <- rbind(
   tassize_neutral_conformist_results
 )
 
+# Create descriptive versions of the positive_label which records which type
+# of CT bias is compared to neutrality/unbiased in each classification
+
+eq5_classifier_results$positive_label <- revalue(eq5_classifier_results$positive_label, c("biased"="Combined Conformist and Anticonformist",
+                                                 "anticonformist"="Anticonformist",
+                                                 "conformist"="Conformist"))
+
 
 ###### Add two useful statistics #######
 
 
-classifier_results$fdr <- 1.0 - classifier_results$ppv
-classifier_results$youdensj <- classifier_results$sensitivity + classifier_results$specificity - 1.0
+eq5_classifier_results$fdr <- 1.0 - eq5_classifier_results$ppv
+eq5_classifier_results$youdensj <- eq5_classifier_results$sensitivity + eq5_classifier_results$specificity - 1.0
 
 
 
@@ -80,6 +89,6 @@ classifier_results$youdensj <- classifier_results$sensitivity + classifier_resul
 
 # save objects from the environment
 image_file <- get_data_path(suffix = "experiment-ctmixtures/equifinality-5/results", filename = "classification-gbm-merged-dfonly.RData")
-save(classifier_results, file=image_file)
+save(eq5_classifier_results, file=image_file)
 
 
