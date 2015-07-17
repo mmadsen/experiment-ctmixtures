@@ -48,13 +48,14 @@ load(get_data_path(suffix = "experiment-ctmixtures/equifinality-5/results", file
 # ggsave(census_plot, file="../paper/figure/generated/eq5-census-kappa-dotchart.pdf", width=11, height=8.5, units="in")
 
 
-## Combined Census and STA results, with good more intuitive sorting into facets
+## Combined Census and STA results, with good more intuitive sorting into facets.  Full predictor set, all per-locus results
+## filtered out
 eq5_sta_results <- dplyr::filter(eq5_classifier_results, exp_group == 'Sampled and Time Averaged' | exp_group == 'Population Census' )
 
 sta_plot <- ggplot(eq5_sta_results, aes(x = kappa, y = reorder(experiments, kappa)))
 sta_plot <- sta_plot + geom_segment(aes(yend = experiments), xend = 0, size = 1, color = "grey50")
 sta_plot <- sta_plot + ylab("Classification Experiment\n")
-sta_plot <- sta_plot + xlab("\nCohen's Kappa")
+sta_plot <- sta_plot + xlab("\nCohen's Kappa With All Predictors")
 sta_plot <- sta_plot + geom_point(size = 3, aes(color = positive_label)) + labs(color = "Type of Bias Compared to Unbiased Copying")
 sta_plot <- sta_plot + theme_hc() + scale_colour_hc() + xlim(0,1)
 sta_plot <- sta_plot + theme(panel.grid.major.x = element_blank(),
@@ -63,6 +64,26 @@ sta_plot <- sta_plot + theme(panel.grid.major.x = element_blank(),
                                legend.position = "right")
 sta_plot <- sta_plot + facet_grid(positive_label ~ ., scales = "free_y", space = "free_y")
 sta_plot
-ggsave(sta_plot, file="../paper/figure/generated/eq5-sta-kappa-dotchart.pdf", width=11, height=8.5, units="in")
+ggsave(sta_plot, file="../paper/figure/generated/eq5-kappa-dotchart-full-predictors.pdf", width=11, height=8.5, units="in")
+
+
+## Combined Census and STA results, with good more intuitive sorting into facets.  Full predictor set, all per-locus results
+## filtered out
+eq5_pl_sta_results <- dplyr::filter(eq5_classifier_results, exp_group == 'Sampled and Time Averaged, Per-Locus' | exp_group == 'Population Per-Locus Census' )
+
+sta_plot <- NULL
+sta_plot <- ggplot(eq5_sta_results, aes(x = kappa, y = reorder(experiments, kappa)))
+sta_plot <- sta_plot + geom_segment(aes(yend = experiments), xend = 0, size = 1, color = "grey50")
+sta_plot <- sta_plot + ylab("Classification Experiment\n")
+sta_plot <- sta_plot + xlab("\nCohen's Kappa Using Per-Locus Predictors")
+sta_plot <- sta_plot + geom_point(size = 3, aes(color = positive_label)) + labs(color = "Type of Bias Compared to Unbiased Copying")
+sta_plot <- sta_plot + theme_hc() + scale_colour_hc() + xlim(0,1)
+sta_plot <- sta_plot + theme(panel.grid.major.x = element_blank(),
+                             panel.grid.minor.x = element_blank(),
+                             strip.background = element_blank(), strip.text = element_blank(),
+                             legend.position = "right")
+sta_plot <- sta_plot + facet_grid(positive_label ~ ., scales = "free_y", space = "free_y")
+sta_plot
+ggsave(sta_plot, file="../paper/figure/generated/eq5-kappa-dotchart-perlocus-predictors.pdf", width=11, height=8.5, units="in")
 
 
