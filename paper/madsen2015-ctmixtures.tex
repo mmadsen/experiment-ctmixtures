@@ -911,7 +911,7 @@ Population Census & 2.6 \\
    \hline
 \end{tabular}
 
-    \caption{Percentage of data points from the unbiased transmission model that are falsely identified as arising from a biased model.}
+    \caption{REDO!!!  omPercentage of data points from the unbiased transmission model that are falsely identified as arising from a biased model.}
     \label{tab:misclassification-neutral}
 \end{table}
 
@@ -965,31 +965,31 @@ Cras egestas velit mauris, eu mollis turpis pellentesque sit amet. Interdum et m
 
 \begin{figure}[ht]
 \centering\includegraphics[scale=0.4]{figure/time-averaging-with-kandler-sampling.pdf}
-\caption{Schematic of how sampling is implemented in this study.  Time runs from the start of the simulation run at the top, to the end at the bottom.  The interval of time over which we calculate the Kandler-Shennan trait survival is given as a simulation parameter, and represents the gap in the middle of the diagram.  Before and after that gap are windows of successive duration, representing aggregation over 10, 25, 50, and 100 ``generations'' of the simulation.}
+\caption{Schematic of how trait survival as described by Kandler and Shennan \cite{kandler2013non} is extended to time averaged samples of transmission events.  Time runs from the start of the simulation run at the top, to the end at the bottom.  The interval of time over which we calculate the Kandler-Shennan trait survival is given as a simulation parameter, and represents the gap in the middle of the diagram.  Before and after that gap are sampling windows during which transmission events are accumulated over some number of simulated ``generations'' (values of 10, 25, 50, and 100 are used in this paper).  Trait survival is then calculated as the number of traits present in the starting time averaged sample of transmission events, which are still present in the ending time averaged sample of events.}
 \label{img:timeaveraging}	
 \end{figure}
 
 
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{figure/unbiased-biased-kappa-dotchart.pdf}
-\caption{Cohen's kappa for correctly predicting whether simulated data points originate from unbiased copying or any of 3 other biased transmission models.  High values of kappa correspond to high accuracy in correctly distinguishing between transmission models, while values well below 0.5 indicate great difficult and low classifier accuracy.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that significant equifinality exists except when time averaging is absent and a population census (or near equivalent) is available.}
-\label{img:unbiased-biased-kappa}
-\end{figure}
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[scale=0.5]{figure/unbiased-biased-kappa-dotchart.pdf}
+% \caption{Cohen's kappa for correctly predicting whether simulated data points originate from unbiased copying or any of 3 other biased transmission models.  High values of kappa correspond to high accuracy in correctly distinguishing between transmission models, while values well below 0.5 indicate great difficult and low classifier accuracy.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that significant equifinality exists except when time averaging is absent and a population census (or near equivalent) is available.}
+% \label{img:unbiased-biased-kappa}
+% \end{figure}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{figure/unbiased-balbiased-kappa-dotchart.pdf}
-\caption{Cohen's kappa for correctly predicting whether simulated data points originate from unbiased copying or a balanced mixture of pro- and anti-conformist individuals.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that significant equifinality exists except when time averaging is absent and a population census (or near equivalent) is available.}
-\label{img:unbiased-biased-kappa}
-\end{figure}
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[scale=0.5]{figure/unbiased-balbiased-kappa-dotchart.pdf}
+% \caption{Cohen's kappa for correctly predicting whether simulated data points originate from unbiased copying or a balanced mixture of pro- and anti-conformist individuals.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that significant equifinality exists except when time averaging is absent and a population census (or near equivalent) is available.}
+% \label{img:unbiased-biased-kappa}
+% \end{figure}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{figure/proanticomparison-kappa-dotchart.pdf}
-\caption{Cohen's kappa for correctly predicting whether simulated data points originate from a conformist-dominated mixed population versus a mixed population dominated by anti-conformists.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that strong equifinality exists regardless of the data collection treatment.}
-\label{img:proanti-kappa}
-\end{figure}
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[scale=0.5]{figure/proanticomparison-kappa-dotchart.pdf}
+% \caption{Cohen's kappa for correctly predicting whether simulated data points originate from a conformist-dominated mixed population versus a mixed population dominated by anti-conformists.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that strong equifinality exists regardless of the data collection treatment.}
+% \label{img:proanti-kappa}
+% \end{figure}
 
 \end{document}
 

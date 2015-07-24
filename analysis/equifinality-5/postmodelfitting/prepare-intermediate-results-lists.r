@@ -47,25 +47,26 @@ cm_objects <- c(
 
 var_importance_list <- NULL
 
-name_list <- names(model_objects)
 
-for(name in name_list) {
-  m <- model_objects[[name]]
-  print(sprintf("type of model_objects[[name]]: %s", class(m$tunedmodel)))
-}
-
-
-
-for(model_list in model_objects) {
-  # each model object contains at least three comparison models
-  model_names <- names(model_list)
-  for(name in model_names) {
-    print(name)
-    model <- model_list[[name]]
-    var_importance_list[[name]] <- get_sorted_variable_importance(model$tunedmodel)
+for(model in names(model_objects)) {
+  print(model)
+  if('tunedmodel' %in% names(model_objects[[model]])) {
+    print("tunedmodel present")
+    var_importance_list[[model]] <- get_sorted_variable_importance(model_objects[[model]][['tunedmodel']])
   }
-  
+  else {
+    print("no tunedmodel, using object directly")
+    #var_importance_list[[name]] <- get_sorted_variable_importance(model_objects[[name]])
+  }
 }
+
+
+
+
+
+
+
+
 
 
 # save objects from the environment
