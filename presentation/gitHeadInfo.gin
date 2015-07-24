@@ -1,15 +1,15 @@
 \usepackage[%
-		shash={09a21f7},
-		lhash={09a21f7aa9ade256b876e2dc551b3fd6719d6299},
+		shash={22dc7f4},
+		lhash={22dc7f4f8b3fd47babe6117042024934aa2d0b62},
 		authname={Mark Madsen},
 		authemail={mark@madsenlab.org},
-		authsdate={2015-07-16},
-		authidate={2015-07-16 18:13:30 -0700},
-		authudate={1437095610},
+		authsdate={2015-07-24},
+		authidate={2015-07-24 14:38:43 -0700},
+		authudate={1437773923},
 		commname={Mark Madsen},
 		commemail={mark@madsenlab.org},
-		commsdate={2015-07-16},
-		commidate={2015-07-16 18:13:30 -0700},
-		commudate={1437095610},
+		commsdate={2015-07-24},
+		commidate={2015-07-24 14:38:43 -0700},
+		commudate={1437773923},
 		refnames={ (HEAD -> master)}
 	]{gitsetinfo}

@@ -55,7 +55,7 @@ eq5_sta_results <- dplyr::filter(eq5_classifier_results, exp_group == 'Sampled a
 sta_plot <- ggplot(eq5_sta_results, aes(x = kappa, y = reorder(experiments, kappa)))
 sta_plot <- sta_plot + geom_segment(aes(yend = experiments), xend = 0, size = 1, color = "grey50")
 sta_plot <- sta_plot + ylab("Classification Experiment\n")
-sta_plot <- sta_plot + xlab("\nCohen's Kappa With All Predictors")
+sta_plot <- sta_plot + xlab("\nCohen's Kappa:  Single Trait and Class Predictors")
 sta_plot <- sta_plot + geom_point(size = 3, aes(color = positive_label)) + labs(color = "Type of Bias Compared to Unbiased Copying")
 sta_plot <- sta_plot + theme_hc() + scale_colour_hc() + xlim(0,1)
 sta_plot <- sta_plot + theme(panel.grid.major.x = element_blank(),
@@ -75,7 +75,7 @@ sta_plot <- NULL
 sta_plot <- ggplot(eq5_sta_results, aes(x = kappa, y = reorder(experiments, kappa)))
 sta_plot <- sta_plot + geom_segment(aes(yend = experiments), xend = 0, size = 1, color = "grey50")
 sta_plot <- sta_plot + ylab("Classification Experiment\n")
-sta_plot <- sta_plot + xlab("\nCohen's Kappa Using Per-Locus Predictors")
+sta_plot <- sta_plot + xlab("\nCohen's Kappa:  Single Trait Predictors Only")
 sta_plot <- sta_plot + geom_point(size = 3, aes(color = positive_label)) + labs(color = "Type of Bias Compared to Unbiased Copying")
 sta_plot <- sta_plot + theme_hc() + scale_colour_hc() + xlim(0,1)
 sta_plot <- sta_plot + theme(panel.grid.major.x = element_blank(),

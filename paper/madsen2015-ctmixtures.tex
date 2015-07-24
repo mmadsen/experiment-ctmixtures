@@ -389,40 +389,7 @@ Bayes rate \cite{tumer2003bayes}.
 
 \subsection{Study Design}\label{model-comparisons}
 
-To examine whether a classifier approach with multiple predictor variables, allows us to identify modes of cultural transmission in archaeological data, this study simulates four different transmission models, and compares our ability to correctly identify data points in a series of three pairwise comparisons between models.  The transmission models include:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  Unbiased or neutral cultural transmission
-\item
-  Mixture of equal numbers of conformists and anti-conformists.
-\item
-  A mixture dominated by conformists, but with 30\% anti-conformists.
-\item
-  A mixture dominated by anti-conformists, but with 30\%
-  anti-conformists.
-\end{enumerate}
-
-Unlike previous theoretical studies of cultural transmission models in anthropology, I study mixtures of transmission modes since real populations are typically heterogeneous.  We might also expect that certain mixtures of biased transmission might be statistically difficult to distinguish.  For example, an equal mixture of conformist and anti-conformists might cancel out each other's biases, and thus be difficult to separate from a population of unbiased individuals who copy one another randomly. This study focuses, therefore, on three pairwise comparisons drawing upon the four models just described:
-
-\begin{table}[h]
-\begin{tabular}{lll}
-\hline
-Comparison & Model \#1 & Model \#2 \\ 
-\hline
-Neutral vs. Biased & Unbiased transmission & All 3 biased models \\
-Neutral vs. Balanced Bias & Unbiased transmission & Equal number of pro/anti conformists \\
-Pro/Anti Conformism & Conformist dominated & Anti-conformist dominated  \\
-\hline
-\end{tabular}
-
-\caption{Model comparisons tested in this study for equifinality.}
-\label{tab:comparisons}
-\end{table}
-
-In addition to comparing different mixtures of transmission modes, we want to determine the extent to which equifinality (if it occurs) is affected by the conditions of data collection.  Thus, for each set of simulations from a model, a standard set of predictor variables is measured for a variety of levels of sampling from the simulated population, and temporal aggregation of copying events.  The extent to which equifinality occurs for some data collection regimes, but not others, is an indication that the equifinality is potentially reducible by augmenting sample size or obtaining finer-grained, less time averaged samples. To the extent that equifinality exists regardless of data collection strategy, the study might identify irreducible equifinalities between specific model pairs.  
+In order to assess whether transmission bias is identifiable from archaeological samples, this study simulates conformist, anticonformist, and unbiased cultural transmission over a range of innovation rates, recording the outcome of transmission events in the form of counts for individual traits, and for cross-tabulated ``classes'' of traits which simulate multi-dimensional archaeological types of the kind typically used by archaeologists.  These samples of trait and class counts are then subjected to sampling and temporal aggregation, to simulate the kind of assemblage-level often confronted in archaeological samples.  For both the raw trait/class counts, and the sampled and time averaged counts, I use a classifier approach with multiple predictor variables to assess the identifiability of transmission bias.    
 
 The general process followed throughout the study is:
 
@@ -430,37 +397,24 @@ The general process followed throughout the study is:
 \itemsep1pt\parskip0pt\parsep0pt
 \item
   Simulate a large number of samples from each cultural transmission
-  model, given a range of parameters.
+  model, at a fixed population size, but with an innovation rate drawn from a uniform distribution of possible values.  Record trait and class counts during sampling intervals and at the end of each simulation run.
 \item
   Measure a set of archaeologically relevant variables (e.g., richness,
-  diversity) on each sample
+  diversity) on each stored sample.
 \item
   Perform each variable measurement across different data collection
-  regimes (e.g., duration of accumulation, sample size)
+  regimes (e.g., duration of accumulation, sample size).
 \item
   Train a predictive classifier model for each data collection regime,
-  to predict the model of origin given the measured variables
+  to predict the model of origin given the measured variables.
 \item
   Assess the classifier error rate using additional samples simulated
-  from each transmission model
+  from each transmission model.
 \end{itemize}
 
 
-%Given simulated output from each of the four models, I performed three
-%model comparisons in order to detect equifinality (Table
-%\ref{tab:comparisons}). First, I compare unbiased transmission to all
-%three of the biased models, to determine whether (and under what data
-%collection conditions), we can simply distinguish bias in general from
-%neutral or unbiased copying. Second, I compare whether unbiased
-%transmission can be distinguished from a ``balanced'' mixture of
-%conformist and anti-conformist copying, where each bias rule is held by
-%50\% of the population. In principle, the biases may cancel their
-%effects and yield population-level results which look unbiased. Third, I
-%compare whether a population dominated by conformists can be
-%distinguished from a population dominated by anti-conformists. I
-%anticipate that the order in which these comparisons are described may
-%correspond to the difficulty of distinguishing these models in
-%population-level data.
+
+
 
 \subsection{Methods}\label{methods}
 
