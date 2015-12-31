@@ -56,10 +56,21 @@
 	"buffers":
 	[
 		{
-			"file": "analysis/equifinality-5/paperanalysis/results-kappa-plots.r",
+			"file": "paper/madsen2015-ctmixtures-original.tex",
 			"settings":
 			{
-				"buffer_size": 3907,
+				"buffer_size": 71629,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "% Template for PLoS\n% Version 3.1 February 2015\n%\n% To compile to pdf, run:\n% latex plos.template\n% bibtex plos.template\n% latex plos.template\n% latex plos.template\n% dvipdf plos.template\n%\n% % % % % % % % % % % % % % % % % % % % % %\n%\n% -- IMPORTANT NOTE\n%\n% This template contains comments intended \n% to minimize problems and delays during our production \n% process. Please follow the template instructions\n% whenever possible.\n%\n% % % % % % % % % % % % % % % % % % % % % % % \n%\n% Once your paper is accepted for publication, \n% PLEASE REMOVE ALL TRACKED CHANGES in this file and leave only\n% the final text of your manuscript.\n%\n% There are no restrictions on package use within the LaTeX files except that \n% no packages listed in the template may be deleted.\n%\n% Please do not include colors or graphics in the text.\n%\n% Please do not create a heading level below \\subsection. For 3rd level headings, use \\paragraph{}.\n%\n% % % % % % % % % % % % % % % % % % % % % % %\n%\n% -- FIGURES AND TABLES\n%\n% Please include tables/figure captions directly after the paragraph where they are first cited in the text.\n%\n% DO NOT INCLUDE GRAPHICS IN YOUR MANUSCRIPT\n% - Figures should be uploaded separately from your manuscript file. \n% - Figures generated using LaTeX should be extracted and removed from the PDF before submission. \n% - Figures containing multiple panels/subfigures must be combined into one image file before submission.\n% For figure citations, please use \"Fig.\" instead of \"Figure\".\n% See http://www.plosone.org/static/figureGuidelines for PLOS figure guidelines.\n%\n% Tables should be cell-based and may not contain:\n% - tabs/spacing/line breaks within cells to alter layout or alignment\n% - vertically-merged cells (no tabular environments within tabular environments, do not use \\multirow)\n% - colors, shading, or graphic objects\n% See http://www.plosone.org/static/figureGuidelines#tables for table guidelines.\n%\n% For tables that exceed the width of the text column, use the adjustwidth environment as illustrated in the example table in text below.\n%\n% % % % % % % % % % % % % % % % % % % % % % % %\n%\n% -- EQUATIONS, MATH SYMBOLS, SUBSCRIPTS, AND SUPERSCRIPTS\n%\n% IMPORTANT\n% Below are a few tips to help format your equations and other special characters according to our specifications. For more tips to help reduce the possibility of formatting errors during conversion, please see our LaTeX guidelines at http://www.plosone.org/static/latexGuidelines\n%\n% Please be sure to include all portions of an equation in the math environment.\n%\n% Do not include text that is not math in the math environment. For example, CO2 will be CO\\textsubscript{2}.\n%\n% Please add line breaks to long display equations when possible in order to fit size of the column. \n%\n% For inline equations, please do not include punctuation (commas, etc) within the math environment unless this is part of the equation.\n%\n% % % % % % % % % % % % % % % % % % % % % % % % \n%\n% Please contact latex@plos.org with any questions.\n%\n% % % % % % % % % % % % % % % % % % % % % % % %\n\n\\documentclass[10pt,letterpaper]{article}\n\\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}\n\n% TODO remove before submission\n\\usepackage{mathptmx}\n\n% Use adjustwidth environment to exceed column width (see example table in text)\n\\usepackage{changepage}\n\n% Use Unicode characters when possible\n\\usepackage[utf8]{inputenc}\n\n% textcomp package and marvosym package for additional characters\n\\usepackage{textcomp,marvosym}\n\n% fixltx2e package for \\textsubscript\n\\usepackage{fixltx2e}\n\n% amsmath and amssymb packages, useful for mathematical formulas and symbols\n\\usepackage{amsmath,amssymb}\n\n\\DeclareMathOperator*{\\argmin}{arg\\,min}\n\n\\DeclareMathOperator*{\\argmax}{arg\\,max}\n\n% cite package, to clean up citations in the main text. Do not remove.\n\\usepackage{cite}\n\n% Use nameref to cite supporting information files (see Supporting Information section for more info)\n\\usepackage{nameref,hyperref}\n\n% line numbers\n\\usepackage[right]{lineno}\n\n% ligatures disabled\n\\usepackage{microtype}\n\\DisableLigatures[f]{encoding = *, family = * }\n\n% rotating package for sideways tables\n\\usepackage{rotating}\n\n% Remove comment for double spacing\n%\\usepackage{setspace} \n%\\doublespacing\n\n% Text layout\n\\raggedright\n\\setlength{\\parindent}{0.5cm}\n\\textwidth 5.25in \n\\textheight 8.75in\n\n% Bold the 'Figure #' in the caption and separate it from the title/caption with a period\n% Captions will be left justified\n\\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}\n\n% Use the PLoS provided BiBTeX style\n\\bibliographystyle{plos2015}\n\n% Remove brackets from numbering in List of References\n\\makeatletter\n\\renewcommand{\\@biblabel}[1]{\\quad#1.}\n\\makeatother\n\n% Leave date blank\n\\date{}\n\n% Header and Footer with logo\n\\usepackage{lastpage,fancyhdr,graphicx}\n\\usepackage{epstopdf}\n\\pagestyle{myheadings}\n\\pagestyle{fancy}\n\\fancyhf{}\n\\lhead{\\includegraphics[width=2.0in]{PLOS-submission.eps}}\n\\rfoot{\\thepage/\\pageref{LastPage}}\n\\renewcommand{\\footrule}{\\hrule height 2pt \\vspace{2mm}}\n\\fancyheadoffset[L]{2.25in}\n\\fancyfootoffset[L]{2.25in}\n\\lfoot{\\sf PLOS}\n\n\\usepackage{subcaption}\n\n%% Include all macros below\n\n\\newcommand{\\lorem}{{\\bf LOREM}}\n\\newcommand{\\ipsum}{{\\bf IPSUM}}\n\n%%%%%%%%%%%%%%%%%%%%%%%%%% REMOVE BEFORE SUBMISSION %%%%%%%%%%%%%%%%%%\n\\usepackage[colorinlistoftodos]{todonotes}\n\n\n\n\n%% END MACROS SECTION\n\n\n\\begin{document}\n\\vspace*{0.35in}\n\n% Title must be 250 characters or less.\n% Please capitalize all terms in the title except conjunctions, prepositions, and articles.\n\\begin{flushleft}\n%{\\Large\n%\\textbf\\newline{Can We Identify Transmission Bias in the Archaeological Record?  An Investigation of Equifinality Using Classifier Methods}\n%}\n{\\Large\n\\textbf\\newline{We Cannot Easily Identify Biased Cultural Transmission in the Archaeological Record}\n}\n\\newline\n% Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).\n\\\\\nMark E. Madsen\\textsuperscript{1,*}\n\n\n\\bf{1} Department of Anthropology, Box 353100, University of Washington, Seattle, WA 98195-3100, USA\n\\\\\n\\bigskip\n\n% Insert additional author notes using the symbols described below. Insert symbol callouts after author names as necessary.\n% \n% Remove or comment out the author notes below if they aren't used.\n\n\n\n% Use the asterisk to denote corresponding authorship and provide email address in note below.\n* mark@madsenlab.org\n\n\\end{flushleft}\n% Please keep the abstract below 300 words\n\\section*{Abstract}\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget porta erat. Morbi consectetur est vel gravida pretium. Suspendisse ut dui eu ante cursus gravida non sed sem. Nullam sapien tellus, commodo id velit id, eleifend volutpat quam. Phasellus mauris velit, dapibus finibus elementum vel, pulvinar non tellus. Nunc pellentesque pretium diam, quis maximus dolor faucibus id. Nunc convallis sodales ante, ut ullamcorper est egestas vitae. Nam sit amet enim ultrices, ultrices elit pulvinar, volutpat risus.\n\n\n\\linenumbers\n\n\\section{Introduction}\\label{introduction}\n\nThe emerging field of \\emph{cultural evolution} is the study of cultural change in humans and other animals as a Darwinian evolutionary process, and encompasses research in biology and the social sciences \\cite{dunnell1980evolutionary,laland2011sense,8893,Mesoudi:2007,Mesoudi2015Cultural-Evolut,o2000applying}.\\footnote{Cultural evolution, in the sense used here, is distinct from the Spencerian version common in the social sciences from the late 1800's through the present, which is progressive and unilinear \\cite{morgan1877ancient,tylor1874primitive,white1949science}.  Since vestiges of progressivist cultural evolution are still common enough in anthropology and archaeology, the choice of the term to describe a contemporary, and thoroughly Darwinian, field of research is unfortunate, but it appears to be taking root among practitioners and so I employ it here.}  Drawing upon the formal principles of Darwinian evolutionary biology (best articulated by Lewontin \\cite{Lewontin1970}) and now-classic quantitative frameworks by Cavalli-Sforza and Feldman \\cite{CF1981} and Boyd and Richerson \\cite{BR1985}, cultural evolution combines population thinking with an understanding of the differences between genetic and cultural transmission.  Chief among these differences is the importance of cognitive or psychological biases which shape how social learning of skills and cultural traits occurs.  Over the past twenty years, experiments, observational studies, and theoretical models have come together to give us a picture of human social learning which is conformist and payoff-biased (for an introduction to a very large literature on this point, see \\cite{boyd2005origin,Henrich:2001p5229,8897,laland2004social,8895,Mesoudi2015Cultural-Evolut}).  \n\nWithin the field of cultural evolution, it is the unique task of archaeology (and paleoanthropology) to study the long-term history of cultural change, and to provide evidence for how the human capacity for social learning and cumulative culture evolved \\cite{aoki2011rates,aoki2013determinants,aoki2015modeling,Madsen2015SemanticAxelrod,mesoudi2015learning}.  Our major tools for studying the evolutionary history of past cultural transmission are formal models of social learning, coupled with archaeological methods for making observations in particular classes of tools which can be compared to the predictions of those social learning models.  In general terms, cultural transmission models describe the population-level consequences of individual-level copying or imitation events, with individuals employing a variety of strategies or rules to determine suitable ``role models'' to imitate or copy.  The population-level consequences are most often expressed as the frequencies of different cultural variants, or as statistical properties of the frequencies of many different traits in the population \\cite{Der:2011ip,ewens1972sampling,Ewens2004,fu1993statistical,slatkin1994exact,slatkin1996correction}, and are studied at a variety of scales, from analysis of single assemblages to comparative studies of continental-scale variation using phylogenetic methods.  \n\nExamples of statistical properties which may reveal the population-level consequences of different evolutionary models include the richness or diversity (evenness) of traits, the average amount of time that traits survive in the population, or the degree to which frequency data match distributions known to arise in appropriate null models.  Diversity statistics, and conformance to known frequency distributions, are important for archaeological application of social learning models because in most cases, these statistics are directly measurable given assemblages of artifacts identified to a suitable typology or classification.  As a result, much effort has gone towards identifying statistics and distributions which may uniquely identify particular social learning models, particularly in distinguishing conformist social learning from novelty-seeking (anticonformism), with neutral or unbiased transmission serving as the most common null model \\cite{Bentley2003,bentley2004random,bentley2007regular,Blythe2011space,Crema:2014ef,Evans:2011vm,kandler2013non,kohler2004,Mesoudi2009,Rorabaugh:2014fl,steele2010ceramic}.\n\nIn general, we can study how or whether social learning models are distinguishable by following a \n\nAt first, this body of work tended to sideline the issue of whether archaeological samples were ``equivalent'' to the procedures used in simulation studies to inventory traits after a social learning rule was executed, or whether the assumptions of simplified models were met in real-world cases.  More recently, however, researchers have started studying the effects of sampling and the formation processes which turn behavioral events such as artifact discard into a time averaged, sedimentary or fossil record.  Given work by Premo, Porčić, and myself, we now understand that when the artifact assemblages which form our counting units accumulate over period of time which is large compared to the rate at which variants change in the population, some statistical tests may lack power and suffer high error rates in identifying the correct social learning process \\cite{Madsen2012TA,Porcic2014Exploring-the-E,Premo:2014jv}.  Other research has shown the effect of variable population size on inferring transmission bias \\cite{Rorabaugh:2014fl}, and Kandler and colleagues have convincingly demonstrated that inference is strengthened using diachronic statistics from nonequilibrium models of cultural transmission models \\cite{kandler2013non, wilderkandler2015}.  At the same time, identification of transmission bias from class frequency data does seem possible in some situations, and there is evidence that some statistical properties may be better than others at discrimination, particularly in the presence of time averaging or small sample size.\n\nThis leads to the question: are the circumstances under which transmission bias can be identified in archaeological samples of class frequencies rare, or will we be able to detect bias in most good quality data sets?  Two contrasting answers are depicted graphically in Fig. \\ref{fig1}.  In the left panel, under mild to moderate amounts of time averaging and with most reasonable sample sizes, our ability to identify transmission bias is strong, and problems identifying bias are restricted to situations with small sample sizes and significant temporal aggregation.  The right hand panel depicts the opposite situation where identification of transmission bias is rare across a range of values, and may only be possible with relatively complete samples and without significant time averaging.  \n\n\n\nIn order to answer this, we need to know several things.  First, which statistical properties give the best discriminatory power, either singly or when employed in combination?  Second, how do sampling and time averaging combined (not separately) affect identification?  In this paper, I approach these issues by examining a large sample of simulated conformist, anticonformist, and unbiased transmission events through ``data collection regimes'' comprised of different sample fractions and durations of temporal aggregation.  For each model and data collection regime, I measured a set of diversity, distributional, and diachronic statistics.  The result is a large compendium of measured statistics across data collection regimes which approximate sparse to complete samples of the archaeological record, over spans of temporal aggregation which approximate short almost synchronic intervals, to periods of accumulation very long compared to the behavioral time scale.  \n\n\\begin{figure}[h]\n\\caption{How rare are the circumstances under which we have a strong ability to identify transmission bias in archaeological samples?  Two possible outcomes are shown.  In the left panel (A), difficulty in separating transmission models are restricted to situations where sample fractions are very small and time averaging is very large, leaving a region where our ability to distinguish models is strong for short-duration assemblages.  In the right panel (B), it is difficult to identify distinguish transmission bias from an unbiased model given most sampling regimes and with any significant time averaging.}\n\\label{fig1}\n\\end{figure}\n\n\nGiven this type of data set compendium of measured statistics, we can begin to map where identification of transmission bias is possible and where our ability to discern bias breaks down.  I measure the ability to detect transmission bias as the ability to correctly classify samples as to their model of origin \\cite{devijver1982pattern, fukunaga1990introduction, hastie2009elements}, while equifinality between models is indicated by poor classification performance and high error.\\footnote{Throughout this paper, I used ``classification'' in the statistical and machine-learning sense of a statistical model whose dependent variable is a binary or discrete value, such that the model predicts which value a data point takes from a labeled set.  Archaeologists will be accustomed to using the term in the sense of systematics and taxonomy, which is not the intent here.}  Since we want to find the minimum possible classification error, I employ gradient boosted classification trees, for their superb performance on many classification tasks, ability to automatically capture interactions between variables, and ability to indicate the relative importance of variables to classification performance \\cite{AlexeyNatekin:2013ew,hastie2009elements}. \n\nThe results indicate that while neutral and biased transmission models\ncan be distinguished very accurately given measurements from entire\npopulations taken when no temporal aggregation occurs, the introduction of\nsampling and the interaction between sampling and time averaging markedly degrades our ability to distinguish these transmission\nrules. Furthermore, the degradation is not symmetric. With sampled, time\naveraged data, we are extremely likely to conclude that samples\nrepresent biased transmission, even when this is not the case.  This result has potential implications for interpreting the results of past studies, and it certainly calls into question whether archaeologists can fruitfully engage in the kind of ``microevolutionary'' analysis implied by the identification of cognitive social learning biases.  I conclude with a discussion of coarse-grained questions and methods which may better leverage the unique strengths of a diachronic, time averaged archaeological record.\n\n\n\n\n\\section{Materials and Methods}\n\\label{analysis}\n\n\n\\subsection{Identifying Transmission Bias Using Statistical Classifiers}\n\\label{sec:equifinality-classification-error}\n\nThe ability to identify transmission bias in archaeological samples of class or type frequencies is dependent upon finding values of statistical measures, or functional forms for frequency distributions, which are distinctive among a set of models (for example, between conformist and unbiased transmission).  Previous studies employ both approaches.  Kohler and colleagues \\cite{kohler2004} built on Neiman's pioneering work \\cite{Neiman:1995p23690}, and compare the expected amount of design diversity (technically, richness) one would expect to see in assemblages given either conformist or unbiased transmission (finding evidence for the former at Burnt Mesa Pueblo in New Mexico).  On the distributional front, in a series of papers Bentley has stressed the functional form or slope of the class frequency distribution, claiming that departures from a power law distribution are indicative of transmission bias \\cite{Bentley2003,bentley2004random,bentley2007regular}, which was supported and extended in simulations by Mesoudi and Lycett \\cite{Mesoudi2009}.  \n\nThese approaches to identification are similar in looking for a single, low-dimensional discriminator, and while it is useful to find the simplest possible means of discriminating between models, the existence and nature of a simple discriminator does not answer the question of whether transmission models can be distinguished from frequency data, or whether significant equifinality exists.  For the latter, we need to understand the degree to which the behavior of our social learning models overlaps not just along a single dimension, but in the full space of all variables we can measure.  To see why, consider an artificial example in which two variables are measured on the outcomes of two cultural transmission models (Fig. \\ref{fig2}), with one model shown in dark grey, and the other in light blue.  In the left hand panel (A), it is clear that neither predictor variable cleanly separates the two models on their own, but that a linear combination of the two predictors provides near-perfect identification of each transmission model based upon just two measurements (in this hypothetical example, perhaps one predictor is Neiman's $t_f$ diversity measure, and the other is Slatkin's ``exact'' test for conformance to the Ewens Sampling Formula \\cite{Neiman:1995p23690,slatkin1994exact}).  In contrast, the middle panel (B) presents a much harder challenge, with most of the distributions overlapping, and only points at the bottom and top extremes of the distributions secure in their model identification.  Finally, in the right panel (C), the overlap is too significant to conclude that we can identify either model given these predictor variables:  the transmission models are equifinal and indistinguishable in this case. \n\n\\begin{figure}[h]\n\\caption{Simple example of model outcomes with different degrees of distinguishability: (A) simulated data point from two fully separate models, (B) two models with a limited overlap region, (C) and two models whose outcomes are highly overlapping.}\n\\label{fig2}\n\\end{figure}\n\nAll other things being equal, if we add more predictor variables and view the outcomes of our transmission models as a higher-dimensional data set (which is hard to visualize on the page, but easy to conceive), there should be a better chance of finding a relationship among variables that separates the models, since the data points become scattered through a much larger volume (given the larger dimensionality of the space).   That relationship may not be a simple straight line (or its higher-dimensional analogue, a ``hyperplane'', given many variables), but may involve interactions between variables which are expressed as nonlinear terms.  Finding  relationships among variables which separate classes of observations is the statistical problem of ``classification'' or ``pattern recognition,'' and the problem of determining whether such a relationship exists boils down to finding the optimal classification rule.  If the optimal or best-performing classification rule has high accuracy, then we can securely identify instances of a transmission model given statistical measurements on data consisting of artifact class frequencies.  If, on the other hand, the best possible classification rule we can construct is accurate little more than 50\\% of the time, then considerable equifinality exists and we cannot identify transmission bias in our data.  The key is to find or approximate that optimal classification rule.\n\nGiven a set of $k$ transmission models \\(\\mathcal{M}_1 \\ldots \\mathcal{M}_k\\), and a set of $p$ variables or statistics \\(s_1 \\ldots s_p\\) that we can measure on the outcomes of those models (across a set of input parameters, of course), there are usually many possible classification rules for predicting the model which generated a given sample, and those possible rules will vary widely in their quality.  There is guaranteed to be a maximally accurate rule (or rules), however, which has the minimum possible error in separating observations from different models.  This error may not be zero, and will not be in cases such as Fig. \\ref{fig2} panels B and C, where model outcomes significantly overlap.  The rule which has the minimum error is the rule whose probability of correct assignment is highest, given the conditional density of the data for each model, across the parameters.  This sounds like an application of Bayes' theorem, and in fact we can write the classification error problem as follows, where\n\\(Y \\in 1, \\ldots, K\\) refers to each of \\(k\\) models, and\n\\(X_1, \\ldots, X_p\\) refer to \\(p\\) different predictor variables.\n\n\\begin{equation}\n\\mathbb{P}(Y | X_1, \\ldots, X_p) = \\frac{\\mathbb{P}(Y_i) \\mathbb{P}(X_1, \\ldots, X_p | Y)}{\\mathbb{P}(X_1, \\ldots, X_p)}\n\\label{eq:bayes-rule-classification}\n\\end{equation}\n\n\\(\\mathbb{P}(Y)\\) plays the role of the prior distribution, and is the\nprevalence of each model in the population.\\footnote{In this simplified presentation, the actual parameters of each model are not shown, but they would be hyperparameters in the overall analysis.}  Thus, the most probable generating model for a given data point is simply the mode of the likelihood function, given by:\n\n\\begin{equation}\nY_{pred} = \\argmax_y \\mathbb{P}(X_1, \\ldots, X_p | Y)\n\\label{eq:map-class-bayes}\n\\end{equation}\n\nThis is the \\emph{Bayes classifier} for a controlled simulation\nexperiment, and its error rate in separating data points by model is\ncalled the \\emph{Bayes error}. This is the lowest possible error in\nseparating the models given the data\n\\cite{devijver1982pattern, fukunaga1990introduction, hastie2009elements}.\nThe Bayes error is zero when we can correctly identify each data point\nas to its model of origin (as in the left panel of Fig. \\ref{fig1}, and rises as model outcomes overlap in the\nmeasurement space. With sufficient overlap, the Bayes error could\napproach $1/k$ for $k$ models, which represents a prediction rule which is no better than\nchance.\\footnote{Predictors can achieve even worse error levels, performing more poorly than coin-flipping, but in the current study we will not encounter such rates.}\n\nThis summarizes the decision theory behind using classifier models to assess our ability to identify transmission bias (or, conversely, to detect equifinality among models).  We almost never have the ability to calculate the Bayes error directly, since we rarely have an explicit (or solvable) expression for the likelihood function in Eq. \\ref{eq:bayes-rule-classification} or \\ref{eq:map-class-bayes}.  In fact, the Bayes error rate is only calculable in very special cases, such as Gaussian distributions where all models/classes share the same covariance matrix.\\footnote{There is a large literature, especially in pattern recognition and language classification, on approximating upper bounds for the Bayes error of a classifier, because it is highly useful to know when you cannot improve a recognition system or classifier any further \\cite{Antos:1999dn, Dobbin:2009du, McLachlan:1975eo}.  Most such upper bounds are based upon parametric models, and use estimates of a distance metric between the classes being distinguished (typically, the Mahalanobis or Bhattacharyya distance) \\cite{devijver1982pattern}.  Such bounds are difficult to justify in situations where we have complex social learning models, whose probability density functions in the space of measured variables are typically unknown and are unlikely to be Gaussian.  Non parametric bounds are possible, using nearest-neighbor methods \\cite{Loizou:1987bi}, but in most cases the values obtained are not very tight and the performance of boosting and bagged classifiers easily surpasses such methods.}  In practice, the Bayes error rate is approximated numerically, using a statistical classifier algorithm which is known to have near optimal performance on the same data types one is analyzing.  The choice of gradient boosted classification trees for this study is described further in Section \\ref{classifier-selection-and-training}.  \n\n\n\\subsection{Study Design}\n\\label{study-design}\n\n\n\n\n\n\\subsection{Cultural Transmission Models}\\label{simulated-samples-of-cultural-transmission-models}\n\n\n\n\\subsection{Observable Variables}\n\\label{variable-selection}\n\n\n\n\\subsection{Data Collection Treatments}\n\\label{data-collection-treatments}\n\n\n\\subsection{Classifier Selection, Training, and Evaluation}\n\\label{classifier-selection-and-training}\n\nThere are several families of classifier algorithms which outperform familiar methods like logistic regression, and are known to be near-optimal on a variety of data sets.  In particular, ensemble algorithms which combine many individual predictions to reduce variance and the effect of outliers achieve some of the best out-of-sample or generalization error in systematic tests \\cite{hastie2009elements}, and thus come closest to estimating the\nBayes rate \\cite{tumer2003bayes}.  There can be no single ``best'' algorithm.  A very general result in statistical decision theory (called, appropriately, the ``no free lunch'' theorems) show that no single prediction model can achieve the best result across all combinations of data and parameters \\cite{wolpert2002supervised, wolpert1997no}.  Thus, algorithms are usually evaluated using an empirical approach, running comparisons across a large number of test data sets.  Fern\\'{a}ndez-Delgado \\cite{Fernandez-Delgado:2014:WNH:2627435.2697065} compared the performance of 179 classifiers from 17 families of statistical methods across 121 data sets drawn from the UC Irvine repository of machine learning data sets.  Their study found that random forests \\cite{breiman2001random}, support vector machines,\nand various types of boosted classifiers \\cite{hastie2009elements} performed the best.\n\nIn selecting a classifier algorithm for this study, I want near optimal accuracy but also a relative sense of which predictor variables are important.  The goal is not merely to be able to detect transmission bias, but also to understand what variables will help us do so.  Support vector machines do not offer an easily understood measure of variable importance given their construction, and thus were not considered in this study.  I generated a small test data set, independent of the simulations used for the main study, and tested the accuracy of R language implementations of both Leo Breiman's original random forest algorithm, and gradient boosted machines.\\footnote{The data for this initial comparison are available in the \\url{https://github.com/mmadsen/experiment-ctmixtures} repository under the experiment name ``equifinality-2''.}  In that calibration data set, gradient boosted models slightly outperformed random forests, and were superior in computational cost, and are used for all further results in this paper.  \n\nGradient boosted classification operates by repeatedly fitting a set of\ndecision trees to the data \\cite{AlexeyNatekin:2013ew,hastie2009elements}. In each round, decision trees are fit to the training data, and individual data points scored as errors or successful predictions.  Subsequent trees are fitted by modifying the trees in the direction that minimizes the residual error.  This is equivalent to finding the gradient of the loss function in the space of possible classifier functions, hence the name of the method.  The impact of each gradient step is smoothed by including a ``shrinkage'' factor.  Finally, the gradient steps are ``boosted'' to weight data points by the success in prediction, such that data points that are frequently misclassified become targeted by the algorithm until they can be correctly predicted \\cite{freund1995boosting, freund1999short, schapire2012boosting}.  After a specified number of iterations, the class or label membership of each data point is obtained by having each gradient step classifier tree ``vote'' for class membership, and the final answer is the majority vote.  This class of models can also be visualized as repeated refitting of residuals until error is minimized \\cite{friedman2001greedy}.  This combination of boosting and iterative function search is very powerful, and accounts for gradient boosted algorithms regularly outperforming many other families of classifiers.\n\nIn this study, I employ the R package (\\textbf{gbm}) for gradient\nboosted classification \\cite{ridgeway1999state}, with the binomial deviance \\(\\textrm{log}(1 + \\textrm{exp}(-2y\\hat{y}))\\) as our loss function, where \\(y\\) is the true\nmodel for a data point, and \\(\\hat{y}\\) is the classifier model's\nprediction.  Binomial deviance approximates the ``zero-one'' loss function with one which is differentiable, which is needed for a gradient descent method.  \n\nFor each of the comparisons described in Section \\ref{study-design}, a GBM classifier was trained on 80\\% of the variable measurements from a set of simulation output.  The remaining 20\\% were held back as a test data set to evaluate the accuracy of the classifier on data independent of the training data.  Gradient boosted machines take a number of tuning hyperparameters (number of boosting iterations, depth of classification trees).  Rather than selecting these by convention or using arbitrary values, these parameters were tuned using 5 rounds of repeated 10-fold cross-validation on the training data to select optimal values \\cite{Kim:2009im, kuhn2013applied}..  The optimal values were then used to construct the final trained classifier for each comparison.  All classifier tuning,\nfinal model fitting, and test error evaluation was performed using Max\nKuhn's superb \\textbf{caret} package for R\n\\cite{kuhn2008building, kuhn2013applied}.\n\nEvaluating the performance of each trained classifier is done by using the classifier to predict the generating model for each data point in the hold-out test data set, and totalling the mistakes made in prediction.  The basic data for evaluating whether we can detect transmission bias can be expressed in a \\emph{confusion matrix}, which compares successes and errors for each of the comparisons made in this study.  A hypothetical example is given in Table\n\\ref{tab:confusion-matrix}. \n\n\\begin{table}[ht]\n\\begin{tabular}{c|cc}\n & Actual Model: & \\\\\n Predicted &  Model 1 & Model  2 \\\\\n  \\hline\n Model  1 & \\textbf{9000} & 2500 \\\\\n   Model  2 & 1000 & \\textbf{7500} \\\\\n\\end{tabular}\n    \\caption{Example confusion matrix.  Columns correspond to the actual model for data points, rows correspond to predictions from a classification model.  Bold numbers on the diagonal correspond to correct predictions, the off diagonal elements correspond to classification errors.}\n    \\label{tab:confusion-matrix}\n\\end{table}\n\n\n\n\n\n\n\n\\section{Results}\\label{results}\n\n\n\\section{Discussion}\\label{discussion}\n\n\n\\section*{Acknowledgments}\nCras egestas velit mauris, eu mollis turpis pellentesque sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam id pretium nisi. Sed ac quam id nisi malesuada congue. Sed interdum aliquet augue, at pellentesque quam rhoncus vitae.\n\n\\nolinenumbers\n\n%\\section*{References}\n% Either type in your references using\n% \\begin{thebibliography}{}\n% \\bibitem{}\n% Text\n% \\end{thebibliography}\n%\n% OR\n%\n% Compile your BiBTeX database using our plos2015.bst\n% style file and paste the contents of your .bbl file\n% here.\n% \n\\bibliography{madsen2015-ctmixtures}\n\n\n%%%%%%%%%%%%%%%%%%%%%%% REMOVE THE FOLLOWING ENTIRELY FROM SUBMISSION - JUST FOR EASE OF AUTHORING %%%%%%%%%%%%%%%%%%%%%%%%%\n\n\\clearpage\n\\section*{FIGURES IN DRAFT - REMOVE THIS SECTION FOR SUBMISSION}\n\\setcounter{figure}{0}\n\n% \\begin{figure}[ht]\n% \\centering\n% \\includegraphics[scale=0.6]{figure/equifinality-variable-effect.pdf}\n% \\caption{Simple example of the effect of variable choice in distinguishing models.  The variable on the X axis displays quite a bit of overlap between models, while the variable on the Y axis distinguishes the models with fairly high accuracy.}\n% \\label{img:variables-equifinality-example}\n% \\end{figure}\n\n\\begin{figure}[ht]\n\\centering\n\\includegraphics[scale=0.3]{figure/equifinality-transmission-bias-scenarios.pdf}\n\\caption{foo}\n\\label{img:fig-1-study-scenarios}\n\\end{figure}\n\n\n\\begin{figure}[ht]\n\\centering\n\\includegraphics[scale=0.6]{figure/distributional-overlap.pdf}\n\\caption{Simple example of model outcomes with different degrees of distinguishability: (A) simulated data point from two fully separate models, (B) two models with a limited overlap region, (C) and two models whose outcomes are highly overlapping.}\n\\label{img:fig-2-separability-example}\n\\end{figure}\n\n\\begin{figure}[ht]\n\\centering\\includegraphics[scale=0.4]{figure/time-averaging-with-kandler-sampling.pdf}\n\\caption{Schematic of how trait survival as described by Kandler and Shennan \\cite{kandler2013non} is extended to time averaged samples of transmission events.  Time runs from the start of the simulation run at the top, to the end at the bottom.  The interval of time over which we calculate the Kandler-Shennan trait survival is given as a simulation parameter, and represents the gap in the middle of the diagram.  Before and after that gap are sampling windows during which transmission events are accumulated over some number of simulated ``generations'' (values of 10, 25, 50, and 100 are used in this paper).  Trait survival is then calculated as the number of traits present in the starting time averaged sample of transmission events, which are still present in the ending time averaged sample of events.}\n\\label{img:timeaveraging}	\n\\end{figure}\n\n\n% \\begin{figure}[ht]\n% \\centering\n% \\includegraphics[scale=0.5]{figure/unbiased-biased-kappa-dotchart.pdf}\n% \\caption{Cohen's kappa for correctly predicting whether simulated data points originate from unbiased copying or any of 3 other biased transmission models.  High values of kappa correspond to high accuracy in correctly distinguishing between transmission models, while values well below 0.5 indicate great difficult and low classifier accuracy.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that significant equifinality exists except when time averaging is absent and a population census (or near equivalent) is available.}\n% \\label{img:unbiased-biased-kappa}\n% \\end{figure}\n\n% \\begin{figure}[ht]\n% \\centering\n% \\includegraphics[scale=0.5]{figure/unbiased-balbiased-kappa-dotchart.pdf}\n% \\caption{Cohen's kappa for correctly predicting whether simulated data points originate from unbiased copying or a balanced mixture of pro- and anti-conformist individuals.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that significant equifinality exists except when time averaging is absent and a population census (or near equivalent) is available.}\n% \\label{img:unbiased-biased-kappa}\n% \\end{figure}\n\n% \\begin{figure}[ht]\n% \\centering\n% \\includegraphics[scale=0.5]{figure/proanticomparison-kappa-dotchart.pdf}\n% \\caption{Cohen's kappa for correctly predicting whether simulated data points originate from a conformist-dominated mixed population versus a mixed population dominated by anti-conformists.  Each line in the dotchart represents a different data collection treatment, and overall the results indicate that strong equifinality exists regardless of the data collection treatment.}\n% \\label{img:proanti-kappa}\n% \\end{figure}\n\n\\end{document}\n\n",
+			"file": "paper/madsen2015-ctmixtures.tex",
+			"file_size": 39999,
+			"file_write_time": 130959147010000000,
+			"settings":
+			{
+				"buffer_size": 38378,
 				"line_ending": "Unix"
 			}
 		}
@@ -117,16 +128,13 @@
 	"expanded_folders":
 	[
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-5",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-5/paperanalysis",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5/conf",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5/expconfig"
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper"
 	],
 	"file_history":
 	[
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures-original.tex",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.tex",
+		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-5/paperanalysis/results-kappa-plots.r",
 		"/Users/mark/tmp/testclion/Makefile",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-5/postmodelfitting/merge-classification-results.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-4/postmodelfitting/prepare-intermediate-results-lists.r",
@@ -146,7 +154,6 @@
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5/conf/equifinality-conformism-fixed.json",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5/conf/equifinality-conformism-variable.json",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/simulations/equifinality-5/expconfig/conformist-mixture-priors.json",
-		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.tex",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-5/modelfitting/tasampled-classification-analysis.r.new",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/analysis/equifinality-5/modelfitting/perlocus-tasampled-classification-analysis.r",
 		"/Users/mark/Dropbox/Research/projects/coarsegraining/experiment-ctmixtures/paper/madsen2015-ctmixtures.Rmd",
@@ -252,13 +259,11 @@
 		"/Users/mark/Dropbox/Research/websites/lnraw/_posts/2013-09-26-classification-experiment-data-cleaning.md",
 		"/Users/mark/Dropbox/Research/websites/lnraw/_posts/2013-11-03-classification-eda.md",
 		"/Users/mark/Dropbox/Research/websites/lnraw/_posts/2013-10-23-semanticaxelrod-research-design.md",
-		"/Users/mark/Dropbox/Research/websites/lnraw/_posts/2013-09-05-saa2014-abstract-draft.md",
-		"/Users/mark/Dropbox/Research/websites/lnraw/_posts/2013-08-11-semanticaxelrod-implementation.md",
-		"/Users/mark/Dropbox/Research/websites/lnraw/_posts/2013-08-11-semanticaxelrod-abstract-notes.md"
+		"/Users/mark/Dropbox/Research/websites/lnraw/_posts/2013-09-05-saa2014-abstract-draft.md"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -430,97 +435,60 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "analysis/equifinality-5/paperanalysis/results-kappa-plots.r",
+					"file": "paper/madsen2015-ctmixtures-original.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3907,
+						"buffer_size": 71629,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2921,
-								2921
-							],
-							[
-								3006,
-								3006
-							],
-							[
-								3018,
-								3018
-							],
-							[
-								3105,
-								3105
-							],
-							[
-								3117,
-								3117
-							],
-							[
-								3164,
-								3164
-							],
-							[
-								3176,
-								3176
-							],
-							[
-								3211,
-								3211
-							],
-							[
-								3223,
-								3223
-							],
-							[
-								3344,
-								3344
-							],
-							[
-								3356,
-								3356
-							],
-							[
-								3410,
-								3410
-							],
-							[
-								3422,
-								3422
-							],
-							[
-								3701,
-								3701
-							],
-							[
-								3713,
-								3713
-							],
-							[
-								3792,
-								3792
-							],
-							[
-								3808,
-								3808
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"r_box_status": false,
-							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage"
+							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 213.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "paper/madsen2015-ctmixtures.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 38378,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11491,
+								11491
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3328.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -531,7 +499,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -572,7 +540,7 @@
 	"project": "ctmixtures.sublime-project",
 	"replace":
 	{
-		"height": 64.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -596,7 +564,7 @@
 		[
 			[
 				"",
-				"~/src/paper-seriation-continuity-unimodality.wiki/continuity-wiki.sublime-project"
+				"~/src/neutral-model-cpp/neutral-model-cpp.sublime-project"
 			]
 		],
 		"width": 902.0
@@ -618,7 +586,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 296.0,
+	"side_bar_width": 364.0,
 	"status_bar_visible": false,
 	"template_settings":
 	{
